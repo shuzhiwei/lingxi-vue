@@ -3,7 +3,7 @@
     <el-container class="con">
       <el-header class="header" height="80px">
         <el-row>
-          <el-col :span="12"><div class="grid-content bg-purple"><img src="../../static/img/222.png" class="header-logo"/> </div></el-col>
+          <el-col :span="12"><div class="grid-content bg-purple"><img src="../../static/img/555.png" class="header-logo"/> </div></el-col>
           <el-col :span="12"><div class="grid-content bg-purple-light text-right">
            <span><i class="el-icon-share i_rd"></i><button @click="safeQuit" style="background:transparent; border:none; font-size:17px; color:white;">安全退出</button></span>
           </div></el-col>
