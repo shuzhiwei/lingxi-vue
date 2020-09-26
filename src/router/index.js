@@ -25,6 +25,7 @@ Vue.use(VueRouter)
 
 
 export default new VueRouter({
+    base: '/lingxi-system/',
     // n个路由
     routes: [
         {
