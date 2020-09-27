@@ -110,29 +110,31 @@
             },
 
             deleteBlog () {
-                var aa = this.$refs.inputTitle
-                var checkboxValues = ''
-                for (let i=0; i<aa.length; i++) {
-                    if (aa[i].checked) {
-                        checkboxValues = checkboxValues + aa[i].value + ','
-                    }
-                }
-                if (!checkboxValues) {
-                    alert('不能删除0条！')
-                }else{
-                    const url = `https://www.食.tech/lingxis/blog/delete`
-                    const params = {
-                        "token": this.token,
-                        "ids": checkboxValues
-                    }
-                    axios.post(url, qs.stringify(params)).then(response => {
-                        let res = response.data
-                        if (res.code === 200) {
-                            this.reload()
-                        }else{
-                            alert(res.code)
+                if (confirm('确定删除吗？') === true) {
+                    var aa = this.$refs.inputTitle
+                    var checkboxValues = ''
+                    for (let i=0; i<aa.length; i++) {
+                        if (aa[i].checked) {
+                            checkboxValues = checkboxValues + aa[i].value + ','
                         }
-                    })
+                    }
+                    if (!checkboxValues) {
+                        alert('不能删除0条！')
+                    }else{
+                        const url = `https://www.食.tech/lingxis/blog/delete`
+                        const params = {
+                            "token": this.token,
+                            "ids": checkboxValues
+                        }
+                        axios.post(url, qs.stringify(params)).then(response => {
+                            let res = response.data
+                            if (res.code === 200) {
+                                this.reload()
+                            }else{
+                                alert(res.code)
+                            }
+                        })
+                    }
                 }
             }
         }

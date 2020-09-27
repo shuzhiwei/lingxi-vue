@@ -16,7 +16,7 @@
             <tr>
                 <td colspan="5">&nbsp&nbsp&nbsp&nbsp</td>
             </tr>
-            <tr name="" v-for="(item, index) in datas" :key="index" style="font-size: 20px;">
+            <tr name="" v-for="(item, index) in datas" :key="item.id" style="font-size: 20px;">
                 <td><input ref="inputTitle" type="checkbox" :value="item.id"></input></td>
                 <td>&nbsp&nbsp&nbsp&nbsp</td>
                 <td>{{item.p_type}}</td>
@@ -57,6 +57,7 @@
             }
             axios.post(url, qs.stringify(params)).then(response => {
                 const con = response.data
+                console.log(con)
                 const code = con.code
                 if (code === 402) {
                     const username = getCookie('username')
@@ -70,19 +71,13 @@
                 }
                 const res = con.data
                 for (let i=0; i<res.length; i++) {
-                    let id = res[i].id
-                    let p_type = res[i].p_type
-                    let v0 = res[i].v0
-                    let v1 = res[i].v1
-                    let v2 = res[i].v2
-                    let v3 = res[i].v3
                     let data = {
-                        'id': id,
-                        'p_type': p_type,
-                        'v0': v0,
-                        'v1': v1,
-                        'v2': v2,
-                        'v3': v3
+                        'id': res[i].id,
+                        'p_type': res[i].p_type,
+                        'v0': res[i].v0,
+                        'v1': res[i].v1,
+                        'v2': res[i].v2,
+                        'v3': res[i].v3
                     }
                     this.datas.push(data)
                 }
@@ -94,38 +89,39 @@
             
         },
 
-
         methods: {
             addAuth () {
                 this.$router.push({path: '/main/addAuth'})
             },
 
             deleteAuth () {
-                var aa = this.$refs.inputTitle
-                var checkboxValues = ''
-                for (let i=0; i<aa.length; i++) {
-                    if (aa[i].checked) {
-                        checkboxValues = checkboxValues + aa[i].value + ','
-                        // checkboxValues.push(aa[i].value)
+                if (confirm('确定删除吗？') === true) {
+                    var aa = this.$refs.inputTitle
+                    var checkboxValues = ''
+                    for (let i=0; i<aa.length; i++) {
+                        if (aa[i].checked) {
+                            checkboxValues = checkboxValues + aa[i].value + ','
+                            // checkboxValues.push(aa[i].value)
+                        }
                     }
-                }
-                if (!checkboxValues) {
-                    alert('不能删除0条！')
-                }else{
-                    const url = `https://www.食.tech/acs-manage/policy/delete`
-                    const params = {
-                        "token": this.token,
-                        "ids": checkboxValues
+                    if (!checkboxValues) {
+                        alert('不能删除0条！')
+                    }else{
+                        const url = `https://www.食.tech/acs-manage/policy/delete`
+                        const params = {
+                            "token": this.token,
+                            "ids": checkboxValues
+                        }
+                        axios.post(url, qs.stringify(params)).then(response => {
+                            let res = response.data
+                            if (res.code === 200) {
+                                this.reload()
+                            }else{
+                                alert(res.code)
+                            }
+                        })
                         
                     }
-                    axios.post(url, qs.stringify(params)).then(response => {
-                        let res = response.data
-                        if (res.code === 200) {
-                            this.reload()
-                        }else{
-                            alert(res.code)
-                        }
-                    })
                 }
             }
         }
