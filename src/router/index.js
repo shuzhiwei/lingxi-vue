@@ -14,7 +14,6 @@ import Hello from '../views/Hello.vue'
 import EditBlog from '../views/EditBlog.vue'
 import AddBlog from '../views/AddBlog.vue'
 import DetailBlog from '../views/DetailBlog.vue'
-import DeleteBlog from '../views/DeleteBlog.vue'
 
 import PowerFactor from '../views/PowerFactor.vue'
 
@@ -47,10 +46,6 @@ export default new VueRouter({
                 {
                     path: 'edit/:id',
                     component: EditBlog
-                },
-                {
-                    path: 'delete',
-                    component: DeleteBlog
                 },
                 {
                     path: 'detail/:id',

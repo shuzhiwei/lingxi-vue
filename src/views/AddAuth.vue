@@ -29,7 +29,7 @@
         methods: {
             addAuth () {
                 let token = getCookie('lingxi-token')
-                let url = `http://www.食.tech:8085/policy/add`
+                let url = `https://www.食.tech/acs-manage/policy/add`
                 const params = {
                     'token': token,
                     'p_type': this.p_type,
