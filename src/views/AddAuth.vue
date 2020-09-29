@@ -43,6 +43,7 @@
                     let code = res.code
                     console.log(code)
                     this.$router.push({path: '/main/authManage'})
+                    this.$router.go(0)
                 })
             }
         }

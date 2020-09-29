@@ -20,6 +20,8 @@ import PowerFactor from '../views/PowerFactor.vue'
 import AuthManage from '../views/AuthManage.vue'
 import AddAuth from '../views/AddAuth.vue'
 
+import { RouterTabRoutes } from 'vue-router-tab'
+
 Vue.use(VueRouter)
 
 
@@ -35,37 +37,89 @@ export default new VueRouter({
             path: '/main',
             component: Main,
             children: [
+                ...RouterTabRoutes,
                 {
                     path: 'home',
-                    component: Home
+                    component: Home,
+                    meta: {
+                        title: 'Home', // 页签标题
+                        icon: 'el-icon-paperclip', // 页签图标，可选
+                        // tips: '这是一个页面', // 页签提示，可选，如未设置则跟 title 一致
+                        key: 'path', // 路由打开页签规则，可选
+                        closable: true // 页签是否允许关闭，默认 `true`
+                      }
                 },
                 {
                     path: 'hello',
-                    component: Hello
+                    component: Hello,
+                    meta: {
+                        title: 'Hello', // 页签标题
+                        icon: 'el-icon-paperclip', // 页签图标，可选
+                        key: 'path', // 路由打开页签规则，可选
+                        closable: true // 页签是否允许关闭，默认 `true`
+                      }
                 },
                 {
                     path: 'edit/:id',
-                    component: EditBlog
+                    component: EditBlog,
+                    meta: {
+                        title: 'EditBlog',
+                        icon: 'el-icon-paperclip',
+                        key: 'path',
+                        closable: true
+                      }
                 },
                 {
                     path: 'detail/:id',
-                    component: DetailBlog
+                    component: DetailBlog,
+                    meta: {
+                        title: 'DetailBlog',
+                        icon: 'el-icon-paperclip',
+                        key: 'path',
+                        closable: true
+                      }
+                    
                 },
                 {
                     path: 'add',
-                    component: AddBlog
+                    component: AddBlog,
+                    meta: {
+                        title: 'AddBlog',
+                        icon: 'el-icon-paperclip',
+                        key: 'path',
+                        closable: true
+                      }
                 },
                 {
                     path: 'powerFactor',
-                    component: PowerFactor
+                    component: PowerFactor,
+                    meta: {
+                        title: 'PowerFactor',
+                        icon: 'el-icon-paperclip',
+                        key: 'path',
+                        closable: true
+                      }
                 },
                 {
                     path: 'authManage',
-                    component: AuthManage
+                    component: AuthManage,
+                    meta: {
+                        title: 'AuthManage',
+                        color: 'black',
+                        icon: 'el-icon-paperclip',
+                        key: 'path',
+                        closable: true
+                      }
                 },
                 {
                     path: 'addAuth',
-                    component: AddAuth
+                    component: AddAuth,
+                    meta: {
+                        title: 'AddAuth',
+                        icon: 'el-icon-paperclip',
+                        key: 'path',
+                        closable: true
+                      }
                 }
             ]
         },

@@ -49,6 +49,7 @@
                         return
                     }
                     this.$router.push({path: '/main/home'})
+                    this.$router.go(0)
                 })
             }
         }

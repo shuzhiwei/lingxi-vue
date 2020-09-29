@@ -1,37 +1,127 @@
 <template>
-    <div style="text-align:center">
-        <h2>AuthManage</h2>
+<div>
+    <div>
         <br>
-        <table style="margin:auto">
-            <tr>
-                <td  colspan="5" style="text-align:left">
-                    <span style="color:red; font-size=25;">
-                        <button style="width:40px;height:25px;background-color:#2f435e;color:#f2f2f2;font-weight:bold;" @click="addAuth">添加</button>
-                    </span>&nbsp&nbsp&nbsp&nbsp
-                    <span style="color:red; font-size=20px;">
-                        <button style="width:40px;height:25px;background-color:red;color:#f2f2f2;font-weight:bold;" @click="deleteAuth">删除</button>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="5">&nbsp&nbsp&nbsp&nbsp</td>
-            </tr>
-            <tr name="" v-for="(item, index) in datas" :key="item.id" style="font-size: 20px;">
-                <td><input ref="inputTitle" type="checkbox" :value="item.id"></input></td>
-                <td>&nbsp&nbsp&nbsp&nbsp</td>
-                <td>{{item.p_type}}</td>
-                <td>&nbsp&nbsp&nbsp&nbsp</td>
-                <td>{{item.v0}}</td>
-                <td>&nbsp&nbsp&nbsp&nbsp</td>
-                <td>{{item.v1}}</td>
-                <td>&nbsp&nbsp&nbsp&nbsp</td>
-                <td>{{item.v2}}</td>
-                <td>&nbsp&nbsp&nbsp&nbsp</td>
-                <td>{{item.v3}}</td>
-                <td>&nbsp&nbsp&nbsp&nbsp</td>
-            </tr>
-        </table>
+    <el-button
+        @click="addRow()"
+        type="success"
+        icon="el-icon-plus"
+        style="margin-bottom:10px;"
+        size="mini"
+      >添加</el-button>
+
+      <el-button
+        @click="cancelRow()"
+        icon="el-icon-minus"
+        style="margin-bottom:10px;"
+        size="mini"
+      >取消</el-button>
+
+      <el-button
+        @click="delRows()"
+        icon="el-icon-delete"
+        type="danger"
+        style="margin-bottom:10px;"
+        size="mini"
+      >批量删除</el-button>
+
+        <el-table
+        height="500"
+        border 
+    ref="filterTable"
+    :data="datas"
+    @selection-change="handleSelectionChange"
+    style="width: 100%;">
+
+    <el-table-column
+      type="selection"
+      width="55">
+    </el-table-column>
+
+    <el-table-column
+      prop="id"
+      label="id"
+      width="180">
+    </el-table-column>
+
+    <el-table-column
+      prop="p_type"
+      label="p_type"
+      sortable
+      width="180"
+      column-key="p_type"
+      :filters="[{text: 'p', value: 'p'}, {text: 'g', value: 'g'}]"
+      :filter-method="filterHandler"
+    >
+    <template slot-scope="scope">
+            <span v-if="scope.row.statusBtn===false">{{scope.row.p_type}}</span>
+            <el-input size="mini" v-else-if="scope.row.statusBtn===true" v-model="p_type"></el-input>
+          </template>
+    </el-table-column>
+    <el-table-column
+      prop="v0"
+      label="v0"
+      width="180">
+      <template slot-scope="scope">
+            <span v-if="scope.row.statusBtn===false">{{scope.row.v0}}</span>
+            <el-input size="mini" v-else-if="scope.row.statusBtn===true" v-model="v0"></el-input>
+          </template>
+    </el-table-column>
+    <el-table-column
+      prop="v1"
+      label="v1"
+      width="180"
+      column-key="v1"
+      :filters="[{text: 'acs', value: 'acs'}, {text: 'blog', value: 'blog'}, {text: 'rde', value: 'rde'}]"
+      :filter-method="filterHandler"
+      >
+      <template slot-scope="scope">
+            <span v-if="scope.row.statusBtn===false">{{scope.row.v1}}</span>
+            <el-input size="mini" v-else-if="scope.row.statusBtn===true" v-model="v1"></el-input>
+          </template>
+    </el-table-column>
+    <el-table-column
+      prop="v2"
+      label="v2"
+      width="180">
+      <template slot-scope="scope">
+            <span v-if="scope.row.statusBtn===false">{{scope.row.v2}}</span>
+            <el-input size="mini" v-else-if="scope.row.statusBtn===true" v-model="v2"></el-input>
+          </template>
+    </el-table-column>
+    <el-table-column
+      prop="v3"
+      label="v3"
+      width="180">
+      <template slot-scope="scope">
+            <span v-if="scope.row.statusBtn===false">{{scope.row.v3}}</span>
+            <el-input size="mini" v-else-if="scope.row.statusBtn===true" v-model="v3"></el-input>
+          </template>
+    </el-table-column>
+    <el-table-column label="操作" width="200">
+          <template slot-scope="scope">
+            <el-button
+              type="success"
+              size="mini"
+              @click="editCheck(scope.row)"
+              v-if="scope.row.statusBtn===false"
+              icon="el-icon-edit"
+            >编辑</el-button>
+            <el-button
+              style="display: inline-block"
+              type="success"
+              size="mini"
+              @click="sureCheck()"
+              v-else-if="scope.row.statusBtn===true"
+              icon="el-icon-check"
+            >保存</el-button>
+            <el-button type="danger" size="mini" icon="el-icon-delete" @click="deleteFun(scope)">删除</el-button>
+          </template>
+        </el-table-column>
+
+  </el-table>
     </div>
+</div>
 </template>
 
 <script>
@@ -45,7 +135,14 @@
         data () {
             return {
                 datas: [],
-                token: getCookie('lingxi-token')
+                token: getCookie('lingxi-token'),
+                id: '',
+                p_type: '',
+                v0: '',
+                v1: '',
+                v2: '',
+                v3: '',
+                tableDataAmount: []
             }
         },
 
@@ -77,7 +174,8 @@
                         'v0': res[i].v0,
                         'v1': res[i].v1,
                         'v2': res[i].v2,
-                        'v3': res[i].v3
+                        'v3': res[i].v3,
+                        'statusBtn': false
                     }
                     this.datas.push(data)
                 }
@@ -90,6 +188,167 @@
         },
 
         methods: {
+            // 选择事件 得到选中的数据
+            handleSelectionChange (data) {
+                this.tableDataAmount = data
+            },
+
+            delRows () {
+                if (confirm('确定删除吗？') === true) {
+                    // 拿到选中的数据；
+                    var val = this.tableDataAmount
+                    // 如果选中数据存在
+                    if (val) {
+                        // 将选中数据遍历
+                        var ids = ''
+                        for(let i=0; i<val.length; i++){
+                            ids = ids + val[i].id + ','
+                        }
+                        console.log('ids: ' + ids)          
+                        const url = 'https://www.食.tech/acs-manage/policy/delete'
+                        const params = {
+                            'token': this.token,
+                            "ids": ids
+                        }
+                        axios.post(url, qs.stringify(params)).then(res => {
+                            if (res.data.code === 200) {
+                                this.$message.success('删除成功')
+                            }else{
+                                alert(res.data.code)
+                            }
+                        }).catch(error => {
+                            console.log(error)
+                        })
+                        this.reload()
+                    }
+                }else{
+                    this.$message.success('已取消删除')
+                }
+            },
+
+            cancelRow () {
+                this.reload()
+            },
+
+            filterHandler(value, row, column) {
+                const property = column['property'];
+                return row[property] === value;
+            },
+
+            flagFun () {
+                const flag = this.datas.every(item => {
+                    if (item.p_type !== '' && item.v0 !== '' && item.v1 !== '' && item.v2 !== '') {
+                        return true
+                    } else {
+                        return false
+                    }
+                })
+                return flag
+            },
+
+            addRow () {
+                if (this.datas.length === 0) {
+                    this.datas.unshift({ p_type: '', v0: '', v1: '', v2: '', v3: '', statusBtn: true })
+                } else {
+                    for (let i of this.datas) {
+                        if (i.statusBtn) return this.$message.warning("请先保存当前编辑项");
+                    }
+                    if (this.flagFun()) {
+                        this.datas.unshift({ p_type: '', v0: '', v1: '', v2: '', v3: '', statusBtn: true })
+                    } else {
+                        this.$message({
+                            message: 'p_type和v0不能为空',
+                            type: 'warning'
+                        })
+                    }
+                }
+            },
+
+            editCheck (row) {
+                //点击修改 判断是否已经保存所有操作
+                for (let i of this.datas) {
+                    if (i.statusBtn && i.id != row.id) {
+                        this.$message.warning("请先保存当前编辑项");
+                        return false;
+                    }
+                }
+                row.statusBtn = true
+                this.id = row.id
+                this.p_type = row.p_type
+                this.v0 = row.v0
+                this.v1 = row.v1
+                this.v2 = row.v2
+                this.v3 = row.v3
+            },
+            // 勾选弹框保存按钮
+            sureCheck () {
+                console.log(this.p_type + ',' + this.v0)
+
+                if (this.id === '') {
+                    // 新建
+                    if (this.p_type !== '' && this.v0 !== '' && this.v1 !== '' && this.v2 !== '') {
+                        const url = 'https://www.食.tech/acs-manage/policy/add'
+                        const params = {
+                            'token': this.token,
+                            'p_type': this.p_type,
+                            'v0': this.v0,
+                            'v1': this.v1,
+                            'v2': this.v2,
+                            'v3': this.v3
+                        }
+                        axios.post(url, qs.stringify(params)).then(res => {
+                            if (res.data.code === 200) {
+                                this.$message.success('保存成功')
+                                this.id = ''
+                                this.reload()
+                                // this.checkTable()
+                            } else {
+                                alert(res.data.code)
+                            }
+                        }).catch(error =>{
+                            console.log(error)
+                        })
+                    }else{
+                        alert('请补全数据')
+                    }
+                }else{
+                    // 修改
+                    alert('服务端暂未实现更新操作！')
+                    this.reload()
+                }
+
+                
+            },
+            // 删除一行
+            deleteFun (scope) {
+                if (!scope.row.id) {
+                    alert('id为空')
+                    this.tableData.splice(scope.$index, 1)
+                } else {
+                    if (confirm('确定删除吗？') === true) {
+                        const url = 'https://www.食.tech/acs-manage/policy/delete'
+                        const params = {
+                            'token': this.token,
+                            "ids": scope.row.id + ','
+                        }
+                        axios.post(url, qs.stringify(params)).then(res => {
+                            if (res.data.code === 200) {
+                                this.$message.success('删除成功')
+                                this.reload()
+                            }else{
+                                alert(res.data.code)
+                            }
+                        }).catch(error => {
+                            console.log(error)
+                        })
+                    }else{
+                        this.$message.success('已取消删除')
+                    }
+                        
+                    
+                }
+            },
+
             addAuth () {
                 this.$router.push({path: '/main/addAuth'})
             },
@@ -129,5 +388,7 @@
 </script>
 
 <style>
-
+.inline-block {
+  display: inline-block;
+}
 </style>

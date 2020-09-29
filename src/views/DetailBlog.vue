@@ -5,8 +5,13 @@
         <br/>
         {{content}}
         <br/>
-        <div>
-            <img :src="imageAddr" alt="logo" :onerror="defaultImg">
+        <div v-if="imageAddr">
+            <img  :src="imageAddr" alt="logo" :onerror="defaultImg">
+        </div>
+        <div v-else>
+        <div v-for="(item, index) in imageAddrs" :key="index">
+            <img :src="item" alt=""  :onerror="defaultImg">
+        </div>
         </div>
     </div>
 </template>
@@ -21,6 +26,7 @@
                 title: '',
                 content: '',
                 imageAddr: '',
+                imageAddrs: [],
                 dateStr: '',
                 defaultImg: 'this.src="' + require('../../static/img/default.png') + '"',
             }
@@ -37,7 +43,13 @@
                 if (code === 200) {
                     this.title = res.data.title
                     this.content = res.data.content
-                    this.imageAddr = res.data.imageAddr
+                    let tmp = res.data.imageAddr
+                    if (tmp.indexOf('helloworld') != -1) {
+                        this.imageAddrs = res.data.imageAddr.split('helloworld')
+                    }else{
+                        this.imageAddr = res.data.imageAddr
+                    }
+                    
                     this.dateStr = getDateDiff(res.data.posted_on * 1000)
                 }
                 console.log(this.imageAddr)

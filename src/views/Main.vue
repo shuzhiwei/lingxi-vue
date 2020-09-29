@@ -3,7 +3,10 @@
     <el-container class="con">
       <el-header class="header" height="80px">
         <el-row>
-          <el-col :span="12"><div class="grid-content bg-purple"><img src="../../static/img/555.png" class="header-logo"/> </div></el-col>
+          <el-col :span="12"><div class="grid-content bg-purple">
+              <img src="../../static/img/555.png" class="header-logo"/> 
+              <img src="../../static/img/777.png" class="header-logo"/> 
+          </div></el-col>
           <el-col :span="12"><div class="grid-content bg-purple-light text-right">
            <span><i class="el-icon-share i_rd"></i><button @click="safeQuit" style="background:transparent; border:none; font-size:17px; color:white;">安全退出</button></span>
           </div></el-col>
@@ -11,6 +14,7 @@
       </el-header>
       <el-container>
         <el-aside width="220px" class="aside">
+            
      <div class="mean-top"><i class="el-icon-menu"></i> 功能导航</div>
           <el-menu  default-active="1"
 
@@ -20,8 +24,8 @@
             <el-submenu index="1">
               <template slot="title"><i class="el-icon-location"></i>Blog</template>
               <el-menu-item-group>
-                <el-menu-item index="1-1"> <router-link to="/main/home"><i class="el-icon-tickets"></i>Home</router-link></el-menu-item>
-                <el-menu-item index="1-2"> <router-link to="/main/hello"><i class="el-icon-tickets"></i>Hello</router-link></el-menu-item>
+                <el-menu-item index="1-1"><router-link to="/main/home"><i class="el-icon-tickets"></i>Home</router-link></el-menu-item>
+                <el-menu-item index="1-2"><router-link to="/main/hello"><i class="el-icon-tickets"></i>Hello</router-link></el-menu-item>
               </el-menu-item-group>
             </el-submenu>
             <el-submenu index="2">
@@ -40,9 +44,8 @@
         </el-aside>
 
         <el-main class="main">
-          <router-view class="router-view"   ></router-view>
+            <router-tab></router-tab>
         </el-main>
-
       </el-container>
     </el-container>
   </div>

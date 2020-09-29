@@ -2,8 +2,19 @@
     <div>
         <table>
         <tr><th><label for="title">Post title:</label></th><td><input id="title" name="title" size="30" type="text" v-model="title"/></td></tr>
-        <tr><th><label for="content">Post content:</label></th><td><textarea cols="80" id="content" name="content" rows="30" v-model="content"></textarea></td></tr>
-        <tr><th><label for="content">当前图片:</label></th><td><div><img :src= "imageAddr"  alt="当前无图片"></div></td></tr>
+        <tr><th><label for="content">Post content:</label></th><td><textarea cols="80" id="content" name="content" rows="10" v-model="content"></textarea></td></tr>
+        <tr><th><label for="content">当前图片:</label></th><td>
+            
+        <div v-if="imageAddr">
+            <img  :src="imageAddr" alt="logo" :onerror="defaultImg">
+        </div>
+        <div v-else>
+        <div v-for="(item, index) in imageAddrs" :key="index">
+            <img :src="item" alt=""  :onerror="defaultImg">
+        </div>
+        </div>
+
+            </td></tr>
         <tr><th><label for="content">是否删除当前图片:</label></th><td>
             <div>
                 <input style="display:none;" id="hidebrowser" type="radio" name="photo" value="">
@@ -28,7 +39,9 @@
                 content: '',
                 imageAddr: '',
                 radioFlag: '0',
-                image: ''
+                image: '',
+                imageAddrs: [],
+                defaultImg: 'this.src="' + require('../../static/img/default.png') + '"',
             }
         },
 
@@ -44,7 +57,26 @@
                 if (code === 200) {
                     this.title = res.data.title
                     this.content = res.data.content
-                    this.imageAddr = res.data.imageAddr
+
+                    this.title = res.data.title
+                    this.content = res.data.content
+                    var tmp = res.data.imageAddr
+                    console.log(tmp.indexOf('helloworld'))
+                    var aa_url = res.data.imageAddr.split('helloworld')
+                    console.log('aa_url: ' + aa_url)
+                    if (tmp.indexOf('helloworld') !== -1) {
+                        console.log('hello')
+                        console.log(aa_url)
+                        for (let i=0; i<aa_url.length; i++){
+                            console.log(aa_url[i])
+                            this.imageAddrs.push(aa_url[i])
+                        }
+                        this.imageAddrs.pop()
+                    }else{
+                        this.imageAddr = res.data.imageAddr
+                        console.log('iamgesAddr: ' + this.imageAddr)
+                    }
+                    
                 }
             })
         },
