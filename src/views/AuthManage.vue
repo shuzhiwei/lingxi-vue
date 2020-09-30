@@ -31,18 +31,18 @@
     ref="filterTable"
     :data="datas"
     @selection-change="handleSelectionChange"
-    style="width: 100%;">
+    style="width: 100%;font-size: 18px;">
 
     <el-table-column
       type="selection"
       width="55">
     </el-table-column>
 
-    <el-table-column
+    <!-- <el-table-column
       prop="id"
       label="id"
       width="180">
-    </el-table-column>
+    </el-table-column> -->
 
     <el-table-column
       prop="p_type"
@@ -61,6 +61,13 @@
     <el-table-column
       prop="v0"
       label="v0"
+      :filters="[{text: 'shuzhiwei', value: 'shuzhiwei'}, 
+                {text: 'admin', value: 'admin'},
+                {text: 'houtingyu', value: 'houtingyu'},
+                {text: 'admin_role', value: 'admin_role'},
+                {text: 'user_role', value: 'user_role'},
+                ]"
+      :filter-method="filterHandler"
       width="180">
       <template slot-scope="scope">
             <span v-if="scope.row.statusBtn===false">{{scope.row.v0}}</span>
@@ -121,6 +128,20 @@
 
   </el-table>
     </div>
+
+    <div class="block"  style="text-align:center">
+        <el-pagination
+            v-if="paginationShow"
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page.sync="pageNo"
+            :page-size="200"
+            layout="total, prev, pager, next, jumper"
+            font-size="30px"
+            :total="totalCount">
+        </el-pagination>
+    </div>
+
 </div>
 </template>
 
@@ -142,7 +163,13 @@
                 v1: '',
                 v2: '',
                 v3: '',
-                tableDataAmount: []
+                tableDataAmount: [],
+
+                pageSize: 200,//默认的请求pageSize = 15
+                pageNo: 1,//当前页码
+                totalPage: 0,//总页数
+                paginationShow: false,//是否显示分页
+                totalCount: 0,//总条数
             }
         },
 
@@ -150,7 +177,9 @@
             const token = this.token
             const url = `https://www.食.tech/acs-manage/policy/show`
             const params = {
-                'token': token
+                'token': token,
+                'pageSize': this.pageSize,
+                'pageNo': this.pageNo
             }
             axios.post(url, qs.stringify(params)).then(response => {
                 const con = response.data
@@ -166,6 +195,8 @@
                     alert(con.message)
                     return
                 }
+                this.totalPage = con.totalPage
+                this.totalCount = con.totalCount
                 const res = con.data
                 for (let i=0; i<res.length; i++) {
                     let data = {
@@ -179,6 +210,9 @@
                     }
                     this.datas.push(data)
                 }
+                if (this.totalPage > 1) {
+                    this.paginationShow = true
+                }
             }).catch(error => {
                 console.log(error)
                 alert(error)
@@ -188,6 +222,64 @@
         },
 
         methods: {
+            //改变每页显示数量时调用
+            handleSizeChange(val) {
+                this.$nextTick(() =>
+                    this.getPageData(),
+                )
+            },
+            //点击下一页和点击页码时执行
+            handleCurrentChange(val) {
+                this.getPageData();
+            },
+            //获取分页数据totalDataNumber
+            getPageData: function () {
+                const url = "https://www.食.tech/acs-manage/policy/show"
+                const params = {
+                    'token': this.token,
+                    'pageSize': this.pageSize,
+                    'pageNo': this.pageNo
+                }
+                axios.post(url, qs.stringify(params)).then(response =>{
+                    const con = response.data
+                    const code = con.code
+                    console.log(code)
+                    if (code === 402) {
+                        const username = getCookie('username')
+                        refresh_token(username, token)
+                        this.reload()
+                        return
+                    }
+                    if (code === 401) {
+                        alert(con.message)
+                        return
+                    }
+                    const res = con.data
+                    this.datas = []
+                    for (let i=0; i<res.length; i++) {
+                        let id = res[i].id
+                        let p_type = res[i].p_type
+                        let v0 = res[i].v0
+                        let v1 = res[i].v1
+                        let v2 = res[i].v2
+                        let v3 = res[i].v3
+                        let data = {
+                            'id': id,
+                            'p_type': p_type,
+                            'v0': v0,
+                            'v1': v1,
+                            'v2': v2,
+                            'v3': v3,
+                            'statusBtn': false
+                        }
+                        this.datas.push(data)
+                    }
+                }).catch(error => {
+                    console.log(error)
+                    alert(error)
+                })
+            },
+
             // 选择事件 得到选中的数据
             handleSelectionChange (data) {
                 this.tableDataAmount = data
@@ -313,8 +405,30 @@
                     }
                 }else{
                     // 修改
-                    alert('服务端暂未实现更新操作！')
-                    this.reload()
+                    if (this.p_type !== '' && this.v0 !== '' && this.v1 !== '' && this.v2 !== '') {
+                        const url = 'https://www.食.tech/acs-manage/policy/update'
+                        const params = {
+                            'token': this.token,
+                            'id': this.id,
+                            'p_type': this.p_type,
+                            'v0': this.v0,
+                            'v1': this.v1,
+                            'v2': this.v2,
+                            'v3': this.v3
+                        }
+                        axios.post(url, qs.stringify(params)).then(res => {
+                            if (res.data.code === 200) {
+                                this.$message.success('保存成功')
+                                this.id = ''
+                                this.reload()
+                                // this.checkTable()
+                            } else {
+                                alert(res.data.code)
+                            }
+                        }).catch(error =>{
+                            console.log(error)
+                        })
+                    }
                 }
 
                 
@@ -325,7 +439,7 @@
                     alert('id为空')
                     this.tableData.splice(scope.$index, 1)
                 } else {
-                    if (confirm('确定删除吗？') === true) {
+                    if (confirm('确定删除吗？' + scope.row.p_type + ', ' + scope.row.v0 + ', ' + scope.row.v1 + ', ' + scope.row.v2 + ', ' + scope.row.v3) === true) {
                         const url = 'https://www.食.tech/acs-manage/policy/delete'
                         const params = {
                             'token': this.token,

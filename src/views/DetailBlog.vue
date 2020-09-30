@@ -44,6 +44,9 @@
                     this.title = res.data.title
                     this.content = res.data.content
                     let tmp = res.data.imageAddr
+                    if (! tmp) {
+                        return
+                    }
                     if (tmp.indexOf('helloworld') != -1) {
                         this.imageAddrs = res.data.imageAddr.split('helloworld')
                     }else{

@@ -12,13 +12,11 @@ import Home from '../views/Home.vue'
 import Hello from '../views/Hello.vue'
 
 import EditBlog from '../views/EditBlog.vue'
-import AddBlog from '../views/AddBlog.vue'
 import DetailBlog from '../views/DetailBlog.vue'
 
 import PowerFactor from '../views/PowerFactor.vue'
 
 import AuthManage from '../views/AuthManage.vue'
-import AddAuth from '../views/AddAuth.vue'
 
 import { RouterTabRoutes } from 'vue-router-tab'
 
@@ -81,16 +79,6 @@ export default new VueRouter({
                     
                 },
                 {
-                    path: 'add',
-                    component: AddBlog,
-                    meta: {
-                        title: 'AddBlog',
-                        icon: 'el-icon-paperclip',
-                        key: 'path',
-                        closable: true
-                      }
-                },
-                {
                     path: 'powerFactor',
                     component: PowerFactor,
                     meta: {
@@ -111,16 +99,7 @@ export default new VueRouter({
                         closable: true
                       }
                 },
-                {
-                    path: 'addAuth',
-                    component: AddAuth,
-                    meta: {
-                        title: 'AddAuth',
-                        icon: 'el-icon-paperclip',
-                        key: 'path',
-                        closable: true
-                      }
-                }
+               
             ]
         },
         {

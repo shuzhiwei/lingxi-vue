@@ -46,8 +46,8 @@
     </el-form-item>
   </el-form>
   <div slot="footer" class="dialog-footer">
-    <el-button type="warning" @click="dialogFormVisible = false">取 消</el-button>
-    <el-button type="success" @click="selectFile">确 定</el-button>
+    <el-button type="info" @click="dialogFormVisible = false">取 消</el-button>
+    <el-button type="primary" @click="selectFile">确 定</el-button>
   </div>
 </el-dialog>
 
@@ -65,23 +65,24 @@
     ref="filterTable"
     :data="datas"
     @selection-change="handleSelectionChange"
-    style="width: 100%;">
+    style="width: 100%;font-size: 18px;">
 
     <el-table-column
       type="selection"
       width="55">
     </el-table-column>
 
-    <el-table-column
+    <!-- <el-table-column
       prop="id"
       label="id"
+      style="font-size: 10px"
       width="180">
-    </el-table-column>
+    </el-table-column> -->
 
     <el-table-column
       prop="title"
       label="title"
-      
+
       column-key="title"
       :formatter="formatter"
     >
@@ -92,13 +93,25 @@
             <el-input size="mini" v-else-if="scope.row.statusBtn===true" v-model="title"></el-input>
           </template>
     </el-table-column>
+
+    <el-table-column
+      prop="author"
+      label="author"
+      style="font-size: 10px"
+      width="180"
+      column-key="author"
+      :filters="[{text: 'shuzhiwei', value: 'shuzhiwei'}, 
+                    {text: 'houtingyu', value: 'houtingyu'},
+                    {text: 'admin', value: 'admin'},
+                    ]"
+      :filter-method="filterHandler"
+      >
+    </el-table-column>
+
     <el-table-column
       prop="date_d"
       label="date_d"
       width="180"
-      column-key="date_d"
-      :filters="[{text: '6小时前', value: 'sixHourAgo'}, {text: '1天前', value: 'oneDayAgo'}, {text: '2天前', value: 'twoDayAgo'}]"
-      :filter-method="filterHandler"
       >
       <template slot-scope="scope">
             <span v-if="scope.row.statusBtn===false">{{scope.row.date_d}}</span>
@@ -152,6 +165,7 @@
             return {
                 datas: [],
                 token: getCookie('lingxi-token'),
+                username: getCookie('username'),
                 pageSize: 8,//默认的请求pageSize = 15
                 pageNo: 1,//当前页码
                 totalPage: 0,//总页数
@@ -173,8 +187,6 @@
 
                 dialogImageUrl: '',
                 dialogVisible: false,
-                disabled: false,
-
                 fileList: [],
 
             }
@@ -209,12 +221,14 @@
                     let title = res[i].title
                     let content = res[i].content
                     let posted_on = res[i].posted_on
+                    let author = res[i].author
                     let date_d = getDateDiff(posted_on * 1000)
                     let data = {
                         'id': res[i].id,
                         'title': title,
                         'content': content,
                         'date_d': date_d,
+                        'author': author,
                         'statusBtn': false
                     }
                     this.datas.push(data)
@@ -244,69 +258,74 @@
             },
 
             // 处理图片预览效果
-    handlePictureCardPreview(file) {
-        console.log(file.url)
-        console.log(file.name)
-      this.dialogImageUrl = file.url
-      this.dialogVisible = true
-    },
-    // 处理移除图片的操作
-    handleRemove(file) {
-        console.log(file.raw)
-        var reader = new FileReader();
-        var deleteImage = ''
-        reader.readAsDataURL(file.raw)
-        reader.onload = ()=>{
-            deleteImage = reader.result
-            console.log('deleteImage: ' + deleteImage)
-        }
-        const images = this.form.images.slice(0,this.form.images.length-10).split('helloworld')
-        for (let i=0; i<images.length; i++) {
-            if (deleteImage == images[i]) {
-                
-                if (i === 0) {
-                    images.shift()
-                    break
-                }else if (i === images.length-1) {
-                    images.pop()
-                    break
-                }else{
-                    images.splice(i, 1)
-                    break
+            handlePictureCardPreview(file) {
+                console.log(file.url)
+                console.log(file.name)
+            this.dialogImageUrl = file.url
+            this.dialogVisible = true
+            },
+            // 处理移除图片的操作
+            handleRemove(file) {
+                console.log(file.raw)
+                var reader = new FileReader();
+                var deleteImage = ''
+                reader.readAsDataURL(file.raw)
+                reader.onload = ()=>{
+                    deleteImage = reader.result
+                    console.log('deleteImage: ' + deleteImage)
                 }
-            }
-        }
-        this.form.images = ''
-        for (let i=0; i<images.length; i++) {
-            this.form.images = this.form.images + images[i] + 'helloworld'
-        }
-        console.log('has delete: ' + this.form.images)
-    },
+                const images = this.form.images.slice(0,this.form.images.length-10).split('helloworld')
+                for (let i=0; i<images.length; i++) {
+                    if (deleteImage == images[i]) {
+                        
+                        if (i === 0) {
+                            images.shift()
+                            break
+                        }else if (i === images.length-1) {
+                            images.pop()
+                            break
+                        }else{
+                            images.splice(i, 1)
+                            break
+                        }
+                    }
+                }
+                this.form.images = ''
+                for (let i=0; i<images.length; i++) {
+                    this.form.images = this.form.images + images[i] + 'helloworld'
+                }
+                console.log('has delete: ' + this.form.images)
+            },
 
-    selectFile () {
-        if (confirm('确定提交吗？') === true) {
-        const url = 'https://www.食.tech/lingxis/blog/addManyPhoto'
-        const params = {
-            'token': this.token,
-            'title': this.form.title,
-            'content': this.form.content,
-            'files': this.form.images,
+            // 新建Blog
+            selectFile () {
+                const url = 'https://www.食.tech/lingxis/blog/addManyPhoto'
+                const params = {
+                    'token': this.token,
+                    'title': this.form.title,
+                    'content': this.form.content,
+                    'files': this.form.images,
+                    'author': this.username,
 
-        }
-        axios.post(url, qs.stringify(params)).then(response => {
-            const res = response.data
-            console.log(res)
-            const code = res.code
-            if (code !== 200) {
-                alert(code)
-            }else{
-                this.$message.success('新建成功')
-                this.dialogFormVisible = false
-                this.reload()
-            }
-        })
-        }
-    },
+                }
+                axios.post(url, qs.stringify(params)).then(response => {
+                    const res = response.data
+                    console.log(res)
+                    const code = res.code
+                    if (code === 402) {
+                        const username = getCookie('username')
+                        refresh_token(username, this.token)
+                        this.token = getCookie('lingxi-token')
+
+                    }else if (code === 200) {
+                        this.$message.success('新建成功')
+                        this.dialogFormVisible = false
+                        this.reload()
+                    }else{
+                        alert(code)
+                    }
+                })
+            },
 
             formatter(row, column) {
                 return row.title
@@ -359,12 +378,14 @@
                         let title = res[i].title
                         let content = res[i].content
                         let posted_on = res[i].posted_on
+                        let author = res[i].author
                         let date_d = getDateDiff(posted_on * 1000)
                         let data = {
                             'id': res[i].id,
                             'title': title,
                             'content': content,
                             'date_d': date_d,
+                            'author': author,
                             'statusBtn': false
                         }
                         this.datas.push(data)
@@ -378,35 +399,64 @@
 
             // 批量删除
             delRows () {
-                if (confirm('确定删除吗？') === true) {
-                    // 拿到选中的数据；
-                    var val = this.tableDataAmount
-                    // 如果选中数据存在
-                    if (val) {
-                        // 将选中数据遍历
-                        var ids = ''
-                        for(let i=0; i<val.length; i++){
-                            ids = ids + val[i].id + ','
+                // 拿到选中的数据；
+                const val = this.tableDataAmount
+                // 如果选中数据存在
+                if (val != '') {
+                    // 将选中数据遍历
+                    var ids = ''
+                    for(let i=0; i<val.length; i++){
+                        if (this.username !== val[i].author) {
+                            this.$message.error('当前勾选中含有其他人的作品^_^')
+                            return
                         }
-                        console.log('ids: ' + ids)          
+                        ids = ids + val[i].id + ','
+                    }
+                    this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(()=>{
+                        
+                        console.log('ids: ' + ids) 
                         const url = 'https://www.食.tech/lingxis/blog/delete'
                         const params = {
                             'token': this.token,
                             "ids": ids
                         }
                         axios.post(url, qs.stringify(params)).then(res => {
-                            if (res.data.code === 200) {
+                            const code = res.data.code
+                            // if (res.data.code === 200) {
+                            //     this.$message.success('删除成功')
+                            // }else{
+                            //     alert(res.data.code)
+                            // }
+
+                            if (code === 402) {
+                                const username = getCookie('username')
+                                refresh_token(username, token)
+                                //this.reload()
+                            }else if (code === 200) {
                                 this.$message.success('删除成功')
+                                this.reload()
                             }else{
-                                alert(res.data.code)
+                                alert(code)
                             }
                         }).catch(error => {
                             console.log(error)
                         })
-                        this.reload()
-                    }
+                    
+                    }).catch(()=>{
+                        this.$message({
+                            type: 'info',
+                            message: '已取消删除'
+                        })
+                    })
                 }else{
-                    this.$message.success('已取消删除')
+                    this.$message({
+                        type: 'info',
+                        message: '未选择'
+                    })
                 }
             },
 
@@ -414,6 +464,8 @@
                 if (!scope.row.id) {
                     alert('id为空')
                     this.tableData.splice(scope.$index, 1)
+                }else if (this.username !== scope.row.author) {
+                    this.$message.error('您无操作权限^_^')
                 }else{
                     this.$router.push({path: "/main/edit/" + scope.row.id})
                 }
@@ -423,26 +475,47 @@
                 if (!scope.row.id) {
                     alert('id为空')
                     this.tableData.splice(scope.$index, 1)
-                } else {
-                    if (confirm('确定删除吗？') === true) {
+                }else if (this.username !== scope.row.author) {
+                    this.$message.error('您无操作权限^_^')
+                }else {
+                    this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(() => {
                         const url = 'https://www.食.tech/lingxis/blog/delete'
                         const params = {
                             'token': this.token,
                             "ids": scope.row.id + ','
                         }
                         axios.post(url, qs.stringify(params)).then(res => {
-                            if (res.data.code === 200) {
+                            const code = res.data.code
+                            if (code === 402) {
+                                const username = getCookie('username')
+                                refresh_token(username, token)
+                                //this.reload()
+                            }else if (code === 200) {
                                 this.$message.success('删除成功')
                                 this.reload()
                             }else{
-                                alert(res.data.code)
+                                alert(code)
                             }
+
+                            // if (res.data.code === 200) {
+                            //     this.$message.success('删除成功')
+                            //     this.reload()
+                            // }else{
+                            //     alert(res.data.code)
+                            // }
                         }).catch(error => {
                             console.log(error)
                         })
-                    }else{
-                        this.$message.success('已取消删除')
-                    }
+                    }).catch(() =>{
+                        this.$message({
+                            type: 'info',
+                            message: '已取消删除'
+                        })
+                    })
                 }
             },
         }
@@ -450,17 +523,5 @@
 </script>
 
 <style>
-    .ul {
-        display: inline-block;
-    }
-    .li {
-        text-align: left;
-        font-size: 20px;
-    }
-    .a_title {
-        color: green;
-    }
-    .edit {
-        color: red
-    }
+
 </style>

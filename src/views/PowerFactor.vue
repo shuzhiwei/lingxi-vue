@@ -2,29 +2,33 @@
     <div>
         <h2 align="center">周查询最大功率因数</h2>
         <br>
-    <table style="margin:auto">
-        <tr><th><label for="transCode">配电室编码: </label></th>
-            <td>
-                <input id="transCode" name="transCode" size="16" type="text" :value="transCode"></input>
-            </td>
-        </tr>
-        <tr><th><label for="startTime">开始日期: </label></th>
-            <td>
-                <input id="startTime" name="startTime" size="30" type="date" :value="startTime"></input>
-            </td>
-        </tr>
-        <tr><th><label for="endTime">结束日期: </label></th>
-            <td>
-                <input id="endTime" name="endTime" size="30" type="date" :value="endTime"/>
-            </td>
-        </tr>
-        <tr><th><label for="entry"></label></th>
-            <td>
-                <button id="entry" name="entry" value="" @click="entry">确定</button>
-            </td>
-        </tr>
+<div style="text-align:center">
 
-    </table>
+    <label for="transfomer">配电室: </label>
+    <el-select label="p" v-model="value" placeholder="请选择">
+        <el-option
+        v-for="item in options"
+        :key="item.value"
+        :label="item.label"
+        :value="item.value">
+        </el-option>
+    </el-select>
+
+    <span class="block">
+        <span class="demonstration">日期范围</span>
+        <el-date-picker
+        v-model="value1"
+        type="daterange"
+        range-separator="至"
+        start-placeholder="开始日期"
+        end-placeholder="结束日期">
+        </el-date-picker>
+        <el-button type="primary" icon="el-icon-search" @click="entry">查询</el-button>
+    </span>
+
+</div>
+
+    
 
 <table border=0 cellspacing=0 cellpadding=0 style="margin:auto">
     <tr>
@@ -70,15 +74,52 @@
                 startTime: '2020-09-01',
                 endTime: '2020-09-07',
                 token: getCookie('lingxi-token'),
-                transName: ''
+                transName: '',
+                value1: '',
+
+                options: [{
+                    value: '选项1',
+                    label: 'TRYGXK4J'
+                    }, {
+                    value: '选项2',
+                    label: '双皮奶'
+                    }, {
+                    value: '选项3',
+                    label: '蚵仔煎'
+                    }, {
+                    value: '选项4',
+                    label: '龙须面'
+                    }, {
+                    value: '选项5',
+                    label: '北京烤鸭'
+                }],
+                value: '',
+
+            }
+        },
+
+        mounted () {
+            if (!this.token) {
+                this.$router.push({path: '/login'})
             }
         },
 
         methods: {
             entry () {
                 const transCode = this.transCode.trim()
-                const startTime = this.startTime.trim()
-                const endTime = this.endTime.trim()
+                // const startTime = this.startTime.trim()
+                // const endTime = this.endTime.trim()
+
+                var startTime = new Date(this.value1[0])
+                var endTime = new Date(this.value1[1])
+
+                console.log(startTime, endTime)
+
+                startTime = startTime.getFullYear() + '-' + (startTime.getMonth()+1) + '-' + startTime.getDate()
+                endTime = endTime.getFullYear() + '-' + (endTime.getMonth()+1) + '-' + endTime.getDate()
+
+                console.log(startTime, endTime)
+
                 const params = {
                     'token': this.token,
                     'trans_code': transCode,

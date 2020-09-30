@@ -8,7 +8,11 @@
               <img src="../../static/img/777.png" class="header-logo"/> 
           </div></el-col>
           <el-col :span="12"><div class="grid-content bg-purple-light text-right">
-           <span><i class="el-icon-share i_rd"></i><button @click="safeQuit" style="background:transparent; border:none; font-size:17px; color:white;">安全退出</button></span>
+           <span>
+                <span>欢迎回来, {{username}}</span>
+                <i class="el-icon-share i_rd"></i>
+                <button @click="safeQuit" style="background:transparent; border:none; font-size:17px; color:white;">安全退出</button>
+            </span>
           </div></el-col>
         </el-row>
       </el-header>
@@ -55,6 +59,12 @@
     import {setCookie,getCookie,delCookie} from '../../static/js/cookie.js'
     export default {
         inject: ['reload'],
+
+        data () {
+            return {
+                username: getCookie('username')
+            }
+        },
 
         mounted(){
             const token = getCookie('lingxi-token')
