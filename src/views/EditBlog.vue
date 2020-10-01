@@ -76,7 +76,7 @@
                 dialogVisible: false,
                 fileList: [],
                 form: {
-                    images: ''
+                    images1: [],
                 }
             }
         },
@@ -119,13 +119,11 @@
             },
 
             changeFileList (file) {
-                console.log(file.raw)
                 var reader = new FileReader();
                 reader.readAsDataURL(file.raw)
                 reader.onload = ()=>{
                     var image = reader.result
-                    this.form.images = this.form.images + image + 'helloworld'
-                    // console.log('iamge: ' + image)
+                    this.form.images1.push({'name': file.name, 'image': image})
                 }
             },
 
@@ -139,45 +137,14 @@
 
             // 处理移除图片的操作
             handleRemove(file) {
-                console.log(file.raw)
-                var reader = new FileReader();
-                var deleteImage = ''
-                reader.readAsDataURL(file.raw)
-                reader.onload = ()=>{
-                    deleteImage = reader.result
-                    console.log('deleteImage: ' + deleteImage)
-                }
-                const images = this.form.images.slice(0,this.form.images.length-10).split('helloworld')
-                for (let i=0; i<images.length; i++) {
-                    if (deleteImage == images[i]) {
-                        
-                        if (i === 0) {
-                            images.shift()
-                            break
-                        }else if (i === images.length-1) {
-                            images.pop()
-                            break
-                        }else{
-                            images.splice(i, 1)
-                            break
-                        }
+                for (let i=0; i<this.form.images1.length; i++) {
+                    if (file.name === this.form.images1[i].name) {
+                        this.form.images1.splice(i, 1)
+                        break
                     }
                 }
-                this.form.images = ''
-                for (let i=0; i<images.length; i++) {
-                    this.form.images = this.form.images + images[i] + 'helloworld'
-                }
-                console.log('has delete: ' + this.form.images)
             },
 
-            // selectImage () {
-            //     var file = this.$refs.addOther.files[0]
-            //     var reader = new FileReader();
-            //     reader.readAsDataURL(file)
-            //     reader.onload = ()=>{
-            //         this.image = reader.result
-            //     }
-            // },
             postEntry () {
                 console.log('hello123')
                 const token = getCookie('lingxi-token')
@@ -187,13 +154,20 @@
                 for (let i=0; i<this.imageAddrs.length; i++) {
                     cur_images = cur_images + this.imageAddrs[i] + 'helloworld'
                 }
+                
+                var newImages = ''
+                for (let i=0; i<this.form.images1.length; i++) {
+                    newImages = newImages + this.form.images1[i].image + 'helloworld'
+                }
+
+
                 const params = {
                     'token': token,
                     'title': this.title,
                     'content': this.content,
                     'imageAddr': cur_images,
                     'radioFlag': this.radioFlag,
-                    'image': this.form.images
+                    'image': newImages
                 }
                 console.log(params)
                 axios.post(url, qs.stringify(params)).then(response => {
