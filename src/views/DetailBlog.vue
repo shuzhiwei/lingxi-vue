@@ -1,9 +1,48 @@
 <template>
     <div>
-        <h1 align="center">{{title}}</h1>
+        <table style="margin:auto">
+            <tr>
+                <td colspan="3">
+                    <h1 align="center">{{title}}</h1>
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="3">
+                    <div align="center">{{dateStr}}</div>
+                </td>
+            </tr>
+
+            <tr>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                <td>
+                    <div style="white-space:pre-wrap;" v-html="content"></div>
+                </td>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            </tr>
+
+            <tr>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                <td>
+                    <div v-if="imageAddr" align="center">
+                        <img style="height:400px;weight:400px;" :src="imageAddr" alt="logo" :onerror="defaultImg">
+                    </div>
+                    <div v-else align="center">
+                        <span v-for="(item, index) in imageAddrs" :key="index">
+                            <img style="height:400px;weight:400px;" :src="item" alt=""  :onerror="defaultImg">
+                        </span>
+                    </div>
+                </td>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            </tr>
+
+        </table>
+
+
+        <!-- <h1 align="center">{{title}}</h1>
         <div align="center">{{dateStr}}</div>
         <br/>
-        <div align="center">{{content}}</div>
+        <div style="white-space:pre-wrap;" v-html="content"></div>
         <br/>
         <div v-if="imageAddr" align="center">
             <img style="height:400px;weight:400px;" :src="imageAddr" alt="logo" :onerror="defaultImg">
@@ -12,7 +51,7 @@
         <span v-for="(item, index) in imageAddrs" :key="index">
             <img style="height:400px;weight:400px;" :src="item" alt=""  :onerror="defaultImg">
         </span>
-        </div>
+        </div> -->
     </div>
 </template>
 
