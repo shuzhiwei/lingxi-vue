@@ -1,18 +1,19 @@
 <template>
     <div>
+        <!-- style="margin:auto" -->
         <table cellpadding="3" cellspacing="0" style="margin:auto">
             <tr>
-                <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                <td>
-                    <h1 align="left">{{title}}</h1>
+                <td width="20%">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                <td width="60%">
+                    <h1 align="center">{{title}}</h1>
                 </td>
-                <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                <td width="20%">&nbsp;&nbsp;&nbsp;&nbsp;</td>
             </tr>
 
             <tr>
                 <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
                 <td>
-                    <div align="left">{{dateStr}}</div>
+                    <div align="center">{{dateStr}}</div>
                 </td>
                 <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
             </tr>
@@ -29,12 +30,12 @@
                 <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
                 <td>
                     <!-- <div v-if="imageAddr" align="center"> -->
-                    <div v-if="imageAddr">
+                    <div v-if="imageAddr" align="center">
                         <div>
                             <img style="height:400px;weight:400px;" :src="imageAddr" alt="logo" :onerror="defaultImg">
                         </div>
                     </div>
-                    <div v-else>
+                    <div v-else align="center">
                         <div v-for="(item, index) in imageAddrs" :key="index">
                             <img style="height:400px;weight:400px;" :src="item" alt="logo"  :onerror="defaultImg">
                         </div>
