@@ -66,7 +66,7 @@
   </el-form>
   <div slot="footer" class="dialog-footer">
     <el-button type="info" @click="dialogFormVisible = false">取 消</el-button>
-    <el-button type="primary" @click="selectFile">确 定</el-button>
+    <el-button type="primary" @click="selectFile" :disabled="form.newCreating">确 定</el-button>
   </div>
 </el-dialog>
 
@@ -200,7 +200,8 @@
                     title: '',
                     content: '',
                     images: '',
-                    images1: []
+                    images1: [],
+                    newCreating: false
                 },
                 dialogFormVisible: false,
                 formLabelWidth: '120px',
@@ -339,10 +340,13 @@
 
             // 新建Blog
             selectFile () {
+                // 点击即呈现新建中
+                this.form.newCreating = true
 
                 if (this.form.images1.length > 10) {
                     // alert('照片超过10张！请重新选择')
                     this.$message.error('照片超过10张！请重新选择')
+                    this.form.newCreating = false
                     return
                 }
 
@@ -350,6 +354,7 @@
                 for (let i=0; i<this.datas.length; i++) {
                     if (this.form.title === this.datas[i].title) {
                         this.$message.error('当前页含有重复标题！请重新输入')
+                        this.form.newCreating = false
                         return
                     }
                 }
