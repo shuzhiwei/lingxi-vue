@@ -27,7 +27,7 @@
     </el-form-item>
     <el-form-item label="照片" :label-width="formLabelWidth">
      
-      <el-upload
+      <!-- <el-upload
   action="#"
   list-type="picture-card"
   :file-list="fileList"
@@ -40,8 +40,17 @@
 </el-upload>
 <el-dialog :visible.sync="dialogVisible">
   <img width="100%" :src="dialogImageUrl" alt="">
-</el-dialog>
+</el-dialog> -->
 
+
+    <div align="left">
+      <el-button type="primary" v-on:click="openFile()" round>选择文件</el-button>
+      <input type="file" id="filename" style="display:none" multiple="multiple" @change="showRealPath"/>
+    </div>
+
+    <span v-for="(item, index) in form.images1" :key="index">
+        <img style="height:100px;weight:100px;" :src="item.image" alt="">
+    </span>
 
     </el-form-item>
   </el-form>
@@ -181,6 +190,7 @@
                     title: '',
                     content: '',
                     images: '',
+                    images1: []
                 },
                 dialogFormVisible: false,
                 formLabelWidth: '120px',
@@ -246,6 +256,23 @@
 
         methods: {
 
+            openFile: function () {
+                document.getElementById('filename').click()
+            },
+            showRealPath: function () {
+                var files = document.getElementById('filename').files
+                
+                for (let i = 0; i < files.length; i++) {
+                    let name = files[i].name
+                    let reader = new FileReader();
+                    reader.readAsDataURL(files[i])
+                    reader.onload = ()=>{
+                        var image = reader.result
+                        this.form.images1.push({'name': name, 'image': image})
+                    }
+                }
+            },
+
             changeFileList (file) {
                 console.log(file.raw)
                 var reader = new FileReader();
@@ -253,7 +280,6 @@
                 reader.onload = ()=>{
                     var image = reader.result
                     this.form.images = this.form.images + image + 'helloworld'
-                    // console.log('iamge: ' + image)
                 }
             },
 
@@ -300,11 +326,18 @@
             // 新建Blog
             selectFile () {
                 const url = 'https://www.食.tech/lingxis/blog/addManyPhoto'
+                var tmp_images = ''
+                console.log(this.form.images1.length)
+                for (let i=0; i<this.form.images1.length; i++) {
+                    console.log('this.form.images1[i].name: ' + this.form.images1[i].name)
+                    tmp_images = tmp_images + this.form.images1[i].image + 'helloworld'
+                }
                 const params = {
                     'token': this.token,
                     'title': this.form.title,
                     'content': this.form.content,
-                    'files': this.form.images,
+                    // 'files': this.form.images,
+                    'files': tmp_images,
                     'author': this.username,
 
                 }

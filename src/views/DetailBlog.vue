@@ -9,9 +9,9 @@
             <img  :src="imageAddr" alt="logo" :onerror="defaultImg">
         </div>
         <div v-else>
-        <div v-for="(item, index) in imageAddrs" :key="index">
-            <img :src="item" alt=""  :onerror="defaultImg">
-        </div>
+        <span v-for="(item, index) in imageAddrs" :key="index">
+            <img style="height:400px;weight:400px;" :src="item" alt=""  :onerror="defaultImg">
+        </span>
         </div>
     </div>
 </template>

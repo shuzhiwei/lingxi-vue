@@ -20,6 +20,8 @@ import AuthManage from '../views/AuthManage.vue'
 
 import { RouterTabRoutes } from 'vue-router-tab'
 
+import test from '../views/test.vue'
+
 Vue.use(VueRouter)
 
 
@@ -93,6 +95,17 @@ export default new VueRouter({
                     component: AuthManage,
                     meta: {
                         title: 'AuthManage',
+                        color: 'black',
+                        icon: 'el-icon-paperclip',
+                        key: 'path',
+                        closable: true
+                      }
+                },
+                {
+                    path: 'test',
+                    component: test,
+                    meta: {
+                        title: 'test',
                         color: 'black',
                         icon: 'el-icon-paperclip',
                         key: 'path',

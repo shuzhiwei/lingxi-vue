@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			#divUL div{
+				float: left;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<div class="wrapper">
+			<input type="file" multiple="multiple" name="listInput" id="listInput" value="" />
+			<div id="divUL">
+				
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		
+		//多张
+		document.getElementById("listInput").addEventListener("change",function(){
+			var files = this.files;
+			var oUL = document.getElementById("divUL");
+			oUL.innerHTML = "";
+			for(var i = 0;i < files.length;i++){
+				oUL.innerHTML += '<div><img id="img'+i+'" /></div>'
+				var imgList = document.getElementById("img"+i);
+				imgList.style.height = "200px";
+				imgList.style.width = "200px";
+				imgList.src = window.URL.createObjectURL(files[i]);
+			}
+		});	
+ 
+	</script>
+</html>
