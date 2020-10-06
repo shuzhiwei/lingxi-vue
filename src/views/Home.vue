@@ -43,13 +43,23 @@
 </el-dialog> -->
 
 
-    <div align="left">
+    <span align="left">
       <el-button type="primary" v-on:click="openFile()" round>选择文件</el-button>
       <input type="file" id="filename" style="display:none" multiple="multiple" @change="showRealPath"/>
-    </div>
+    </span>
+
+    <span>照片不得超过10张</span>
+
+    <br>
 
     <span v-for="(item, index) in form.images1" :key="index">
-        <img style="height:100px;weight:100px;" :src="item.image" alt="">
+        <!-- <img style="height:100px;weight:100px;" :src="item.image" alt=""> -->
+
+            <div class="img-box">
+             <img class="myimage" :src="item.image" alt="">
+            <div class="del-icon" @click="deletePrePhoto(index)"></div>
+        </div>
+
     </span>
 
     </el-form-item>
@@ -256,6 +266,10 @@
 
         methods: {
 
+            deletePrePhoto (index) {
+                this.form.images1.splice(index, 1)
+            },
+
             openFile: function () {
                 document.getElementById('filename').click()
             },
@@ -325,6 +339,21 @@
 
             // 新建Blog
             selectFile () {
+
+                if (this.form.images1.length > 10) {
+                    // alert('照片超过10张！请重新选择')
+                    this.$message.error('照片超过10张！请重新选择')
+                    return
+                }
+
+                // 根据title去重
+                for (let i=0; i<this.datas.length; i++) {
+                    if (this.form.title === this.datas[i].title) {
+                        this.$message.error('当前页含有重复标题！请重新输入')
+                        return
+                    }
+                }
+
                 const url = 'https://www.食.tech/lingxis/blog/addManyPhoto'
                 var tmp_images = ''
                 console.log(this.form.images1.length)
@@ -556,5 +585,52 @@
 </script>
 
 <style>
+.img-box {
+            margin: 10px;
+            display: inline-block;
+            position: relative;
+        }
 
+        .myimage {
+            width: 80px;
+            height: 80px;
+        }
+
+        .del-icon {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            border: 1px solid red;
+            border-radius: 50%;
+            top: -13px;
+            right: -15px;
+            transform: rotate(45deg);
+
+        }
+
+        .del-icon::before {
+            display: block;
+            position: absolute;
+            content: "";
+            width: 10px;
+            height: 2px;
+            background-color: red;
+            top: 50%;
+            left: 50%;
+            transform: translate3d(-50%, -50%, 0);
+
+        }
+
+        .del-icon::after {
+            display: block;
+            position: absolute;
+            content: "";
+            width: 2px;
+            height: 10px;
+            background-color: red;
+            top: 50%;
+            left: 50%;
+            transform: translate3d(-50%, -50%, 0);
+
+        }
 </style>
