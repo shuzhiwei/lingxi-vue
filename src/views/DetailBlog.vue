@@ -2,15 +2,19 @@
     <div>
         <table cellpadding="3" cellspacing="0" style="margin:auto">
             <tr>
-                <td colspan="3">
-                    <h1 align="center">{{title}}</h1>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                <td>
+                    <h1 align="left">{{title}}</h1>
                 </td>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
             </tr>
 
             <tr>
-                <td colspan="3">
-                    <div align="center">{{dateStr}}</div>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                <td>
+                    <div align="left">{{dateStr}}</div>
                 </td>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
             </tr>
 
             <tr>
