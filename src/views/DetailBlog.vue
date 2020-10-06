@@ -1,6 +1,6 @@
 <template>
     <div>
-        <table style="margin:auto">
+        <table cellpadding="3" cellspacing="0" style="margin:auto">
             <tr>
                 <td colspan="3">
                     <h1 align="center">{{title}}</h1>
@@ -14,23 +14,26 @@
             </tr>
 
             <tr>
-                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
                 <td>
                     <div style="white-space:pre-wrap;" v-html="content"></div>
                 </td>
-                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
             </tr>
 
             <tr>
                 <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
                 <td>
-                    <div v-if="imageAddr" align="center">
-                        <img style="height:400px;weight:400px;" :src="imageAddr" alt="logo" :onerror="defaultImg">
+                    <!-- <div v-if="imageAddr" align="center"> -->
+                    <div v-if="imageAddr">
+                        <div>
+                            <img style="height:400px;weight:400px;" :src="imageAddr" alt="logo" :onerror="defaultImg">
+                        </div>
                     </div>
-                    <div v-else align="center">
-                        <span v-for="(item, index) in imageAddrs" :key="index">
-                            <img style="height:400px;weight:400px;" :src="item" alt=""  :onerror="defaultImg">
-                        </span>
+                    <div v-else>
+                        <div v-for="(item, index) in imageAddrs" :key="index">
+                            <img style="height:400px;weight:400px;" :src="item" alt="logo"  :onerror="defaultImg">
+                        </div>
                     </div>
                 </td>
                 <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
