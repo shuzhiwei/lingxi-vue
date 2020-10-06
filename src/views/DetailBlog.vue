@@ -6,7 +6,7 @@
         <div align="center">{{content}}</div>
         <br/>
         <div v-if="imageAddr" align="center">
-            <img  :src="imageAddr" alt="logo" :onerror="defaultImg">
+            <img style="height:400px;weight:400px;" :src="imageAddr" alt="logo" :onerror="defaultImg">
         </div>
         <div v-else align="center">
         <span v-for="(item, index) in imageAddrs" :key="index">
