@@ -4,7 +4,7 @@
       <el-header class="header" height="80px">
         <el-row>
           <el-col :span="12"><div class="grid-content bg-purple">
-              <img src="../../static/img/555.png" class="header-logo"/> 
+              <img src="../../static/img/555.png" class="header-logo" @click="isCollapse=!isCollapse"/> 
               <img src="../../static/img/777.png" class="header-logo"/> 
           </div></el-col>
           <el-col :span="12"><div class="grid-content bg-purple-light text-right">
@@ -17,9 +17,12 @@
         </el-row>
       </el-header>
       <el-container>
-        <el-aside width="220px" class="aside">
+        <el-aside width="220px" class="aside" v-show="isCollapse">
             
      <div class="mean-top"><i class="el-icon-menu"></i> 功能导航</div>
+
+    
+
           <el-menu  default-active="1"
 
                     background-color="#dbe9f1"
@@ -63,7 +66,8 @@
 
         data () {
             return {
-                username: getCookie('username')
+                username: getCookie('username'),
+                isCollapse: true
             }
         },
 

@@ -1,14 +1,14 @@
 <template>
     <div>
         <h1 align="center">{{title}}</h1>
-        {{dateStr}}
+        <div align="center">{{dateStr}}</div>
         <br/>
-        {{content}}
+        <div align="center">{{content}}</div>
         <br/>
-        <div v-if="imageAddr">
+        <div v-if="imageAddr" align="center">
             <img  :src="imageAddr" alt="logo" :onerror="defaultImg">
         </div>
-        <div v-else>
+        <div v-else align="center">
         <span v-for="(item, index) in imageAddrs" :key="index">
             <img style="height:400px;weight:400px;" :src="item" alt=""  :onerror="defaultImg">
         </span>
