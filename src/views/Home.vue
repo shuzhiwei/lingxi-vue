@@ -341,7 +341,13 @@
             // 新建Blog
             selectFile () {
                 // 点击即呈现新建中
-                this.form.newCreating = true
+                // this.form.newCreating = true
+                const load = this.$loading({
+                    lock: true,
+                    text: 'Loading',
+                    spinner: 'el-icon-loading',
+                    background: 'rgba(0, 0, 0, 0.7)'
+                });
 
                 if (this.form.images1.length > 10) {
                     // alert('照片超过10张！请重新选择')
@@ -385,6 +391,7 @@
                         this.token = getCookie('lingxi-token')
 
                     }else if (code === 200) {
+                        load.close();
                         this.$message.success('新建成功')
                         this.dialogFormVisible = false
                         this.reload()
