@@ -23,7 +23,7 @@
       <el-input v-model="form.title" autocomplete="off"></el-input>
     </el-form-item>
     <el-form-item label="内容" :label-width="formLabelWidth">
-      <el-input v-model="form.content" autocomplete="off"></el-input>
+      <el-input type="textarea" :rows="10" v-model="form.content" autocomplete="off"></el-input>
     </el-form-item>
     <el-form-item label="照片" :label-width="formLabelWidth">
      
