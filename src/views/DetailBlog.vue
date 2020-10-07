@@ -1,12 +1,14 @@
 <template>
     <div>
-        <table width="85%" cellpadding="2" cellspacing="0" style="table-layout: fixed;margin:0.3rem auto">
+        <table width="100%" cellpadding="2" cellspacing="0" style="table-layout: fixed;margin:0.3rem auto">
             <tr>
-                <td width="20%">&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                <td width="60%">
+                <td width="10%">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                <!-- <td>&nbsp;&nbsp;&nbsp;&nbsp;</td> -->
+                <td width="80%">
                     <h1 align="center">{{title}}</h1>
                 </td>
-                <td width="20%">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                <td width="10%">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                <!-- <td>&nbsp;&nbsp;&nbsp;&nbsp;</td> -->
             </tr>
 
             <tr>
@@ -30,12 +32,12 @@
                 <td>
                     <div v-if="imageAddr" align="center">
                         <div>
-                            <img style="height:25rem;weight:25rem;" :src="imageAddr" alt="logo" :onerror="defaultImg">
+                            <img style="height:10rem;" :src="imageAddr" alt="logo" :onerror="defaultImg">
                         </div>
                     </div>
                     <div v-else align="center">
                         <span v-for="(item, index) in imageAddrs" :key="index">
-                            <img style="height:25rem;weight:25rem;" :src="item" alt="logo"  :onerror="defaultImg">
+                            <img style="height:10rem;" :src="item" alt="logo"  :onerror="defaultImg">
                         </span>
                     </div>
                 </td>
