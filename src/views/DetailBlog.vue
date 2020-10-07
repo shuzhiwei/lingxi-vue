@@ -1,6 +1,6 @@
 <template>
     <div>
-        <!-- <table cellpadding="3" cellspacing="0" style="margin:auto">
+        <table cellpadding="2" cellspacing="0" style="table-layout: fixed;margin:auto">
             <tr>
                 <td width="20%">&nbsp;&nbsp;&nbsp;&nbsp;</td>
                 <td width="60%">
@@ -30,25 +30,25 @@
                 <td>
                     <div v-if="imageAddr" align="center">
                         <div>
-                            <img style="height:400px;weight:400px;" :src="imageAddr" alt="logo" :onerror="defaultImg">
+                            <img style="height:25rem;weight:25rem;" :src="imageAddr" alt="logo" :onerror="defaultImg">
                         </div>
                     </div>
                     <div v-else align="center">
-                        <div v-for="(item, index) in imageAddrs" :key="index">
-                            <img style="height:400px;weight:400px;" :src="item" alt="logo"  :onerror="defaultImg">
-                        </div>
+                        <span v-for="(item, index) in imageAddrs" :key="index">
+                            <img style="height:25rem;weight:25rem;" :src="item" alt="logo"  :onerror="defaultImg">
+                        </span>
                     </div>
                 </td>
                 <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
             </tr>
 
-        </table> -->
+        </table>
 
 
-        <h1 align="center">{{title}}</h1>
+        <!-- <h1 align="center">{{title}}</h1>
         <div align="center">{{dateStr}}</div>
         <br/>
-        <div class="box_relative" style="white-space:pre-wrap;" v-html="content"></div>
+        <div style="white-space:pre-wrap;" v-html="content"></div>
         <br/>
         <div v-if="imageAddr" align="center">
             <img style="height:400px;weight:400px;" :src="imageAddr" alt="logo" :onerror="defaultImg">
@@ -57,7 +57,7 @@
         <span v-for="(item, index) in imageAddrs" :key="index">
             <img style="height:500px;weight:400px;" :src="item" alt=""  :onerror="defaultImg">
         </span>
-        </div>
+        </div> -->
     </div>
 </template>
 
@@ -108,9 +108,5 @@
 </script>
 
 <style>
-.box_relative {
-  position: relative;
-  left: 30px;
-  right: 30px;
-}
+
 </style>
