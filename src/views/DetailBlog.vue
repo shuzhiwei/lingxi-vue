@@ -48,7 +48,7 @@
         <h1 align="center">{{title}}</h1>
         <div align="center">{{dateStr}}</div>
         <br/>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="white-space:pre-wrap;" v-html="content"></span>
+        <div class="box_relative" style="white-space:pre-wrap;" v-html="content"></div>
         <br/>
         <div v-if="imageAddr" align="center">
             <img style="height:400px;weight:400px;" :src="imageAddr" alt="logo" :onerror="defaultImg">
@@ -108,5 +108,10 @@
 </script>
 
 <style>
-
+.box_relative {
+  position: absolute;
+  left: 30px;
+  top: 50px;
+  right: 30px;
+}
 </style>
