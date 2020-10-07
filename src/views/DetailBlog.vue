@@ -1,6 +1,6 @@
 <template>
     <div>
-        <table cellpadding="2" cellspacing="0" style="table-layout: fixed;margin:auto">
+        <table width="70%" cellpadding="2" cellspacing="0" style="table-layout: fixed;margin:0.3rem auto">
             <tr>
                 <td width="20%">&nbsp;&nbsp;&nbsp;&nbsp;</td>
                 <td width="60%">
