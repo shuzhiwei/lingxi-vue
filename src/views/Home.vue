@@ -48,7 +48,7 @@
       <input type="file" id="filename" style="display:none" multiple="multiple" @change="showRealPath"/>
     </span>
 
-    <span>照片不得超过10张</span>
+    <span>照片不得超过9张</span>
 
     <br>
 

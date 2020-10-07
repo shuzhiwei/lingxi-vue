@@ -18,6 +18,7 @@
     "pubsub-js": "^1.9.0",
     "qs": "^6.9.4",
     "vue": "^2.5.2",
+    "vue-ele-upload-video": "^2.0.6",
     "vue-layer": "^1.2.1",
     "vue-router": "^3.4.3",
     "vue-router-tab": "^1.2.0"

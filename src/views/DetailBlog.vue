@@ -87,6 +87,16 @@
                 let res = response.data
                 let code = res.code
                 console.log(code)
+                if (code === 402) {
+                    const username = getCookie('username')
+                    refresh_token(username, token)
+                    this.reload()
+                    return
+                }
+                if (code === 401) {
+                    alert(con.message)
+                    return
+                }
                 if (code === 200) {
                     this.title = res.data.title
                     this.content = res.data.content
