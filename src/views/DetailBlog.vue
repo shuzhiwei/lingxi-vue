@@ -109,9 +109,8 @@
 
 <style>
 .box_relative {
-  position: absolute;
+  position: relative;
   left: 30px;
-  top: 50px;
   right: 30px;
 }
 </style>
