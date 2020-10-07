@@ -32,13 +32,13 @@
                 <td>
                     <div v-if="imageAddr" align="center">
                         <div>
-                            <img style="height:10rem;" :src="imageAddr" alt="logo" :onerror="defaultImg">
+                            <img style="height:15rem;" :src="imageAddr" alt="logo" :onerror="defaultImg">
                         </div>
                     </div>
                     <div v-else align="center">
-                        <span v-for="(item, index) in imageAddrs" :key="index">
-                            <img style="height:10rem;" :src="item" alt="logo"  :onerror="defaultImg">
-                        </span>
+                        <div v-for="(item, index) in imageAddrs" :key="index">
+                            <img style="height:15rem;" :src="item" alt="logo"  :onerror="defaultImg">
+                        </div>
                     </div>
                 </td>
                 <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
