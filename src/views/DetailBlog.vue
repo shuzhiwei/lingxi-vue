@@ -37,7 +37,7 @@
                     </div>
                     <div v-else align="center">
                         <div v-for="(item, index) in imageAddrs" :key="index">
-                            <img style="height:15rem;" :src="item" alt="logo"  :onerror="defaultImg">
+                            <img style="height:25rem;" :src="item" alt="logo"  :onerror="defaultImg">
                         </div>
                     </div>
                 </td>
