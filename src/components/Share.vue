@@ -107,6 +107,9 @@
                 const con = response.data
                 console.log(con)
                 const code = con.code
+                if (code !== 200) {
+                    return
+                }
                 this.totalPage = con.totalPage
                 this.totalCount = con.totalCount
                 const res = con.data
