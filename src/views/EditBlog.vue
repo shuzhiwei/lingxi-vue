@@ -3,6 +3,7 @@
         <table>
         <tr><th><label for="title">标题:</label></th><td><input id="title" name="title" size="30" type="text" v-model="title"/></td></tr>
         <tr><th><label for="content">内容:</label></th><td><textarea cols="80" id="content" name="content" rows="10" v-model="content"></textarea></td></tr>
+        
         <tr><th><label for="content">当前图片:</label></th><td>
             
         <div v-if="imageAddr">
@@ -20,6 +21,14 @@
         </span>
         </div>
             </td></tr>
+
+        <tr><th><label for="content">是否公开:</label></th>
+        <td>
+            <el-radio style="margin-left: 10px" v-model="form.radio" :label="1">公开</el-radio>
+            <el-radio v-model="form.radio" :label="0">不公开</el-radio>
+        </td></tr>
+
+        <br>
         <tr><th><label for="addOther">添加图片</label></th>
             <td>
                 <span align="left">
@@ -75,6 +84,7 @@
                 fileList: [],
                 form: {
                     images1: [],
+                    radio: 0,
                 }
             }
         },
@@ -95,6 +105,7 @@
                 }else if (code === 200) {
                     this.title = res.data.title
                     this.content = res.data.content
+                    this.form.radio = res.data.share_flag
                     var tmp = res.data.imageAddr
                     var aa_url = res.data.imageAddr.split('helloworld')
                     if (tmp.indexOf('helloworld') !== -1) {
@@ -172,6 +183,7 @@
                     'token': token,
                     'title': this.title,
                     'content': this.content,
+                    'share_flag': this.form.radio,
                     'curImageAddrs': cur_images,
                     'delImageAddrs': del_images,
                 }

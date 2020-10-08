@@ -25,6 +25,10 @@
     <el-form-item label="内容" :label-width="formLabelWidth">
       <el-input type="textarea" :rows="5" v-model="form.content" autocomplete="off"></el-input>
     </el-form-item>
+    <el-form-item label="是否公开" :label-width="formLabelWidth">
+      <el-radio v-model="form.radio" label="1">公开</el-radio>
+      <el-radio v-model="form.radio" label="0">不公开</el-radio>
+    </el-form-item>
     <el-form-item label="照片" :label-width="formLabelWidth">
      
       <!-- <el-upload
@@ -197,6 +201,7 @@
                 form: {
                     title: '',
                     content: '',
+                    radio: 0,
                     images: '',
                     images1: [],
                     newCreating: false
@@ -207,6 +212,8 @@
                 dialogImageUrl: '',
                 dialogVisible: false,
                 fileList: [],
+
+                
 
             }
         },
@@ -347,13 +354,6 @@
                     background: 'rgba(0, 0, 0, 0.7)'
                 });
 
-                // if (this.form.images1.length > 10) {
-                //     // alert('照片超过10张！请重新选择')
-                //     this.$message.error('照片超过10张！请重新选择')
-                //     this.form.newCreating = false
-                //     return
-                // }
-
                 // 根据title去重
                 for (let i=0; i<this.datas.length; i++) {
                     if (this.form.title === this.datas[i].title) {
@@ -370,6 +370,7 @@
                     'title': this.form.title,
                     'content': this.form.content,
                     'author': this.username,
+                    'share_flag': this.form.radio,
                 }
                 axios.post(url, qs.stringify(params0)).then(response => {
                     var res0 = response.data

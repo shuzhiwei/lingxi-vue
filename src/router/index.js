@@ -22,6 +22,9 @@ import { RouterTabRoutes } from 'vue-router-tab'
 
 import test from '../views/test.vue'
 
+import Share from '../components/Share.vue'
+import ShareDetail from '../components/ShareDetail.vue'
+
 Vue.use(VueRouter)
 
 
@@ -32,6 +35,14 @@ export default new VueRouter({
         {
             path: '/login',
             component: Login
+        },
+        {
+            path: '/share',
+            component: Share
+        },
+        {
+            path: '/shareDetail/:id',
+            component: ShareDetail
         },
         {
             path: '/main',

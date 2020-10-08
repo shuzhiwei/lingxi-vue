@@ -6,10 +6,14 @@
 
 <script>
     import Login from './views/Login.vue'
+    import Share from './components/Share.vue'
+    import ShareDetail from './components/ShareDetail.vue'
     export default {
         name: 'App',
         components: {
-            Login
+            Login,
+            Share,
+            ShareDetail,
         },
         
         provide () {

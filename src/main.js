@@ -20,7 +20,8 @@ Vue.use(RouterTab)
 new Vue({
     el: '#app',
     components: {
-        App
+        App,
+
     },
     template: '<App/>',
     router

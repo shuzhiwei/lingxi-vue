@@ -32,8 +32,8 @@
               <template slot="title"><i class="el-icon-location"></i>Blog</template>
               <el-menu-item-group>
                 <el-menu-item index="1-1"><router-link to="/main/home"><i class="el-icon-tickets"></i>Home</router-link></el-menu-item>
-                <el-menu-item index="1-2"><router-link to="/main/hello"><i class="el-icon-tickets"></i>Hello</router-link></el-menu-item>
-                <el-menu-item index="1-3"><router-link to="/main/test"><i class="el-icon-tickets"></i>test</router-link></el-menu-item>
+                <el-menu-item index="1-3"><router-link to="/main/hello"><i class="el-icon-tickets"></i>Hello</router-link></el-menu-item>
+                <el-menu-item index="1-4"><router-link to="/main/test"><i class="el-icon-tickets"></i>test</router-link></el-menu-item>
               </el-menu-item-group>
             </el-submenu>
             <el-submenu index="2">
