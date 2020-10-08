@@ -9,13 +9,7 @@
         border
     ref="filterTable"
     :data="datas"
-    @selection-change="handleSelectionChange"
     style="width: 95%;font-size: 18px;margin-left: 30px;">
-
-    <el-table-column
-      type="selection"
-      width="55">
-    </el-table-column>
 
     <el-table-column
       prop="title"

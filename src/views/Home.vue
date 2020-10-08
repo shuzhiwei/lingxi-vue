@@ -108,10 +108,12 @@
       :formatter="formatter"
     >
     <template slot-scope="scope">
-            <span v-if="scope.row.statusBtn===false">
+            <span v-if="scope.row.share_flag==1"><i class="el-icon-star-on" style="color:#ffd633;font-size:25px;"></i></span>
+            <span v-else><i class="el-icon-star-on" style="color:#c2d6d6;font-size:25px;"></i></span>
+            <span>
                 <router-link :to="`/main/detail/${scope.row.id}`"><font color="green">{{scope.row.title}}</font></router-link>
                 </span>
-            <el-input size="mini" v-else-if="scope.row.statusBtn===true" v-model="title"></el-input>
+            <!-- <el-input size="mini" v-else-if="scope.row.statusBtn===true" v-model="title"></el-input> -->
           </template>
     </el-table-column>
 
@@ -249,12 +251,14 @@
                     let posted_on = res[i].posted_on
                     let author = res[i].author
                     let date_d = getDateDiff(posted_on * 1000)
+                    let share_flag = res[i].share_flag
                     let data = {
                         'id': res[i].id,
                         'title': title,
                         'content': content,
                         'date_d': date_d,
                         'author': author,
+                        'share_flag': share_flag,
                         'statusBtn': false
                     }
                     this.datas.push(data)
@@ -501,12 +505,14 @@
                         let posted_on = res[i].posted_on
                         let author = res[i].author
                         let date_d = getDateDiff(posted_on * 1000)
+                        let share_flag = res[i].share_flag
                         let data = {
                             'id': res[i].id,
                             'title': title,
                             'content': content,
                             'date_d': date_d,
                             'author': author,
+                            'share_flag': share_flag,
                             'statusBtn': false
                         }
                         this.datas.push(data)
