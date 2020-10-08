@@ -108,8 +108,8 @@
       :formatter="formatter"
     >
     <template slot-scope="scope">
-            <span v-if="scope.row.share_flag==1"><i class="el-icon-star-on" style="color:#ffd633;font-size:25px;"></i></span>
-            <span v-else><i class="el-icon-star-on" style="color:#c2d6d6;font-size:25px;"></i></span>
+            <span v-if="scope.row.share_flag==1"><i class="el-icon-star-on" style="color:#ffd633;font-size:25px;" @click="shareChange(scope)"></i></span>
+            <span v-else><i class="el-icon-star-on" style="color:#c2d6d6;font-size:25px;" @click="shareChange(scope)"></i></span>
             <span>
                 <router-link :to="`/main/detail/${scope.row.id}`"><font color="green">{{scope.row.title}}</font></router-link>
                 </span>
@@ -252,6 +252,7 @@
                     let author = res[i].author
                     let date_d = getDateDiff(posted_on * 1000)
                     let share_flag = res[i].share_flag
+                    let imageAddr = res[i].imageAddr
                     let data = {
                         'id': res[i].id,
                         'title': title,
@@ -259,7 +260,8 @@
                         'date_d': date_d,
                         'author': author,
                         'share_flag': share_flag,
-                        'statusBtn': false
+                        'statusBtn': false,
+                        'imageAddr': imageAddr,
                     }
                     this.datas.push(data)
                 }
@@ -275,6 +277,32 @@
         },
 
         methods: {
+
+            shareChange (scope) {
+                if (scope.row.share_flag === 1) {
+                    scope.row.share_flag = 0
+                }else{
+                    scope.row.share_flag = 1
+                }
+                const params = {
+                    'token': this.token,
+                    'title': scope.row.title,
+                    'content': scope.row.content,
+                    'share_flag': scope.row.share_flag,
+                    'curImageAddrs': scope.row.imageAddr,
+                    'delImageAddrs': '',
+                }
+                const url = `https://www.食.tech/lingxis/blog/edit/${scope.row.id}`
+                axios.post(url, qs.stringify(params)).then(response => {
+                    const code = response.data.code
+                    if (code !== 200) {
+                        this.$message.error(code)
+                    }
+
+                }).catch(error =>{
+                    this.$message.error(error)
+                })
+            },
 
             deletePrePhoto (index) {
                 this.form.images1.splice(index, 1)
