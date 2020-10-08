@@ -12,7 +12,7 @@
         @click="dialogFormVisible = true"
         icon="el-icon-plus"
         type="success"
-        style="margin-bottom:10px;"
+        style="margin-bottom:10px;margin-left: 30px;"
         size="mini"
       >新建博客</el-button>
 
@@ -48,8 +48,6 @@
       <input type="file" id="filename" style="display:none" multiple="multiple" @change="showRealPath"/>
     </span>
 
-    <span>照片不得超过9张</span>
-
     <br>
 
     <span v-for="(item, index) in form.images1" :key="index">
@@ -80,11 +78,11 @@
 
         <el-table
         height="500"
-        border 
+        border
     ref="filterTable"
     :data="datas"
     @selection-change="handleSelectionChange"
-    style="width: 100%;font-size: 18px;">
+    style="width: 95%;font-size: 18px;margin-left: 30px;">
 
     <el-table-column
       type="selection"
@@ -349,12 +347,12 @@
                     background: 'rgba(0, 0, 0, 0.7)'
                 });
 
-                if (this.form.images1.length > 10) {
-                    // alert('照片超过10张！请重新选择')
-                    this.$message.error('照片超过10张！请重新选择')
-                    this.form.newCreating = false
-                    return
-                }
+                // if (this.form.images1.length > 10) {
+                //     // alert('照片超过10张！请重新选择')
+                //     this.$message.error('照片超过10张！请重新选择')
+                //     this.form.newCreating = false
+                //     return
+                // }
 
                 // 根据title去重
                 for (let i=0; i<this.datas.length; i++) {
@@ -366,39 +364,87 @@
                 }
 
                 const url = 'https://www.食.tech/lingxis/blog/addManyPhoto'
-                var tmp_images = ''
-                console.log(this.form.images1.length)
-                for (let i=0; i<this.form.images1.length; i++) {
-                    console.log('this.form.images1[i].name: ' + this.form.images1[i].name)
-                    tmp_images = tmp_images + this.form.images1[i].image + 'helloworld'
-                }
-                const params = {
+
+                var params0 = {
                     'token': this.token,
                     'title': this.form.title,
                     'content': this.form.content,
-                    // 'files': this.form.images,
-                    'files': tmp_images,
                     'author': this.username,
-
                 }
-                axios.post(url, qs.stringify(params)).then(response => {
-                    const res = response.data
-                    console.log(res)
-                    const code = res.code
+                axios.post(url, qs.stringify(params0)).then(response => {
+                    var res0 = response.data
+                    console.log(res0)
+                    let code = res0.code
                     if (code === 402) {
-                        const username = getCookie('username')
+                        let username = getCookie('username')
                         refresh_token(username, this.token)
                         this.token = getCookie('lingxi-token')
 
                     }else if (code === 200) {
-                        load.close();
-                        this.$message.success('新建成功')
-                        this.dialogFormVisible = false
-                        this.reload()
+                        let post_id = res0.id
+                        console.log(code)
+                        const url1 = `https://www.食.tech/lingxis/blog/editAddPhoto/${post_id}`
+
+
+                        var tmp_images = ''
+                        console.log(this.form.images1.length)
+                        for (let i=0; i<this.form.images1.length; i++) {
+                            tmp_images = tmp_images + this.form.images1[i].image + 'helloworld'
+                            if (tmp_images.length > 1024*1024*10) {
+                                var params1 = {
+                                    'token': this.token,
+                                    'image': tmp_images,
+                                }
+                                axios.post(url1, qs.stringify(params1)).then(response => {
+                                    let res = response.data
+                                    console.log(res)
+                                    let code = res.code
+                                    if (code === 402) {
+                                        let username = getCookie('username')
+                                        refresh_token(username, this.token)
+                                        this.token = getCookie('lingxi-token')
+
+                                    }else if (code === 200) {
+                                        console.log(code)
+                                    }else{
+                                        alert(code)
+                                    }
+                                })
+                                tmp_images = ''
+                            }
+                        }
+                        if (tmp_images) {
+                            var params2 = {
+                                'token': this.token,
+                                'image': tmp_images,
+                            }
+                            axios.post(url1, qs.stringify(params2)).then(response => {
+                                let res = response.data
+                                let code = res.code
+                                if (code === 402) {
+                                    const username = getCookie('username')
+                                    refresh_token(username, this.token)
+                                    this.token = getCookie('lingxi-token')
+
+                                }else if (code === 200) {
+                                    console.log(code)
+                                }else{
+                                    alert(code)
+                                }
+                            })
+                        }
+
+
                     }else{
                         alert(code)
                     }
                 })
+                
+                load.close();
+                this.$message.success('新建成功')
+                this.dialogFormVisible = false
+                this.reload()
+                
             },
 
             formatter(row, column) {
@@ -481,7 +527,7 @@
                     var ids = ''
                     for(let i=0; i<val.length; i++){
                         if (this.username !== val[i].author) {
-                            this.$message.error('当前勾选中含有其他人的作品^_^')
+                            this.$message.error('当前勾选中含有其他人的作品!')
                             return
                         }
                         ids = ids + val[i].id + ','
@@ -539,7 +585,7 @@
                     alert('id为空')
                     this.tableData.splice(scope.$index, 1)
                 }else if (this.username !== scope.row.author) {
-                    this.$message.error('您无操作权限^_^')
+                    this.$message.error('您无操作权限!')
                 }else{
                     this.$router.push({path: "/main/edit/" + scope.row.id})
                 }
@@ -550,7 +596,7 @@
                     alert('id为空')
                     this.tableData.splice(scope.$index, 1)
                 }else if (this.username !== scope.row.author) {
-                    this.$message.error('您无操作权限^_^')
+                    this.$message.error('您无操作权限!')
                 }else {
                     this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
                         confirmButtonText: '确定',

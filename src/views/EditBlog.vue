@@ -1,46 +1,42 @@
 <template>
     <div>
         <table>
-        <tr><th><label for="title">Post title:</label></th><td><input id="title" name="title" size="30" type="text" v-model="title"/></td></tr>
-        <tr><th><label for="content">Post content:</label></th><td><textarea cols="80" id="content" name="content" rows="10" v-model="content"></textarea></td></tr>
+        <tr><th><label for="title">标题:</label></th><td><input id="title" name="title" size="30" type="text" v-model="title"/></td></tr>
+        <tr><th><label for="content">内容:</label></th><td><textarea cols="80" id="content" name="content" rows="10" v-model="content"></textarea></td></tr>
         <tr><th><label for="content">当前图片:</label></th><td>
             
         <div v-if="imageAddr">
-            <img  :src="imageAddr" alt="logo" :onerror="defaultImg">
+            <div class="img-box">
+            <img class="myimage" :src="imageAddr" alt="logo" :onerror="defaultImg">
+            <div class="del-icon" @click="deleteCurPhoto(index)"></div>
+            </div>
         </div>
         <div v-else>
-        <div v-for="(item, index) in imageAddrs" :key="index">
-            <img :src="item" alt=""  :onerror="defaultImg">
-        </div>
-        </div>
-
-            </td></tr>
-        <tr><th><label for="content">删除当前所有图片:</label></th><td>
-            <div>
-                <input style="display:none;" id="hidebrowser" type="radio" name="photo" value="">
-                <input type="radio"  name="photo" value="1" v-model="radioFlag">是
-                <input type="radio"  name="photo" value="0" v-model="radioFlag">否
+        <span v-for="(item, index) in imageAddrs" :key="index">
+            <div class="img-box">
+            <img class="myimage" :src="item" alt=""  :onerror="defaultImg">
+            <div class="del-icon" @click="deleteCurPhoto(index)"></div>
             </div>
-        </td></tr>
-        <tr><th><label for="addOther">更换图片</label></th>
+        </span>
+        </div>
+            </td></tr>
+        <tr><th><label for="addOther">添加图片</label></th>
             <td>
-                <!-- <input id="addOther" name="addOther" type="file" ref="addOther" value="" @change="selectImage"/> -->
+                <span align="left">
+                <el-button type="primary" v-on:click="openFile()" round>选择文件</el-button>
+                <input type="file" id="filename" style="display:none" multiple="multiple" @change="showRealPath"/>
+                </span>
+                <br>
 
-                <el-upload
-                action="#"
-                list-type="picture-card"
-                :file-list="fileList"
-                :on-preview="handlePictureCardPreview"
-                :on-remove="handleRemove"
-                :on-change="changeFileList"
-                :auto-upload="false">
-                    <i slot="default" class="el-icon-plus"></i>
-                    
-                </el-upload>
-                <el-dialog :visible.sync="dialogVisible">
-                <img width="100%" :src="dialogImageUrl" alt="">
-                </el-dialog>
+                <span v-for="(item, index) in form.images1" :key="index">
+                    <!-- <img style="height:100px;weight:100px;" :src="item.image" alt=""> -->
 
+                        <div class="img-box">
+                        <img class="myimage" :src="item.image" alt="">
+                        <div class="del-icon" @click="deletePrePhoto(index)"></div>
+                    </div>
+
+                </span>
             </td>
         </tr>
         <tr><th><label for="Post entry"></label></th>
@@ -62,14 +58,16 @@
     import axios from 'axios'
     import qs from 'qs'
     export default {
+        inject: ['reload'],
         data () {
             return {
                 title: '',
                 content: '',
                 imageAddr: '',
-                radioFlag: '0',
+                // radioFlag: '0',
                 image: '',
                 imageAddrs: [],
+                delImageAddrs: [],
                 defaultImg: 'this.src="' + require('../../static/img/default.png') + '"',
 
                 dialogImageUrl: '',
@@ -114,79 +112,172 @@
         },
 
         methods: {
-            postCancel () {
-                this.$router.push({path: '/main/home'})
+
+            deleteCurPhoto(index) {
+                this.delImageAddrs.push(this.imageAddrs[index])
+                this.imageAddrs.splice(index, 1)
             },
 
-            changeFileList (file) {
-                var reader = new FileReader();
-                reader.readAsDataURL(file.raw)
-                reader.onload = ()=>{
-                    var image = reader.result
-                    this.form.images1.push({'name': file.name, 'image': image})
-                }
+            deletePrePhoto (index) {
+                this.form.images1.splice(index, 1)
             },
 
-            // 处理图片预览效果
-            handlePictureCardPreview(file) {
-                console.log(file.url)
-                console.log(file.name)
-            this.dialogImageUrl = file.url
-            this.dialogVisible = true
+            openFile: function () {
+                document.getElementById('filename').click()
             },
-
-            // 处理移除图片的操作
-            handleRemove(file) {
-                for (let i=0; i<this.form.images1.length; i++) {
-                    if (file.name === this.form.images1[i].name) {
-                        this.form.images1.splice(i, 1)
-                        break
+            showRealPath: function () {
+                var files = document.getElementById('filename').files
+                
+                for (let i = 0; i < files.length; i++) {
+                    let name = files[i].name
+                    let reader = new FileReader();
+                    reader.readAsDataURL(files[i])
+                    reader.onload = ()=>{
+                        var image = reader.result
+                        this.form.images1.push({'name': name, 'image': image})
                     }
                 }
             },
 
+
+            postCancel () {
+                this.$router.push({path: '/main/home'})
+            },
+
             postEntry () {
+                // 点击即呈现新建中
+                // this.form.newCreating = true
+                const load = this.$loading({
+                    lock: true,
+                    text: 'Loading',
+                    spinner: 'el-icon-loading',
+                    background: 'rgba(0, 0, 0, 0.7)'
+                });
                 console.log('hello123')
                 const token = getCookie('lingxi-token')
                 const id = this.$route.params.id
                 const url = `https://www.食.tech/lingxis/blog/edit/${id}`
+                const url1 = `https://www.食.tech/lingxis/blog/editAddPhoto/${id}`
                 var cur_images = ''
                 for (let i=0; i<this.imageAddrs.length; i++) {
                     cur_images = cur_images + this.imageAddrs[i] + 'helloworld'
                 }
-                
-                var newImages = ''
-                for (let i=0; i<this.form.images1.length; i++) {
-                    newImages = newImages + this.form.images1[i].image + 'helloworld'
-                }
 
+                var del_images = ''
+                for (let i=0; i<this.delImageAddrs.length; i++) {
+                    del_images = del_images + this.delImageAddrs[i] + 'helloworld'
+                }
 
                 const params = {
                     'token': token,
                     'title': this.title,
                     'content': this.content,
-                    'imageAddr': cur_images,
-                    'radioFlag': this.radioFlag,
-                    'image': newImages
+                    'curImageAddrs': cur_images,
+                    'delImageAddrs': del_images,
                 }
-                console.log(params)
                 axios.post(url, qs.stringify(params)).then(response => {
                     const res = response.data
                     if (res.code === 200) {
-                        this.$router.push({path: '/main/home'})
-                        // 解决跳转页面后不刷新数据的问题
-                        this.$router.go(0)
+                        var newImages = ''
+                        for (let i=0; i<this.form.images1.length; i++) {
+                            newImages = newImages + this.form.images1[i].image + 'helloworld'
+                            if (newImages.length > 1024*1024*10) {
+                                console.log(i)
+                                let params1 = {
+                                    'token': token,
+                                    'image': newImages
+                                }
+                                axios.post(url1, qs.stringify(params1)).then(response => {
+                                    let res = response.data
+                                    if (res.code !== 200) {
+                                        alert(res.code)
+                                    }
+                                }).catch(error =>{
+                                    alert(error)
+                                })
+                                newImages = ''
+                            }
+                        }
+                        if (newImages) {
+                            let params2 = {
+                                'token': token,
+                                'image': newImages
+                            }
+                            axios.post(url1, qs.stringify(params2)).then(response => {
+                                let res = response.data
+                                if (res.code !== 200) {
+                                    alert(res.code)
+                                }
+                            }).catch(error =>{
+                                alert(error)
+                            })
+                        }
+                        load.close();
                     }else{
                         alert(res.code)
+                        console.log(res.message)
+                        load.close();
                     }
                 }).catch(error =>{
                     alert(error)
                 })
+                
+                this.$router.push({path: '/main/home'})
+                // 解决跳转页面后不刷新数据的问题
+                this.$router.go(0)
+
             }
         }
     }
 </script>
 
 <style>
+.img-box {
+            margin: 10px;
+            display: inline-block;
+            position: relative;
+        }
 
+        .myimage {
+            width: 80px;
+            height: 80px;
+        }
+
+        .del-icon {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            border: 1px solid red;
+            border-radius: 50%;
+            top: -13px;
+            right: -15px;
+            transform: rotate(45deg);
+
+        }
+
+        .del-icon::before {
+            display: block;
+            position: absolute;
+            content: "";
+            width: 10px;
+            height: 2px;
+            background-color: red;
+            top: 50%;
+            left: 50%;
+            transform: translate3d(-50%, -50%, 0);
+
+        }
+
+        .del-icon::after {
+            display: block;
+            position: absolute;
+            content: "";
+            width: 2px;
+            height: 10px;
+            background-color: red;
+            top: 50%;
+            left: 50%;
+            transform: translate3d(-50%, -50%, 0);
+
+        }
 </style>
