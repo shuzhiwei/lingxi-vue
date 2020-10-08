@@ -279,6 +279,12 @@
         methods: {
 
             shareChange (scope) {
+
+                if (this.username !== scope.row.author) {
+                    this.$message.error('您无操作权限！')
+                    return
+                }
+
                 if (scope.row.share_flag === 1) {
                     scope.row.share_flag = 0
                 }else{
