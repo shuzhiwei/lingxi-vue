@@ -562,7 +562,7 @@
                     var ids = ''
                     for(let i=0; i<val.length; i++){
                         if (this.username !== val[i].author) {
-                            this.$message.error('当前勾选中含有其他人的作品!')
+                            this.$message.error('当前勾选中含有其他人的作品！')
                             return
                         }
                         ids = ids + val[i].id + ','
@@ -620,7 +620,7 @@
                     alert('id为空')
                     this.tableData.splice(scope.$index, 1)
                 }else if (this.username !== scope.row.author) {
-                    this.$message.error('您无操作权限!')
+                    this.$message.error('您无操作权限！')
                 }else{
                     this.$router.push({path: "/main/edit/" + scope.row.id})
                 }
@@ -631,7 +631,7 @@
                     alert('id为空')
                     this.tableData.splice(scope.$index, 1)
                 }else if (this.username !== scope.row.author) {
-                    this.$message.error('您无操作权限!')
+                    this.$message.error('您无操作权限！')
                 }else {
                     this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
                         confirmButtonText: '确定',
