@@ -304,9 +304,8 @@
                     if (code !== 200) {
                         this.$message.error(code)
                     }
-
                 }).catch(error =>{
-                    this.$message.error(error)
+                    this.$message.error('请求失败！')
                 })
             },
 
@@ -540,6 +539,7 @@
                         let author = res[i].author
                         let date_d = getDateDiff(posted_on * 1000)
                         let share_flag = res[i].share_flag
+                        let imageAddr = res[i].imageAddr
                         let data = {
                             'id': res[i].id,
                             'title': title,
@@ -547,7 +547,8 @@
                             'date_d': date_d,
                             'author': author,
                             'share_flag': share_flag,
-                            'statusBtn': false
+                            'statusBtn': false,
+                            'imageAddr': imageAddr,
                         }
                         this.datas.push(data)
                     }
