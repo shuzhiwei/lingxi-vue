@@ -25,6 +25,8 @@ import test from '../views/test.vue'
 import Share from '../components/Share.vue'
 import ShareDetail from '../components/ShareDetail.vue'
 
+import StockGreatRetail from '../views/StockGreatRetail.vue'
+
 Vue.use(VueRouter)
 
 
@@ -117,6 +119,17 @@ export default new VueRouter({
                     component: test,
                     meta: {
                         title: 'test',
+                        color: 'black',
+                        icon: 'el-icon-paperclip',
+                        key: 'path',
+                        closable: true
+                      }
+                },
+                {
+                    path: 'greatRetail',
+                    component: StockGreatRetail,
+                    meta: {
+                        title: 'greatRetail',
                         color: 'black',
                         icon: 'el-icon-paperclip',
                         key: 'path',

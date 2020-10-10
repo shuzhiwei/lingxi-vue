@@ -37,9 +37,15 @@
               </el-menu-item-group>
             </el-submenu>
             <el-submenu index="2">
+              <template slot="title"><i class="el-icon-location"></i>Stock</template>
+              <el-menu-item-group>
+                <el-menu-item index="2-1"> <router-link to="/main/greatRetail"><i class="el-icon-tickets"></i>GreatRetail</router-link></el-menu-item>
+              </el-menu-item-group>
+            </el-submenu>
+            <el-submenu index="3">
               <template slot="title"><i class="el-icon-location"></i>Rde</template>
               <el-menu-item-group>
-                <el-menu-item index="2-1"> <router-link to="/main/powerFactor"><i class="el-icon-tickets"></i>PowerFactor</router-link></el-menu-item>
+                <el-menu-item index="3-1"> <router-link to="/main/powerFactor"><i class="el-icon-tickets"></i>PowerFactor</router-link></el-menu-item>
               </el-menu-item-group>
             </el-submenu>
             <el-submenu index="9">
