@@ -329,7 +329,7 @@
 
             flagFun () {
                 const flag = this.datas.every(item => {
-                    if (item.p_type !== '' && item.v0 !== '' && item.v1 !== '' && item.v2 !== '') {
+                    if (item.p_type !== '' && item.v0 !== '' && item.v1 !== '') {
                         return true
                     } else {
                         return false
@@ -378,7 +378,7 @@
 
                 if (this.id === '') {
                     // 新建
-                    if (this.p_type !== '' && this.v0 !== '' && this.v1 !== '' && this.v2 !== '') {
+                    if (this.p_type !== '' && this.v0 !== '' && this.v1 !== '') {
                         const url = 'https://www.食.tech/acs-manage/policy/add'
                         const params = {
                             'token': this.token,
@@ -405,7 +405,7 @@
                     }
                 }else{
                     // 修改
-                    if (this.p_type !== '' && this.v0 !== '' && this.v1 !== '' && this.v2 !== '') {
+                    if (this.p_type !== '' && this.v0 !== '' && this.v1 !== '') {
                         const url = 'https://www.食.tech/acs-manage/policy/update'
                         const params = {
                             'token': this.token,

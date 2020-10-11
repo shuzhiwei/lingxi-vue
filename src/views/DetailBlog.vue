@@ -66,8 +66,10 @@
 <script>
     import {getDateDiff} from '../../static/js/parse_time.js'
     import {setCookie,getCookie} from '../../static/js/cookie.js'
+    import {refresh_token} from '../../static/js/acs.js'
     import axios from 'axios'
     export default {
+        inject: ['reload'],
         data () {
             return {
                 title: '',
