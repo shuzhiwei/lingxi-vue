@@ -1,7 +1,15 @@
 <template>
 <div>
     <div>
-        <h2 align="center">牛散篇选妖股</h2>
+        <div>
+            <span><h2 align="center" @click="dialogFormVisible = true">牛散篇选妖股</h2></span>
+            <el-dialog title="妖股满足条件" :visible.sync="dialogFormVisible">
+                <li>近一个月第一个涨停板</li>
+                <li>最近有吸筹迹象（股东人数下降）</li>
+                <li>十大流通股东人名超过6个</li>
+                <li>流通市值小于100亿</li>
+            </el-dialog>
+        </div>
         <div>
         <br>
 
@@ -16,7 +24,6 @@
       prop="name"
       label="妖股名称"
       column-key="name"
-      width="180"
     >
     <template slot-scope="scope">
             <span>{{scope.row.name}}</span>
@@ -27,7 +34,6 @@
       prop="code"
       label="妖股编码"
       column-key="code"
-      width="180"
     >
     <template slot-scope="scope">
             <span>{{scope.row.code}}</span>
@@ -38,14 +44,13 @@
       prop="update_date"
       label="更新时间"
       style="font-size: 10px"
-      width="180"
       >
       <template slot-scope="scope">
             <span>{{scope.row.update_date}}</span>
           </template>
     </el-table-column>
 
-    <el-table-column
+    <!-- <el-table-column
       prop="shareholder_falling_count"
       label="是否有主力吸筹迹象(股东人数下降)"
       width="320"
@@ -74,7 +79,7 @@
       <template slot-scope="scope">
             <span>{{scope.row.float_share}}</span>
           </template>
-    </el-table-column>
+    </el-table-column> -->
 
   </el-table>
     </div>
@@ -99,6 +104,7 @@
                 token: getCookie('lingxi-token'),
                 username: getCookie('username'),
                 str1: '有主力吸筹迹象，股东人数下降',
+                dialogFormVisible: false,
 
             }
         },
