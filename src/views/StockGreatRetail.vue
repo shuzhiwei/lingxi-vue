@@ -1,6 +1,7 @@
 <template>
 <div>
     <div>
+        <h2 align="center">牛散篇选妖股</h2>
         <div>
         <br>
 
@@ -10,6 +11,17 @@
     ref="filterTable"
     :data="datas"
     style="width: 95%;font-size: 18px;margin-left: 30px;">
+
+    <el-table-column
+      prop="name"
+      label="妖股名称"
+      column-key="name"
+      width="180"
+    >
+    <template slot-scope="scope">
+            <span>{{scope.row.name}}</span>
+          </template>
+    </el-table-column>
 
     <el-table-column
       prop="code"
@@ -35,21 +47,23 @@
 
     <el-table-column
       prop="shareholder_falling_count"
-      label="股东人数下降统计"
-      width="280"
+      label="是否有主力吸筹迹象(股东人数下降)"
+      width="320"
       >
       <template slot-scope="scope">
-            <span>{{scope.row.shareholder_falling_count}}</span>
+            <span v-if="scope.row.shareholder_falling_count == 1">是</span>
+            <span v-else>否</span>
           </template>
     </el-table-column>
 
     <el-table-column
       prop="sdlu_great_retail_count"
-      label="十大流通股东牛散统计"
+      label="十大流通股东牛散是否超过6个"
       width="280"
       >
       <template slot-scope="scope">
-            <span>{{scope.row.sdlu_great_retail_count}}</span>
+            <span v-if="scope.row.sdlu_great_retail_count >= 6">是</span>
+            <span v-else>否</span>
           </template>
     </el-table-column>
 
@@ -65,6 +79,7 @@
   </el-table>
     </div>
     </div>
+
 </div>
 </template>
 
@@ -83,6 +98,7 @@
                 datas: [],
                 token: getCookie('lingxi-token'),
                 username: getCookie('username'),
+                str1: '有主力吸筹迹象，股东人数下降',
 
             }
         },
@@ -95,7 +111,6 @@
                 }
             axios.post(url, qs.stringify(params)).then(response => {
                 const con = response.data
-                console.log(con)
                 const code = con.code
                 if (code === 402) {
                     const username = getCookie('username')
@@ -107,29 +122,34 @@
                     alert(con.message)
                     return
                 }
-                const res = con.data
-                for (let i=0; i<res.length; i++) {
-                    let code = res[i].code
-                    let update_date = res[i].update_date
-                    let shareholder_falling_count = res[i].shareholder_falling_count
-                    let sdlu_great_retail_count = res[i].sdlu_great_retail_count
-                    // let float_share = Math.round(res[i].float_share)
-                    let float_share = Math.round(res[i].float_share / 100) / 100
-                    let data = {
-                        'code': code,
-                        'update_date': update_date,
-                        'shareholder_falling_count': shareholder_falling_count,
-                        'sdlu_great_retail_count': sdlu_great_retail_count,
-                        'float_share': float_share,
+                if (code === 200) {
+                    const res = con.data
+                    for (let i=0; i<res.length; i++) {
+                        let code = res[i].code
+                        let update_date = res[i].update_date
+                        let shareholder_falling_count = res[i].shareholder_falling_count
+                        let sdlu_great_retail_count = res[i].sdlu_great_retail_count
+                        // let float_share = Math.round(res[i].float_share)
+                        let float_share = Math.round(res[i].float_share / 100) / 100
+                        let name = res[i].name
+                        let data = {
+                            'code': code,
+                            'update_date': update_date,
+                            'shareholder_falling_count': shareholder_falling_count,
+                            'sdlu_great_retail_count': sdlu_great_retail_count,
+                            'float_share': float_share,
+                            'name': name,
+                        }
+                        this.datas.push(data)
                     }
-                    this.datas.push(data)
+                }else{
+                    console.log(con)
+                    alert(code)
                 }
             }).catch(error => {
                 console.log(error)
                 alert(error)
             })
-
-            
         },
 
         methods: {
