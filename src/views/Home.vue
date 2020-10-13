@@ -167,7 +167,6 @@
             :current-page.sync="pageNo"
             :page-size="8"
             layout="total, prev, pager, next, jumper"
-            font-size="30px"
             :total="totalCount">
         </el-pagination>
     </div>

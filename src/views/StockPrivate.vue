@@ -2,17 +2,10 @@
 <div>
     <div>
         <div>
-            <span><h2 align="center" @click="dialogFormVisible = true">牛散篇选妖股</h2></span>
-            <el-dialog title="妖股满足条件" :visible.sync="dialogFormVisible">
-                <li>近一个月第一个涨停板</li>
-                <li>最近有吸筹迹象（股东人数下降）</li>
-                <li>十大流通股东人名超过6个</li>
-                <li>流通市值小于100亿</li>
-            </el-dialog>
+            <span><h2 align="center">私募篇</h2></span>
         </div>
         <div>
         <br>
-
         <el-table
         height="500"
         border
@@ -21,19 +14,21 @@
     style="width: 95%;font-size: 18px;margin-left: 30px;">
 
     <el-table-column
-      prop="name"
-      label="妖股名称"
-      column-key="name"
+      prop="code_name"
+      label="股票名称"
+      column-key="code_name"
+      width="120"
     >
     <template slot-scope="scope">
-            <span>{{scope.row.name}}</span>
+            <span>{{scope.row.code_name}}</span>
           </template>
     </el-table-column>
 
     <el-table-column
       prop="code"
-      label="妖股编码"
+      label="股票编码"
       column-key="code"
+      width="120"
     >
     <template slot-scope="scope">
             <span>{{scope.row.code}}</span>
@@ -44,47 +39,40 @@
       prop="update_date"
       label="更新时间"
       style="font-size: 10px"
+      width="130"
       >
       <template slot-scope="scope">
             <span>{{scope.row.update_date}}</span>
           </template>
     </el-table-column>
 
-    <!-- <el-table-column
-      prop="shareholder_falling_count"
-      label="是否有主力吸筹迹象(股东人数下降)"
-      width="320"
+    <el-table-column
+      prop="private_name"
+      label="私募名称"
+      style="font-size: 10px"
+      width="780"
       >
       <template slot-scope="scope">
-            <span v-if="scope.row.shareholder_falling_count == 1">是</span>
-            <span v-else>否</span>
+            <span>{{scope.row.private_name}}</span>
           </template>
     </el-table-column>
 
     <el-table-column
-      prop="sdlu_great_retail_count"
-      label="十大流通股东牛散是否超过6个"
-      width="280"
+      prop="add_sub_store"
+      label="增减仓"
+      style="font-size: 10px"
       >
       <template slot-scope="scope">
-            <span v-if="scope.row.sdlu_great_retail_count >= 6">是</span>
-            <span v-else>否</span>
+            <span>{{scope.row.add_sub_store}}</span>
           </template>
     </el-table-column>
 
-    <el-table-column
-      prop="float_share"
-      label="流通市值(亿)"
-      >
-      <template slot-scope="scope">
-            <span>{{scope.row.float_share}}</span>
-          </template>
-    </el-table-column> -->
 
   </el-table>
     </div>
     </div>
-<div class="block"  style="text-align:center">
+
+    <div class="block"  style="text-align:center">
         <el-pagination
             v-if="paginationShow"
             @size-change="handleSizeChange"
@@ -114,8 +102,6 @@
                 datas: [],
                 token: getCookie('lingxi-token'),
                 username: getCookie('username'),
-                str1: '有主力吸筹迹象，股东人数下降',
-                dialogFormVisible: false,
                 pageSize: 8,//默认的请求pageSize = 15
                 pageNo: 1,//当前页码
                 totalPage: 0,//总页数
@@ -127,7 +113,7 @@
 
         mounted () {
             const token = this.token
-            const url = `https://www.食.tech/stock/view`
+            const url = `https://www.食.tech/stock/viewPrivate`
             const params = {
                     'token': this.token,
                     'pageSize': this.pageSize,
@@ -136,6 +122,7 @@
             axios.post(url, qs.stringify(params)).then(response => {
                 const con = response.data
                 const code = con.code
+                
                 if (code === 402) {
                     const username = getCookie('username')
                     refresh_token(username, token)
@@ -147,24 +134,21 @@
                     return
                 }
                 if (code === 200) {
-                    const res = con.data
                     this.totalPage = con.totalPage
                     this.totalCount = con.totalCount
+                    const res = con.data
                     for (let i=0; i<res.length; i++) {
                         let code = res[i].code
                         let update_date = res[i].update_date
-                        let shareholder_falling_count = res[i].shareholder_falling_count
-                        let sdlu_great_retail_count = res[i].sdlu_great_retail_count
-                        // let float_share = Math.round(res[i].float_share)
-                        let float_share = Math.round(res[i].float_share / 100) / 100
-                        let name = res[i].name
+                        let private_name = res[i].private_name
+                        let add_sub_store = res[i].add_sub_store
+                        let code_name = res[i].code_name
                         let data = {
                             'code': code,
                             'update_date': update_date,
-                            'shareholder_falling_count': shareholder_falling_count,
-                            'sdlu_great_retail_count': sdlu_great_retail_count,
-                            'float_share': float_share,
-                            'name': name,
+                            'private_name': private_name,
+                            'add_sub_store': add_sub_store,
+                            'code_name': code_name,
                         }
                         this.datas.push(data)
                     }
@@ -195,7 +179,7 @@
             },
             //获取分页数据totalDataNumber
             getPageData: function () {
-                const url = "https://www.食.tech/stock/view"
+                const url = "https://www.食.tech/stock/viewPrivate"
                 const params = {
                     'token': this.token,
                     'pageSize': this.pageSize,
