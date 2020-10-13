@@ -27,6 +27,7 @@ import ShareDetail from '../components/ShareDetail.vue'
 
 import StockGreatRetail from '../views/StockGreatRetail.vue'
 import StockPrivate from '../views/StockPrivate.vue'
+import StockPrivate1 from '../views/StockPrivate1.vue'
 
 Vue.use(VueRouter)
 
@@ -142,6 +143,17 @@ export default new VueRouter({
                     component: StockPrivate,
                     meta: {
                         title: 'private',
+                        color: 'black',
+                        icon: 'el-icon-paperclip',
+                        key: 'path',
+                        closable: true
+                      }
+                },
+                {
+                    path: 'private1',
+                    component: StockPrivate1,
+                    meta: {
+                        title: 'private1',
                         color: 'black',
                         icon: 'el-icon-paperclip',
                         key: 'path',
