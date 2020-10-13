@@ -44,42 +44,44 @@
       prop="update_date"
       label="更新时间"
       style="font-size: 10px"
+      sortable
       >
       <template slot-scope="scope">
             <span>{{scope.row.update_date}}</span>
           </template>
     </el-table-column>
 
-    <!-- <el-table-column
+    <el-table-column
       prop="shareholder_falling_count"
-      label="是否有主力吸筹迹象(股东人数下降)"
+      label="股东人数下降统计"
       width="320"
+      sortable
       >
       <template slot-scope="scope">
-            <span v-if="scope.row.shareholder_falling_count == 1">是</span>
-            <span v-else>否</span>
+            <span>{{scope.row.shareholder_falling_count}}</span>
           </template>
     </el-table-column>
 
     <el-table-column
       prop="sdlu_great_retail_count"
-      label="十大流通股东牛散是否超过6个"
+      label="十大流通股东牛散个数统计"
       width="280"
+      sortable
       >
       <template slot-scope="scope">
-            <span v-if="scope.row.sdlu_great_retail_count >= 6">是</span>
-            <span v-else>否</span>
+            <span>{{scope.row.sdlu_great_retail_count}}</span>
           </template>
     </el-table-column>
 
     <el-table-column
       prop="float_share"
       label="流通市值(亿)"
+      sortable
       >
       <template slot-scope="scope">
             <span>{{scope.row.float_share}}</span>
           </template>
-    </el-table-column> -->
+    </el-table-column>
 
   </el-table>
     </div>
@@ -138,7 +140,7 @@
                 const code = con.code
                 if (code === 402) {
                     const username = getCookie('username')
-                    refresh_token(username, token)
+                    refresh_token(username, this.token)
                     this.reload()
                     return
                 }
@@ -218,16 +220,19 @@
                     this.datas = []
                     for (let i=0; i<res.length; i++) {
                         let code = res[i].code
-                        let code_name = res[i].code_name
                         let update_date = res[i].update_date
-                        let private_name = res[i].private_name
-                        let add_sub_store = res[i].add_sub_store
+                        let shareholder_falling_count = res[i].shareholder_falling_count
+                        let sdlu_great_retail_count = res[i].sdlu_great_retail_count
+                        // let float_share = Math.round(res[i].float_share)
+                        let float_share = Math.round(res[i].float_share / 100) / 100
+                        let name = res[i].name
                         let data = {
                             'code': code,
-                            'code_name': code_name,
                             'update_date': update_date,
-                            'private_name': private_name,
-                            'add_sub_store': add_sub_store,
+                            'shareholder_falling_count': shareholder_falling_count,
+                            'sdlu_great_retail_count': sdlu_great_retail_count,
+                            'float_share': float_share,
+                            'name': name,
                         }
                         this.datas.push(data)
                     }

@@ -204,26 +204,33 @@
                         alert(con.message)
                         return
                     }
-                    const res = con.data
-                    this.datas = []
-                    for (let i=0; i<res.length; i++) {
-                        let code = res[i].code
-                        let code_name = res[i].code_name
-                        let update_date = res[i].update_date
-                        let private_name = res[i].private_name
-                        let add_sub_store = res[i].add_sub_store
-                        let data = {
-                            'code': code,
-                            'code_name': code_name,
-                            'update_date': update_date,
-                            'private_name': private_name,
-                            'add_sub_store': add_sub_store,
+                    if (code === 200) {
+                        const res = con.data
+                        this.datas = []
+                        for (let i=0; i<res.length; i++) {
+                            let code = res[i].code
+                            let code_name = res[i].code_name
+                            let update_date = res[i].update_date
+                            let private_name = res[i].private_name
+                            let add_sub_store = res[i].add_sub_store
+                            let data = {
+                                'code': code,
+                                'code_name': code_name,
+                                'update_date': update_date,
+                                'private_name': private_name,
+                                'add_sub_store': add_sub_store,
+                            }
+                            this.datas.push(data)
                         }
-                        this.datas.push(data)
+                    }else{
+                        console.log(con)
+                        this.$message.error('无此股票！')
                     }
+                    
 
                 }).catch(error=>{
-                    this.$message.error('无此股票！')
+                    console.log(error)
+                    this.$message.error(error)
                 })
             },
 
