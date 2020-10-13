@@ -5,6 +5,18 @@
             <span><h2 align="center">私募篇</h2></span>
         </div>
         <div>
+            <!-- <label for="transfomer">股票编码: </label> -->
+            <el-input
+                style="width:250px;margin-left: 30px;"
+                placeholder="请输入股票名称或编码"
+                v-model="input"
+                type="text"
+                clearable>
+            </el-input>
+            <el-button type="primary" @click="searchStock">搜索</el-button>
+            <el-button type="info" @click="returnStock">返回</el-button>
+        </div>
+        <div>
         <br>
         <el-table
         height="500"
@@ -107,6 +119,8 @@
                 totalPage: 0,//总页数
                 paginationShow: false,//是否显示分页
                 totalCount: 0,//总条数
+                
+                input: '',
 
             }
         },
@@ -167,6 +181,52 @@
 
         methods: {
 
+            returnStock () {
+                this.reload()
+            },
+
+            searchStock () {
+                const url = `https://www.食.tech/stock/searchPrivate`
+                const params = {
+                    'token': this.token,
+                    'stock': this.input,
+                }
+                axios.post(url, qs.stringify(params)).then(response =>{
+                    const con = response.data
+                    const code = con.code
+                    if (code === 402) {
+                        const username = getCookie('username')
+                        refresh_token(username, token)
+                        this.reload()
+                        return
+                    }
+                    if (code === 401) {
+                        alert(con.message)
+                        return
+                    }
+                    const res = con.data
+                    this.datas = []
+                    for (let i=0; i<res.length; i++) {
+                        let code = res[i].code
+                        let code_name = res[i].code_name
+                        let update_date = res[i].update_date
+                        let private_name = res[i].private_name
+                        let add_sub_store = res[i].add_sub_store
+                        let data = {
+                            'code': code,
+                            'code_name': code_name,
+                            'update_date': update_date,
+                            'private_name': private_name,
+                            'add_sub_store': add_sub_store,
+                        }
+                        this.datas.push(data)
+                    }
+
+                }).catch(error=>{
+                    this.$message.error('无此股票！')
+                })
+            },
+
             //改变每页显示数量时调用
             handleSizeChange(val) {
                 this.$nextTick(() =>
@@ -216,9 +276,7 @@
                         this.datas.push(data)
                     }
                 }).catch(error => {
-                    console.log(error)
-                    alert(error)
-
+                    this.$message.error('请求失败！')
                 })
             },
 
