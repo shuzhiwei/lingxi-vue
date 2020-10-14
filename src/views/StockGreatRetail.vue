@@ -230,7 +230,7 @@
                     const code = con.code
                     if (code === 402) {
                         const username = getCookie('username')
-                        refresh_token(username, token)
+                        refresh_token(username, this.token)
                         this.reload()
                         return
                     }
