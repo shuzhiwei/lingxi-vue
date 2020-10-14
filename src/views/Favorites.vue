@@ -1,7 +1,7 @@
 <template>
 <div>
     <div>
-        <div>
+        <!-- <div>
             <span><h2 align="center">私募篇1</h2></span>
         </div>
         <div>
@@ -14,7 +14,7 @@
             </el-input>
             <el-button type="primary" @click="searchStock">搜索</el-button>
             <el-button type="info" @click="returnStock">返回</el-button>
-        </div>
+        </div> -->
         <div>
         <br>
         <el-table
@@ -31,8 +31,6 @@
       width="580"
       >
       <template slot-scope="scope">
-            <span v-if="scope.row.type==1"><i class="el-icon-star-on" style="color:#ffd633;font-size:25px;" @click="shareChange(scope)"></i></span>
-            <span v-else><i class="el-icon-star-on" style="color:#c2d6d6;font-size:25px;" @click="shareChange(scope)"></i></span>
             <span>{{scope.row.private_name}}</span>
           </template>
     </el-table-column>
@@ -66,6 +64,16 @@
       >
       <template slot-scope="scope">
             <span>{{scope.row.update_date}}</span>
+          </template>
+    </el-table-column>
+
+    <el-table-column
+      prop="cancel"
+      label="操作"
+      style="font-size: 10px"
+      >
+      <template slot-scope="scope">
+            <span><el-button type="danger" size="mini" icon="el-icon-delete" @click="cancelFavorites(scope)">取消关注</el-button></span>
           </template>
     </el-table-column>
 
@@ -115,11 +123,11 @@
 
         mounted () {
             const token = this.token
-            const url = `https://www.食.tech/stock/viewPrivate1`
+            const url = `https://www.食.tech/stock/viewPrivate1Favorites`
             const params = {
                     'token': this.token,
                     'pageSize': this.pageSize,
-                    'pageNo': this.pageNo
+                    'pageNo': this.pageNo,
                 }
             axios.post(url, qs.stringify(params)).then(response => {
                 const con = response.data
@@ -159,7 +167,6 @@
                     }
                 }else{
                     console.log(con)
-                    alert(code)
                 }
             }).catch(error => {
                 console.log(error)
@@ -168,26 +175,36 @@
         },
 
         methods: {
-            shareChange (scope) {
 
-                if (scope.row.type === 1) {
-                    scope.row.type = 0
-                }else{
-                    scope.row.type = 1
-                }
-                const params = {
-                    'token': this.token,
-                    'private_name': scope.row.private_name,
-                    'type': scope.row.type,
-                }
-                const url = `https://www.食.tech/stock/updatePrivate1Favorites`
-                axios.post(url, qs.stringify(params)).then(response => {
-                    const code = response.data.code
-                    if (code !== 200) {
-                        this.$message.error(code)
+            cancelFavorites (scope) {
+                this.$confirm('确定取消关注?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() =>{
+                    const params = {
+                        'token': this.token,
+                        'private_name': scope.row.private_name,
+                        'type': 0,
                     }
-                }).catch(error =>{
-                    this.$message.error('请求失败！')
+                    const url = `https://www.食.tech/stock/updatePrivate1Favorites`
+                    axios.post(url, qs.stringify(params)).then(response => {
+                        const code = response.data.code
+                        if (code !== 200) {
+                            this.$message.error(code)
+                        }else{
+                            this.$message.success('已取消关注')
+                            this.reload()
+                        }
+                    }).catch(error =>{
+                        this.$message.error('请求失败！')
+                    })
+
+                }).catch(()=>{
+                    this.$message({
+                        type: 'info',
+                        message: '取消操作'
+                    })
                 })
             },
 
@@ -222,13 +239,11 @@
                             let code_name = res[i].code_name
                             let add_sub_store = res[i].add_sub_store
                             let update_date = res[i].update_date
-                            let type = res[i].type
                             let data = {
                                 'private_name': private_name,
                                 'code_name': code_name,
                                 'add_sub_store': add_sub_store,
                                 'update_date': update_date,
-                                'type': type,
                             }
                             this.datas.push(data)
                         }
@@ -254,7 +269,7 @@
             },
             //获取分页数据totalDataNumber
             getPageData: function () {
-                const url = "https://www.食.tech/stock/viewPrivate1"
+                const url = "https://www.食.tech/stock/viewPrivate1Favorites"
                 const params = {
                     'token': this.token,
                     'pageSize': this.pageSize,
@@ -280,13 +295,11 @@
                         let code_name = res[i].code_name
                         let add_sub_store = res[i].add_sub_store
                         let update_date = res[i].update_date
-                        let type = res[i].type
                         let data = {
                             'private_name': private_name,
                             'code_name': code_name,
                             'add_sub_store': add_sub_store,
                             'update_date': update_date,
-                            'type': type,
                         }
                         this.datas.push(data)
                     }

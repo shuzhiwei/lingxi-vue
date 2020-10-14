@@ -28,6 +28,7 @@ import ShareDetail from '../components/ShareDetail.vue'
 import StockGreatRetail from '../views/StockGreatRetail.vue'
 import StockPrivate from '../views/StockPrivate.vue'
 import StockPrivate1 from '../views/StockPrivate1.vue'
+import Favorites from '../views/Favorites.vue'
 
 Vue.use(VueRouter)
 
@@ -154,6 +155,17 @@ export default new VueRouter({
                     component: StockPrivate1,
                     meta: {
                         title: 'private1',
+                        color: 'black',
+                        icon: 'el-icon-paperclip',
+                        key: 'path',
+                        closable: true
+                      }
+                },
+                {
+                    path: 'favorites',
+                    component: Favorites,
+                    meta: {
+                        title: 'favorites',
                         color: 'black',
                         icon: 'el-icon-paperclip',
                         key: 'path',
