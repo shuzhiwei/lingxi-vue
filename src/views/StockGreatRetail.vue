@@ -83,6 +83,20 @@
           </template>
     </el-table-column>
 
+    <el-table-column
+      prop="stock"
+      label="是否妖股"
+      column-key="stock"
+      :filters="[{text: '是', value: '是'}, 
+                    {text: '否', value: '否'},
+                    ]"
+      :filter-method="filterHandler"
+      >
+      <template slot-scope="scope">
+            <span>{{scope.row.stock}}</span>
+          </template>
+    </el-table-column>
+
   </el-table>
     </div>
     </div>
@@ -124,6 +138,8 @@
                 paginationShow: false,//是否显示分页
                 totalCount: 0,//总条数
 
+                stock: '',
+
             }
         },
 
@@ -160,6 +176,11 @@
                         // let float_share = Math.round(res[i].float_share)
                         let float_share = Math.round(res[i].float_share / 100) / 100
                         let name = res[i].name
+                        if (shareholder_falling_count >= 1 && sdlu_great_retail_count >= 6 && float_share < 100) {
+                            this.stock = '是'
+                        }else{
+                            this.stock = '否'
+                        }
                         let data = {
                             'code': code,
                             'update_date': update_date,
@@ -167,6 +188,7 @@
                             'sdlu_great_retail_count': sdlu_great_retail_count,
                             'float_share': float_share,
                             'name': name,
+                            'stock': this.stock,
                         }
                         this.datas.push(data)
                     }
@@ -226,6 +248,11 @@
                         // let float_share = Math.round(res[i].float_share)
                         let float_share = Math.round(res[i].float_share / 100) / 100
                         let name = res[i].name
+                        if (shareholder_falling_count >= 1 && sdlu_great_retail_count >= 6 && float_share < 100) {
+                            this.stock = '是'
+                        }else{
+                            this.stock = '否'
+                        }
                         let data = {
                             'code': code,
                             'update_date': update_date,
@@ -233,6 +260,7 @@
                             'sdlu_great_retail_count': sdlu_great_retail_count,
                             'float_share': float_share,
                             'name': name,
+                            'stock': this.stock,
                         }
                         this.datas.push(data)
                     }
@@ -247,6 +275,7 @@
                 const property = column['property'];
                 return row[property] === value;
             },
+
 
         }
     }
