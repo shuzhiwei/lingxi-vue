@@ -54,7 +54,7 @@
     <el-table-column
       prop="shareholder_falling_count"
       label="股东人数下降统计"
-      width="320"
+      
       sortable
       >
       <template slot-scope="scope">
@@ -65,7 +65,6 @@
     <el-table-column
       prop="sdlu_great_retail_count"
       label="十大流通股东牛散个数统计"
-      width="280"
       sortable
       >
       <template slot-scope="scope">
