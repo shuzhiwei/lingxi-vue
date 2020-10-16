@@ -22,7 +22,7 @@
 
     <el-table-column
       prop="name"
-      label="妖股名称"
+      label="涨停股"
       column-key="name"
     >
     <template slot-scope="scope">
@@ -32,7 +32,7 @@
 
     <el-table-column
       prop="code"
-      label="妖股编码"
+      label="编码"
       column-key="code"
     >
     <template slot-scope="scope">
