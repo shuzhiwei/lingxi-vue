@@ -29,6 +29,7 @@ import StockGreatRetail from '../views/StockGreatRetail.vue'
 import StockPrivate from '../views/StockPrivate.vue'
 import StockPrivate1 from '../views/StockPrivate1.vue'
 import Favorites from '../views/Favorites.vue'
+import StockKdj from '../views/StockKdj.vue'
 
 Vue.use(VueRouter)
 
@@ -166,6 +167,17 @@ export default new VueRouter({
                     component: Favorites,
                     meta: {
                         title: 'favorites',
+                        color: 'black',
+                        icon: 'el-icon-paperclip',
+                        key: 'path',
+                        closable: true
+                      }
+                },
+                {
+                    path: 'kdj',
+                    component: StockKdj,
+                    meta: {
+                        title: 'kdj',
                         color: 'black',
                         icon: 'el-icon-paperclip',
                         key: 'path',

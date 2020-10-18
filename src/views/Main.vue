@@ -40,9 +40,10 @@
               <template slot="title"><i class="el-icon-location"></i>Stock</template>
               <el-menu-item-group>
                 <el-menu-item index="2-1"> <router-link to="/main/greatRetail"><i class="el-icon-tickets"></i>GreatRetail</router-link></el-menu-item>
-                <el-menu-item index="2-2"> <router-link to="/main/private"><i class="el-icon-tickets"></i>Private</router-link></el-menu-item>
-                <el-menu-item index="2-3"> <router-link to="/main/private1"><i class="el-icon-tickets"></i>Private1</router-link></el-menu-item>
-                <el-menu-item index="2-4"> <router-link to="/main/favorites"><i class="el-icon-tickets"></i>Favorites</router-link></el-menu-item>
+                <el-menu-item index="2-2"> <router-link to="/main/kdj"><i class="el-icon-tickets"></i>Kdj</router-link></el-menu-item>
+                <el-menu-item index="2-5"> <router-link to="/main/private"><i class="el-icon-tickets"></i>Private</router-link></el-menu-item>
+                <el-menu-item index="2-6"> <router-link to="/main/private1"><i class="el-icon-tickets"></i>Private1</router-link></el-menu-item>
+                <el-menu-item index="2-7"> <router-link to="/main/favorites"><i class="el-icon-tickets"></i>Favorites</router-link></el-menu-item>
               </el-menu-item-group>
             </el-submenu>
             <el-submenu index="3">

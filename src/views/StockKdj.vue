@@ -2,13 +2,7 @@
 <div>
     <div>
         <div>
-            <span><h2 align="center" @click="dialogFormVisible = true">牛散篇</h2></span>
-            <el-dialog title="妖股满足条件" :visible.sync="dialogFormVisible">
-                <li>近一个月第一个涨停板</li>
-                <li>最近有吸筹迹象（股东人数下降）</li>
-                <li>十大流通股东人名超过6个</li>
-                <li>流通市值小于100亿</li>
-            </el-dialog>
+            <span><h2 align="center">金叉篇</h2></span>
         </div>
         <div>
         <br>
@@ -21,12 +15,12 @@
     style="width: 95%;font-size: 18px;margin-left: 30px;">
 
     <el-table-column
-      prop="name"
-      label="涨停股"
-      column-key="name"
+      prop="code_name"
+      label="金叉股"
+      column-key="code_name"
     >
     <template slot-scope="scope">
-            <span>{{scope.row.name}}</span>
+            <span>{{scope.row.code_name}}</span>
           </template>
     </el-table-column>
 
@@ -48,6 +42,17 @@
       >
       <template slot-scope="scope">
             <span>{{scope.row.update_date}}</span>
+          </template>
+    </el-table-column>
+
+    <el-table-column
+      prop="if_gold_cross"
+      label="是否kdj金叉"
+      style="font-size: 10px"
+      sortable
+      >
+      <template slot-scope="scope">
+            <span>{{scope.row.if_gold_cross}}</span>
           </template>
     </el-table-column>
 
@@ -84,8 +89,7 @@
 
     <el-table-column
       prop="stock"
-      label="是否妖股"
-      column-key="stock"
+      label="是否有主力吸筹迹象"
       :filters="[{text: '是', value: '是'}, 
                     {text: '否', value: '否'},
                     ]"
@@ -93,6 +97,36 @@
       >
       <template slot-scope="scope">
             <span>{{scope.row.stock}}</span>
+          </template>
+    </el-table-column>
+
+    <el-table-column
+      prop="macd_gold_cross"
+      label="是否macd金叉"
+      sortable
+      >
+      <template slot-scope="scope">
+            <span>{{scope.row.macd_gold_cross}}</span>
+          </template>
+    </el-table-column>
+
+    <el-table-column
+      prop="macd_dif"
+      label="macd快线"
+      sortable
+      >
+      <template slot-scope="scope">
+            <span>{{scope.row.macd_dif}}</span>
+          </template>
+    </el-table-column>
+
+    <el-table-column
+      prop="macd_dea"
+      label="macd慢线"
+      sortable
+      >
+      <template slot-scope="scope">
+            <span>{{scope.row.macd_dea}}</span>
           </template>
     </el-table-column>
 
@@ -129,22 +163,17 @@
                 datas: [],
                 token: getCookie('lingxi-token'),
                 username: getCookie('username'),
-                str1: '有主力吸筹迹象，股东人数下降',
-                dialogFormVisible: false,
                 pageSize: 8,//默认的请求pageSize = 15
                 pageNo: 1,//当前页码
                 totalPage: 0,//总页数
                 paginationShow: false,//是否显示分页
                 totalCount: 0,//总条数
 
-                stock: '',
-
             }
         },
 
         mounted () {
-            const token = this.token
-            const url = `https://www.食.tech/stock/view`
+            const url = `https://www.食.tech/stock/viewKdj`
             const params = {
                     'token': this.token,
                     'pageSize': this.pageSize,
@@ -174,19 +203,29 @@
                         let sdlu_great_retail_count = res[i].sdlu_great_retail_count
                         // let float_share = Math.round(res[i].float_share)
                         let float_share = Math.round(res[i].float_share / 100) / 100
-                        let name = res[i].name
+                        let code_name = res[i].code_name
+                        let if_gold_cross = res[i].if_gold_cross
+                        let macd_gold_cross = res[i].macd_gold_cross
+                        let macd_dif = res[i].macd_dif
+                        let macd_dea = res[i].macd_dea
+
                         if (shareholder_falling_count >= 1 && sdlu_great_retail_count >= 6 && float_share < 100) {
                             this.stock = '是'
                         }else{
                             this.stock = '否'
                         }
+                        
                         let data = {
                             'code': code,
                             'update_date': update_date,
                             'shareholder_falling_count': shareholder_falling_count,
                             'sdlu_great_retail_count': sdlu_great_retail_count,
                             'float_share': float_share,
-                            'name': name,
+                            'code_name': code_name,
+                            'if_gold_cross': if_gold_cross,
+                            'macd_gold_cross': macd_gold_cross,
+                            'macd_dif': macd_dif,
+                            'macd_dea': macd_dea,
                             'stock': this.stock,
                         }
                         this.datas.push(data)
@@ -196,7 +235,7 @@
                     }
                 }else{
                     console.log(con)
-                    alert(code)
+                    console.log(code)
                 }
             }).catch(error => {
                 console.log(error)
@@ -218,7 +257,8 @@
             },
             //获取分页数据totalDataNumber
             getPageData: function () {
-                const url = "https://www.食.tech/stock/view"
+                this.datas = []
+                const url = "https://www.食.tech/stock/viewKdj"
                 const params = {
                     'token': this.token,
                     'pageSize': this.pageSize,
@@ -246,7 +286,11 @@
                         let sdlu_great_retail_count = res[i].sdlu_great_retail_count
                         // let float_share = Math.round(res[i].float_share)
                         let float_share = Math.round(res[i].float_share / 100) / 100
-                        let name = res[i].name
+                        let code_name = res[i].code_name
+                        let if_gold_cross = res[i].if_gold_cross
+                        let macd_gold_cross = res[i].macd_gold_cross
+                        let macd_dif = res[i].macd_dif
+                        let macd_dea = res[i].macd_dea
                         if (shareholder_falling_count >= 1 && sdlu_great_retail_count >= 6 && float_share < 100) {
                             this.stock = '是'
                         }else{
@@ -258,8 +302,13 @@
                             'shareholder_falling_count': shareholder_falling_count,
                             'sdlu_great_retail_count': sdlu_great_retail_count,
                             'float_share': float_share,
-                            'name': name,
+                            'code_name': code_name,
+                            'if_gold_cross': if_gold_cross,
+                            'macd_gold_cross': macd_gold_cross,
+                            'macd_dif': macd_dif,
+                            'macd_dea': macd_dea,
                             'stock': this.stock,
+
                         }
                         this.datas.push(data)
                     }
