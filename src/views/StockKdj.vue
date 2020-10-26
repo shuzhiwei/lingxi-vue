@@ -45,7 +45,7 @@
           </template>
     </el-table-column>
 
-    <el-table-column
+    <!-- <el-table-column
       prop="if_gold_cross"
       label="是否kdj金叉"
       style="font-size: 10px"
@@ -54,7 +54,7 @@
       <template slot-scope="scope">
             <span>{{scope.row.if_gold_cross}}</span>
           </template>
-    </el-table-column>
+    </el-table-column> -->
 
     <el-table-column
       prop="shareholder_falling_count"
