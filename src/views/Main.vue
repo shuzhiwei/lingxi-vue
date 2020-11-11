@@ -47,9 +47,16 @@
               </el-menu-item-group>
             </el-submenu>
             <el-submenu index="3">
+              <template slot="title"><i class="el-icon-location"></i>movie</template>
+              <el-menu-item-group>
+                <el-menu-item index="3-1"> <router-link to="/main/dytt"><i class="el-icon-tickets"></i>dytt</router-link></el-menu-item>
+                <el-menu-item index="3-2"> <router-link to="/main/vipParser"><i class="el-icon-tickets"></i>vipParser</router-link></el-menu-item>
+              </el-menu-item-group>
+            </el-submenu>
+            <el-submenu index="8">
               <template slot="title"><i class="el-icon-location"></i>Rde</template>
               <el-menu-item-group>
-                <el-menu-item index="3-1"> <router-link to="/main/powerFactor"><i class="el-icon-tickets"></i>PowerFactor</router-link></el-menu-item>
+                <el-menu-item index="8-1"> <router-link to="/main/powerFactor"><i class="el-icon-tickets"></i>PowerFactor</router-link></el-menu-item>
               </el-menu-item-group>
             </el-submenu>
             <el-submenu index="9">

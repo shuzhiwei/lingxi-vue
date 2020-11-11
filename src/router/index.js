@@ -31,6 +31,9 @@ import StockPrivate1 from '../views/StockPrivate1.vue'
 import Favorites from '../views/Favorites.vue'
 import StockKdj from '../views/StockKdj.vue'
 
+import Dytt from '../views/Dytt.vue'
+import VipParser from '../views/VipParser.vue'
+
 Vue.use(VueRouter)
 
 
@@ -178,6 +181,28 @@ export default new VueRouter({
                     component: StockKdj,
                     meta: {
                         title: 'kdj',
+                        color: 'black',
+                        icon: 'el-icon-paperclip',
+                        key: 'path',
+                        closable: true
+                      }
+                },
+                {
+                    path: 'dytt',
+                    component: Dytt,
+                    meta: {
+                        title: 'dytt',
+                        color: 'black',
+                        icon: 'el-icon-paperclip',
+                        key: 'path',
+                        closable: true
+                      }
+                },
+                {
+                    path: 'vipParser',
+                    component: VipParser,
+                    meta: {
+                        title: 'vipParser',
                         color: 'black',
                         icon: 'el-icon-paperclip',
                         key: 'path',
