@@ -29,7 +29,7 @@
             }
         },
         methods: {
-            sleep () {
+            sleep (time) {
                 var timeStamp = new Date().getTime();
                 var endTime = timeStamp + time;
                 while(true){
