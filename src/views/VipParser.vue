@@ -56,9 +56,10 @@
                         if (code === 402) {
                             console.log('token过期')
                             refresh_token(this.username, this.token)
+                            this.reload()
+                            this.token = getCookie('lingxi-token')
                             this.sleep(3000)
                             this.search()
-                            // this.reload()
                         }else if (code === 401) {
                             alert(con.message)
                         }else if (code === 200) {
