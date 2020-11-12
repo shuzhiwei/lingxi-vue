@@ -1,10 +1,10 @@
 <template>
     <div style="text-align:center">
         </br>
-        <label for="transfomer">vip电影: </label>
+        <label for="transfomer">电影搜索: </label>
         <el-input
-            style="width:500px;"
-            placeholder="请输入电影名称或链接"
+            style="width:400px;"
+            placeholder="请输入电影名或播放链接"
             v-model="input"
             type="text"
             clearable>
@@ -29,6 +29,16 @@
             }
         },
         methods: {
+            sleep () {
+                var timeStamp = new Date().getTime();
+                var endTime = timeStamp + time;
+                while(true){
+                    if (new Date().getTime() > endTime){
+                        return;
+                    } 
+                }
+            },
+
             search () {
                 const base_url = 'https://jx.618g.com/?url='
                 if (this.input.indexOf("http") === 0) {
@@ -46,13 +56,17 @@
                         if (code === 402) {
                             console.log('token过期')
                             refresh_token(this.username, this.token)
-                            sleep(1000)
+                            this.sleep(3000)
                             this.search()
                             // this.reload()
                         }else if (code === 401) {
                             alert(con.message)
                         }else if (code === 200) {
-                            window.open(base_url + con.url, '_blank')
+                            if (con.url === '') {
+                                this.$message.error('请精确搜索关键字')
+                            }else{
+                                window.open(base_url + con.url, '_blank')
+                            }
                         }else {
                             alert('未搜索到')
                         }
