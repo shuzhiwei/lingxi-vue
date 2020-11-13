@@ -31,26 +31,26 @@
             <el-submenu index="1">
               <template slot="title"><i class="el-icon-location"></i>Blog</template>
               <el-menu-item-group>
-                <el-menu-item index="1-1"><router-link to="/main/home"><i class="el-icon-tickets"></i>Home</router-link></el-menu-item>
-                <el-menu-item index="1-3"><router-link to="/main/hello"><i class="el-icon-tickets"></i>Hello</router-link></el-menu-item>
-                <el-menu-item index="1-4"><router-link to="/main/test"><i class="el-icon-tickets"></i>test</router-link></el-menu-item>
+                <el-menu-item index="1-1" @click="isCollapse=!isCollapse"><router-link to="/main/home"><i class="el-icon-tickets"></i>Home</router-link></el-menu-item>
+                <el-menu-item index="1-3" @click="isCollapse=!isCollapse"><router-link to="/main/hello"><i class="el-icon-tickets"></i>Hello</router-link></el-menu-item>
+                <el-menu-item index="1-4" @click="isCollapse=!isCollapse"><router-link to="/main/test"><i class="el-icon-tickets"></i>test</router-link></el-menu-item>
               </el-menu-item-group>
             </el-submenu>
             <el-submenu index="2">
               <template slot="title"><i class="el-icon-location"></i>Stock</template>
               <el-menu-item-group>
-                <el-menu-item index="2-1"> <router-link to="/main/greatRetail"><i class="el-icon-tickets"></i>GreatRetail</router-link></el-menu-item>
-                <el-menu-item index="2-2"> <router-link to="/main/kdj"><i class="el-icon-tickets"></i>GoldCross</router-link></el-menu-item>
-                <el-menu-item index="2-5"> <router-link to="/main/private"><i class="el-icon-tickets"></i>Private</router-link></el-menu-item>
-                <el-menu-item index="2-6"> <router-link to="/main/private1"><i class="el-icon-tickets"></i>Private1</router-link></el-menu-item>
-                <el-menu-item index="2-7"> <router-link to="/main/favorites"><i class="el-icon-tickets"></i>Favorites</router-link></el-menu-item>
+                <el-menu-item index="2-1" @click="isCollapse=!isCollapse"> <router-link to="/main/greatRetail"><i class="el-icon-tickets"></i>GreatRetail</router-link></el-menu-item>
+                <el-menu-item index="2-2" @click="isCollapse=!isCollapse"> <router-link to="/main/kdj"><i class="el-icon-tickets"></i>GoldCross</router-link></el-menu-item>
+                <el-menu-item index="2-5" @click="isCollapse=!isCollapse"> <router-link to="/main/private"><i class="el-icon-tickets"></i>Private</router-link></el-menu-item>
+                <el-menu-item index="2-6" @click="isCollapse=!isCollapse"> <router-link to="/main/private1"><i class="el-icon-tickets"></i>Private1</router-link></el-menu-item>
+                <el-menu-item index="2-7" @click="isCollapse=!isCollapse"> <router-link to="/main/favorites"><i class="el-icon-tickets"></i>Favorites</router-link></el-menu-item>
               </el-menu-item-group>
             </el-submenu>
             <el-submenu index="3">
               <template slot="title"><i class="el-icon-location"></i>Movie</template>
               <el-menu-item-group>
-                <el-menu-item index="3-1"> <router-link to="/main/dytt"><i class="el-icon-tickets"></i>Dytt</router-link></el-menu-item>
-                <el-menu-item index="3-2"> <router-link to="/main/vipParser"><i class="el-icon-tickets"></i>VipParser</router-link></el-menu-item>
+                <el-menu-item index="3-1" @click="isCollapse=!isCollapse"> <router-link to="/main/dytt"><i class="el-icon-tickets"></i>Dytt</router-link></el-menu-item>
+                <el-menu-item index="3-2" @click="isCollapse=!isCollapse"> <router-link to="/main/vipParser"><i class="el-icon-tickets"></i>VipParser</router-link></el-menu-item>
               </el-menu-item-group>
             </el-submenu>
             <el-submenu index="4">
@@ -62,13 +62,13 @@
             <el-submenu index="8">
               <template slot="title"><i class="el-icon-location"></i>Rde</template>
               <el-menu-item-group>
-                <el-menu-item index="8-1"> <router-link to="/main/powerFactor"><i class="el-icon-tickets"></i>PowerFactor</router-link></el-menu-item>
+                <el-menu-item index="8-1" @click="isCollapse=!isCollapse"> <router-link to="/main/powerFactor"><i class="el-icon-tickets"></i>PowerFactor</router-link></el-menu-item>
               </el-menu-item-group>
             </el-submenu>
             <el-submenu index="9">
               <template slot="title"><i class="el-icon-location"></i>System</template>
               <el-menu-item-group>
-                <el-menu-item index="9-1"> <router-link to="/main/authManage"><i class="el-icon-tickets"></i>AuthManage</router-link></el-menu-item>
+                <el-menu-item index="9-1" @click="isCollapse=!isCollapse"> <router-link to="/main/authManage"><i class="el-icon-tickets"></i>AuthManage</router-link></el-menu-item>
               </el-menu-item-group>
             </el-submenu>
             </el-menu>
