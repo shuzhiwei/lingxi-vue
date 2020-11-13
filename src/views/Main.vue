@@ -47,10 +47,16 @@
               </el-menu-item-group>
             </el-submenu>
             <el-submenu index="3">
-              <template slot="title"><i class="el-icon-location"></i>movie</template>
+              <template slot="title"><i class="el-icon-location"></i>Movie</template>
               <el-menu-item-group>
-                <el-menu-item index="3-1"> <router-link to="/main/dytt"><i class="el-icon-tickets"></i>dytt</router-link></el-menu-item>
-                <el-menu-item index="3-2"> <router-link to="/main/vipParser"><i class="el-icon-tickets"></i>vipParser</router-link></el-menu-item>
+                <el-menu-item index="3-1"> <router-link to="/main/dytt"><i class="el-icon-tickets"></i>Dytt</router-link></el-menu-item>
+                <el-menu-item index="3-2"> <router-link to="/main/vipParser"><i class="el-icon-tickets"></i>VipParser</router-link></el-menu-item>
+              </el-menu-item-group>
+            </el-submenu>
+            <el-submenu index="4">
+              <template slot="title"><i class="el-icon-location"></i>Storage</template>
+              <el-menu-item-group>
+                <el-menu-item index="4-1" @click="storage"> <i class="el-icon-tickets"></i>Seafile</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
             <el-submenu index="8">
@@ -100,6 +106,22 @@
                 delCookie('lingxi-token')
                 delCookie('username')
                 this.reload()
+            },
+
+            storage () {
+                this.$confirm('正在进入seafile资料库，是否继续？', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'success'
+                }).then(() =>{
+                    window.open('https://www.食.tech:7996/', '_blank')
+                }).catch(() =>{
+                    this.$message({
+                        type: 'info',
+                        message: '已取消'
+                    })
+                })
+                
             }
         }
     }
