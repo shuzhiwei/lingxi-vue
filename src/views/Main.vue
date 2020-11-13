@@ -90,7 +90,7 @@
         data () {
             return {
                 username: getCookie('username'),
-                isCollapse: true
+                isCollapse: false
             }
         },
 
