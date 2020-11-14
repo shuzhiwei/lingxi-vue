@@ -15,7 +15,7 @@
         <!-- <label for="transfomer">磁力链接: </label> -->
         <el-input
             v-model="input1"
-            style="width:370px;"
+            style="width:250px;"
             type="textarea"
             :rows=5
             clearable>

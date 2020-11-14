@@ -9,7 +9,7 @@
           </div></el-col>
           <el-col :span="12"><div class="grid-content bg-purple-light text-right">
            <span>
-                <span>Welcome, {{username}}</span>
+                <span>{{username}}</span>
                 <span v-show="this.$store.state.isshow">
                     <i class="el-icon-share i_rd"></i>
                     <button @click="safeQuit" style="background:transparent; font-size:16px; border:none; color:white;">安全退出</button>
