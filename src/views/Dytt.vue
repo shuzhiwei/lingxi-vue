@@ -1,9 +1,11 @@
 <template>
     <div style="text-align:center">
         </br>
-        <label for="transfomer">Movie Name: </label>
+        Dytt Movie
+        </br></br>
+        <label for="transfomer"></label>
         <el-input
-            style="width:250px;"
+            style="width:200px;"
             placeholder="请输入电影名称"
             v-model="input"
             type="text"
