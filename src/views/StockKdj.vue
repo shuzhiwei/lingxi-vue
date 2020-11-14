@@ -2,6 +2,7 @@
 <div>
     <div>
         <div>
+            </br>
             <span><h2 align="center">金叉篇</h2></span>
         </div>
         <div>

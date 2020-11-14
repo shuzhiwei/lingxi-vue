@@ -12,7 +12,7 @@
                 <span>Welcome, {{username}}</span>
                 <span v-show="this.$store.state.isshow">
                     <i class="el-icon-share i_rd"></i>
-                    <button @click="safeQuit" style="background:transparent; border:none; color:white;">安全退出</button>
+                    <button @click="safeQuit" style="background:transparent; font-size:16px; border:none; color:white;">安全退出</button>
                 </span>
                 
             </span>

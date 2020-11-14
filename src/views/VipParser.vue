@@ -1,7 +1,10 @@
 <template>
     <div style="text-align:center">
         </br>
-        <label for="transfomer">Movie Search: </label>
+        Movie Search
+        </br>
+        </br>
+        <label for="transfomer"></label>
         <el-input
             style="width:200px;"
             placeholder="请输入电影名或播放链接"
