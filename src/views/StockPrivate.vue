@@ -2,19 +2,21 @@
 <div>
     <div>
         <div>
+            </br>
             <span><h2 align="center">私募篇</h2></span>
+            </br>
         </div>
         <div>
             <!-- <label for="transfomer">股票编码: </label> -->
             <el-input
-                style="width:250px;margin-left: 30px;"
+                style="width:200px;margin-left: 30px;"
                 placeholder="请输入股票名称或编码"
                 v-model="input"
                 type="text"
                 clearable>
             </el-input>
-            <el-button type="primary" @click="searchStock">搜索</el-button>
-            <el-button type="info" @click="returnStock">返回</el-button>
+            <el-button type="primary" size="mini" @click="searchStock">搜索</el-button>
+            <el-button type="info" size="mini" @click="returnStock">返回</el-button>
         </div>
         <div>
         <br>
@@ -23,7 +25,7 @@
         border
     ref="filterTable"
     :data="datas"
-    style="width: 95%;font-size: 18px;margin-left: 30px;">
+    style="width: 95%;font-size: 16px;margin-left: 30px;">
 
     <el-table-column
       prop="code_name"

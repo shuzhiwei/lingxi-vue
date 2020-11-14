@@ -14,46 +14,29 @@
         type="success"
         style="margin-bottom:10px;margin-left: 30px;"
         size="mini"
-      >新建博客</el-button>
+      ></el-button>
 
 <el-dialog title="新建博客" :visible.sync="dialogFormVisible">
 
   <el-form :model="form">
-    <el-form-item label="标题" :label-width="formLabelWidth">
+    <el-form-item label="标题">
       <el-input v-model="form.title" autocomplete="off"></el-input>
     </el-form-item>
-    <el-form-item label="内容" :label-width="formLabelWidth">
+    <el-form-item label="内容">
       <el-input type="textarea" :rows="5" v-model="form.content" autocomplete="off"></el-input>
     </el-form-item>
-    <el-form-item label="是否公开" :label-width="formLabelWidth">
+    <el-form-item label="是否公开">
       <el-radio v-model="form.radio" label="1">公开</el-radio>
       <el-radio v-model="form.radio" label="0">不公开</el-radio>
     </el-form-item>
-    <el-form-item label="照片" :label-width="formLabelWidth">
+    <el-form-item label="照片">
      
-      <!-- <el-upload
-  action="#"
-  list-type="picture-card"
-  :file-list="fileList"
-  :on-preview="handlePictureCardPreview"
-  :on-remove="handleRemove"
-  :on-change="changeFileList"
-  :auto-upload="false">
-    <i slot="default" class="el-icon-plus"></i>
-    
-</el-upload>
-<el-dialog :visible.sync="dialogVisible">
-  <img width="100%" :src="dialogImageUrl" alt="">
-</el-dialog> -->
-
-
     <span align="left">
       <el-button type="primary" v-on:click="openFile()" round>选择文件</el-button>
       <input type="file" id="filename" style="display:none" multiple="multiple" @change="showRealPath"/>
     </span>
 
     <br>
-
     <span v-for="(item, index) in form.images1" :key="index">
         <!-- <img style="height:100px;weight:100px;" :src="item.image" alt=""> -->
 
@@ -61,7 +44,6 @@
              <img class="myimage" :src="item.image" alt="">
             <div class="del-icon" @click="deletePrePhoto(index)"></div>
         </div>
-
     </span>
 
     </el-form-item>
@@ -76,9 +58,8 @@
         @click="delRows()"
         icon="el-icon-delete"
         type="danger"
-        style="margin-bottom:10px;"
         size="mini"
-      >批量删除</el-button>
+      ></el-button>
 
         <el-table
         height="500"
@@ -86,19 +67,12 @@
     ref="filterTable"
     :data="datas"
     @selection-change="handleSelectionChange"
-    style="width: 95%;font-size: 18px;margin-left: 30px;">
+    style="width: 95%;font-size: 16px;margin-left: 30px;">
 
     <el-table-column
       type="selection"
-      width="55">
+      >
     </el-table-column>
-
-    <!-- <el-table-column
-      prop="id"
-      label="id"
-      style="font-size: 10px"
-      width="180">
-    </el-table-column> -->
 
     <el-table-column
       prop="title"
@@ -120,8 +94,7 @@
     <el-table-column
       prop="author"
       label="author"
-      style="font-size: 10px"
-      width="180"
+      v-if="this.$store.state.isshow"
       column-key="author"
       :filters="[{text: 'shuzhiwei', value: 'shuzhiwei'}, 
                     {text: 'houtingyu', value: 'houtingyu'},
@@ -134,14 +107,15 @@
     <el-table-column
       prop="date_d"
       label="date_d"
-      width="180"
+      v-if="this.$store.state.isshow"
       >
       <template slot-scope="scope">
             <span v-if="scope.row.statusBtn===false">{{scope.row.date_d}}</span>
             <el-input size="mini" v-else-if="scope.row.statusBtn===true" v-model="date_d"></el-input>
           </template>
     </el-table-column>
-    <el-table-column label="操作" width="200">
+
+    <el-table-column v-if="this.$store.state.isshow" label="操作" >
           <template slot-scope="scope">
             <el-button
               type="success"
@@ -208,13 +182,10 @@
                     newCreating: false
                 },
                 dialogFormVisible: false,
-                formLabelWidth: '120px',
 
                 dialogImageUrl: '',
                 dialogVisible: false,
                 fileList: [],
-
-                
 
             }
         },

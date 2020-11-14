@@ -1,15 +1,16 @@
 <template>
     <div style="text-align:center">
         </br>
-        <label for="transfomer">电影搜索: </label>
+        <label for="transfomer">Movie Search: </label>
         <el-input
-            style="width:400px;"
+            style="width:200px;"
             placeholder="请输入电影名或播放链接"
             v-model="input"
             type="text"
             clearable>
         </el-input></br></br>
-        <el-button type="primary" @click="search">观看</el-button><br/></br>
+        <el-button type="primary" size="mini" @click="search">View</el-button>
+        <el-button type="primary" size="mini" @click="search1">View1</el-button>
     </div>
 </template>
 
@@ -73,8 +74,42 @@
                         }
                     })
                 }
-                
+            },
 
+            search1 () {
+                const base_url = 'http://jx.0313555.com/?url='
+                if (this.input.indexOf("http") === 0) {
+                    window.open(base_url + this.input, '_blank')
+                }else{
+                    const url = `https://www.食.tech/entertainment/searchVipMovieUrl`
+                    const params = {
+                            'token': this.token,
+                            'mv_name': this.input
+                        }
+                    axios.post(url, qs.stringify(params)).then(response => {
+                        const con = response.data
+                        const code = con.code
+
+                        if (code === 402) {
+                            console.log('token过期')
+                            refresh_token(this.username, this.token)
+                            this.reload()
+                            this.token = getCookie('lingxi-token')
+                            this.sleep(3000)
+                            this.search()
+                        }else if (code === 401) {
+                            alert(con.message)
+                        }else if (code === 200) {
+                            if (con.url === '') {
+                                this.$message.error('请精确搜索关键字')
+                            }else{
+                                window.open(base_url + con.url, '_blank')
+                            }
+                        }else {
+                            alert('未搜索到')
+                        }
+                    })
+                }
             }
         }
 

@@ -5,13 +5,16 @@
         <el-row>
           <el-col :span="12"><div class="grid-content bg-purple">
               <img src="../../static/img/555.png" class="header-logo" @click="isCollapse=!isCollapse"/> 
-              <img src="../../static/img/777.png" class="header-logo"/> 
+              <img v-show="this.$store.state.isshow" src="../../static/img/777.png" class="header-logo"/> 
           </div></el-col>
           <el-col :span="12"><div class="grid-content bg-purple-light text-right">
            <span>
-                <span>欢迎回来, {{username}}</span>
-                <i class="el-icon-share i_rd"></i>
-                <button @click="safeQuit" style="background:transparent; border:none; font-size:17px; color:white;">安全退出</button>
+                <span>Welcome, {{username}}</span>
+                <span v-show="this.$store.state.isshow">
+                    <i class="el-icon-share i_rd"></i>
+                    <button @click="safeQuit" style="background:transparent; border:none; color:white;">安全退出</button>
+                </span>
+                
             </span>
           </div></el-col>
         </el-row>
@@ -19,7 +22,7 @@
       <el-container>
         <el-aside width="220px" class="aside" v-show="isCollapse">
             
-     <div class="mean-top"><i class="el-icon-menu"></i> 功能导航</div>
+     <div class="mean-top"><i class="el-icon-menu"></i> FuncNavi</div>
 
     
 
@@ -89,19 +92,31 @@
 
         data () {
             return {
+                token: getCookie('lingxi-token'),
                 username: getCookie('username'),
-                isCollapse: false
+                isCollapse: false,
+                // screenWidth: document.body.clientWidth,
+                // isshow: true,
             }
         },
 
         mounted(){
-            const token = getCookie('lingxi-token')
-            if (token === 'None') {
+            if (this.token === 'None') {
                 this.$router.push({path: '/login'})
             }
+
+            this.$store.commit('controlShow')
         },
 
         methods: {
+            controlScreenShow () {
+                if (this.screenWidth < 1236) {
+                    this.isshow = false;
+                } else {
+                    this.isshow = true;
+                }
+            },
+
             safeQuit () {
                 delCookie('lingxi-token')
                 delCookie('username')
@@ -208,4 +223,9 @@
     margin-top: 5px;
 
   }
+
+  .el-message-box{
+      width: 310px !important;
+    }
+
 </style>

@@ -8,17 +8,34 @@ import echarts from 'echarts'
 import layer from 'vue-layer'
 import RouterTab from 'vue-router-tab'
 import 'vue-router-tab/dist/lib/vue-router-tab.css'
+import Vuex from 'vuex'
 
-// Vue.prototype.$layer = layer(Vue);
+Vue.use(Vuex)
+const store = new Vuex.Store({
+    state: {
+        isshow: true,
+        screenWidth: document.body.clientWidth,
+
+    },
+
+    mutations: {
+        controlShow: (state) => {
+            if (state.screenWidth < 1236) {
+                state.isshow = false
+            }else{ 
+                state.isshow = true
+            }
+        }
+    }
+})
+
 Vue.prototype.$echarts = echarts
 Vue.use(Element)
 Vue.use(RouterTab)
 
-// Vue.config.productionTip = false
-
-
 new Vue({
     el: '#app',
+    store,
     components: {
         App,
 

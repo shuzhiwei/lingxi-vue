@@ -2,6 +2,7 @@
 <div>
     <div>
         <div>
+            </br>
             <span><h2 align="center" @click="dialogFormVisible = true">牛散篇</h2></span>
             <el-dialog title="妖股满足条件" :visible.sync="dialogFormVisible">
                 <li>近一个月第一个涨停板</li>
@@ -18,7 +19,7 @@
         border
     ref="filterTable"
     :data="datas"
-    style="width: 95%;font-size: 18px;margin-left: 30px;">
+    style="width: 95%;font-size: 16px;margin-left: 30px;">
 
     <el-table-column
       prop="name"
@@ -52,6 +53,7 @@
     </el-table-column>
 
     <el-table-column
+      v-if="this.$store.state.isshow"
       prop="shareholder_falling_count"
       label="股东人数下降统计"
       
@@ -63,6 +65,7 @@
     </el-table-column>
 
     <el-table-column
+      v-if="this.$store.state.isshow"
       prop="sdlu_great_retail_count"
       label="十大流通股东牛散个数统计"
       sortable
@@ -73,6 +76,7 @@
     </el-table-column>
 
     <el-table-column
+      v-if="this.$store.state.isshow"
       prop="float_share"
       label="流通市值(亿)"
       sortable
@@ -84,7 +88,7 @@
 
     <el-table-column
       prop="stock"
-      label="是否妖股"
+      label="妖股"
       column-key="stock"
       :filters="[{text: '是', value: '是'}, 
                     {text: '否', value: '否'},
@@ -143,6 +147,8 @@
         },
 
         mounted () {
+            this.$store.commit('controlShow')
+
             const token = this.token
             const url = `https://www.食.tech/stock/view`
             const params = {

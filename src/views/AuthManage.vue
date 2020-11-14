@@ -8,14 +8,14 @@
         icon="el-icon-plus"
         style="margin-bottom:10px;"
         size="mini"
-      >添加</el-button>
+      ></el-button>
 
       <el-button
         @click="cancelRow()"
         icon="el-icon-minus"
         style="margin-bottom:10px;"
         size="mini"
-      >取消</el-button>
+      ></el-button>
 
       <el-button
         @click="delRows()"
@@ -23,7 +23,7 @@
         type="danger"
         style="margin-bottom:10px;"
         size="mini"
-      >批量删除</el-button>
+      ></el-button>
 
         <el-table
         height="500"
@@ -35,7 +35,7 @@
 
     <el-table-column
       type="selection"
-      width="55">
+      >
     </el-table-column>
 
     <!-- <el-table-column
@@ -48,7 +48,6 @@
       prop="p_type"
       label="p_type"
       sortable
-      width="180"
       column-key="p_type"
       :filters="[{text: 'p', value: 'p'}, {text: 'g', value: 'g'}]"
       :filter-method="filterHandler"
@@ -58,6 +57,7 @@
             <el-input size="mini" v-else-if="scope.row.statusBtn===true" v-model="p_type"></el-input>
           </template>
     </el-table-column>
+
     <el-table-column
       prop="v0"
       label="v0"
@@ -68,16 +68,16 @@
                 {text: 'user_role', value: 'user_role'},
                 ]"
       :filter-method="filterHandler"
-      width="180">
+      >
       <template slot-scope="scope">
             <span v-if="scope.row.statusBtn===false">{{scope.row.v0}}</span>
             <el-input size="mini" v-else-if="scope.row.statusBtn===true" v-model="v0"></el-input>
           </template>
     </el-table-column>
+
     <el-table-column
       prop="v1"
       label="v1"
-      width="180"
       column-key="v1"
       :filters="[{text: 'acs', value: 'acs'}, {text: 'blog', value: 'blog'}, {text: 'rde', value: 'rde'}]"
       :filter-method="filterHandler"
@@ -90,22 +90,24 @@
     <el-table-column
       prop="v2"
       label="v2"
-      width="180">
+      >
       <template slot-scope="scope">
             <span v-if="scope.row.statusBtn===false">{{scope.row.v2}}</span>
             <el-input size="mini" v-else-if="scope.row.statusBtn===true" v-model="v2"></el-input>
           </template>
     </el-table-column>
+
     <el-table-column
       prop="v3"
       label="v3"
-      width="180">
+      >
       <template slot-scope="scope">
             <span v-if="scope.row.statusBtn===false">{{scope.row.v3}}</span>
             <el-input size="mini" v-else-if="scope.row.statusBtn===true" v-model="v3"></el-input>
           </template>
     </el-table-column>
-    <el-table-column label="操作" width="200">
+
+    <el-table-column label="操作" >
           <template slot-scope="scope">
             <el-button
               type="success"

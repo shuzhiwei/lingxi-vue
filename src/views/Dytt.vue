@@ -1,7 +1,7 @@
 <template>
     <div style="text-align:center">
         </br>
-        <label for="transfomer">电影名称: </label>
+        <label for="transfomer">Movie Name: </label>
         <el-input
             style="width:250px;"
             placeholder="请输入电影名称"
@@ -9,12 +9,13 @@
             type="text"
             clearable>
         </el-input>
-        <el-button type="primary" @click="search">搜索1</el-button>
-        <el-button type="primary" @click="search2">搜索2</el-button><br/></br>
+        </br></br>
+        <el-button type="primary" size="small" @click="search">Search1</el-button>
+        <el-button type="primary" size="small" @click="search2">Search2</el-button><br/></br>
         <!-- <label for="transfomer">磁力链接: </label> -->
         <el-input
-            style="width:900px;"
             v-model="input1"
+            style="width:370px;"
             type="textarea"
             :rows=5
             clearable>

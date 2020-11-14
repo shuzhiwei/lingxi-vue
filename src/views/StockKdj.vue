@@ -12,7 +12,7 @@
         border
     ref="filterTable"
     :data="datas"
-    style="width: 95%;font-size: 18px;margin-left: 30px;">
+    style="width: 95%;font-size: 16px;margin-left: 30px;">
 
     <el-table-column
       prop="code_name"
@@ -57,6 +57,7 @@
     </el-table-column> -->
 
     <el-table-column
+      v-if="this.$store.state.isshow"
       prop="shareholder_falling_count"
       label="股东人数下降统计"
       
@@ -68,6 +69,7 @@
     </el-table-column>
 
     <el-table-column
+      v-if="this.$store.state.isshow"
       prop="sdlu_great_retail_count"
       label="十大流通股东牛散个数统计"
       sortable
@@ -78,6 +80,7 @@
     </el-table-column>
 
     <el-table-column
+      v-if="this.$store.state.isshow"
       prop="float_share"
       label="流通市值(亿)"
       sortable
@@ -88,6 +91,7 @@
     </el-table-column>
 
     <el-table-column
+      v-if="this.$store.state.isshow"
       prop="stock"
       label="是否有主力吸筹迹象"
       :filters="[{text: '是', value: '是'}, 
@@ -111,6 +115,7 @@
     </el-table-column>
 
     <el-table-column
+      v-if="this.$store.state.isshow"
       prop="macd_dif"
       label="macd快线"
       sortable
@@ -121,6 +126,7 @@
     </el-table-column>
 
     <el-table-column
+      v-if="this.$store.state.isshow"
       prop="macd_dea"
       label="macd慢线"
       sortable

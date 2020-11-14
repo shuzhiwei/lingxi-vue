@@ -22,7 +22,7 @@
         border
     ref="filterTable"
     :data="datas"
-    style="width: 95%;font-size: 18px;margin-left: 30px;">
+    style="width: 95%;font-size: 16px;margin-left: 30px;">
 
     <el-table-column
       prop="private_name"
