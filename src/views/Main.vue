@@ -9,12 +9,20 @@
           </div></el-col>
           <el-col :span="12"><div class="grid-content bg-purple-light text-right">
            <span>
-                <span>{{username}}</span>
-                <span v-show="this.$store.state.isshow">
-                    <i class="el-icon-share i_rd"></i>
-                    <button @click="safeQuit" style="background:transparent; font-size:16px; border:none; color:white;">安全退出</button>
+                <!-- <span>{{username}}</span> -->
+                <span>
+                    <i class="el-icon-chat-dot-square" style="font-size:20px;color: white" @click="chat"></i>
+
+                    <el-dropdown>
+                        <span style="cursor: pointer; color: white;">
+                            <i class="el-icon-user" style="font-size:20px;"></i>
+                        </span>
+                        <el-dropdown-menu slot="dropdown">
+                            <el-dropdown-item>{{username}}</el-dropdown-item>
+                            <el-dropdown-item @click.native="safeQuit">安全退出</el-dropdown-item>
+                        </el-dropdown-menu>
+                    </el-dropdown>
                 </span>
-                
             </span>
           </div></el-col>
         </el-row>
@@ -23,8 +31,6 @@
         <el-aside width="220px" class="aside" v-show="isCollapse">
             
      <div class="mean-top"><i class="el-icon-menu"></i> FuncNavi</div>
-
-    
 
           <el-menu  default-active="1"
 
@@ -95,8 +101,7 @@
                 token: getCookie('lingxi-token'),
                 username: getCookie('username'),
                 isCollapse: false,
-                // screenWidth: document.body.clientWidth,
-                // isshow: true,
+                chatStatus: 'font-size:20px;color: yellow',
             }
         },
 
@@ -109,6 +114,11 @@
         },
 
         methods: {
+            chat () {
+                // this.chatStatus = 'font-size:20px;color: white'
+                window.open('https://www.食.tech:7996/websocket', '_blank')
+            },
+
             controlScreenShow () {
                 if (this.screenWidth < 1236) {
                     this.isshow = false;
@@ -228,5 +238,9 @@
   .el-message-box{
       width: 310px !important;
     }
+
+  .icon-wrap {
+      font-size: 16px;
+  }
 
 </style>
