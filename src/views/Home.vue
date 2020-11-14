@@ -703,4 +703,8 @@
             transform: translate3d(-50%, -50%, 0);
 
         }
+
+        .el-dialog{
+            width: 310px !important;
+        }
 </style>

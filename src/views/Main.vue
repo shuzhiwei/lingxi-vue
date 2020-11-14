@@ -129,6 +129,7 @@
                     cancelButtonText: '取消',
                     type: 'success'
                 }).then(() =>{
+                    this.isCollapse = false
                     window.open('https://www.食.tech:7996/', '_blank')
                 }).catch(() =>{
                     this.$message({
