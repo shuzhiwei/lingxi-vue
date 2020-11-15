@@ -73,7 +73,7 @@ export default new VueRouter({
                     path: 'hello',
                     component: Hello,
                     meta: {
-                        title: 'Hello', // 页签标题
+                        title: 'Tools', // 页签标题
                         icon: 'el-icon-paperclip', // 页签图标，可选
                         key: 'path', // 路由打开页签规则，可选
                         closable: true // 页签是否允许关闭，默认 `true`
