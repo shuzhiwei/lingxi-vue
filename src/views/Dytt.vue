@@ -19,7 +19,7 @@
             v-model="input1"
             style="width:250px;"
             type="textarea"
-            :rows=5
+            :rows=3
             clearable>
         </el-input>
         
