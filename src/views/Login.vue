@@ -36,7 +36,7 @@
         
         methods: {
             SignIn () {
-                const url = `https://www.nnbkqnp.cn/acs/api/v1/auth/login`
+                const url = this.$store.state.base_url + `/acs/api/v1/auth/login`
                 const params = {
                     "username": this.UserName,
                     "password": this.PassWord

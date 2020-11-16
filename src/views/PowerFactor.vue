@@ -126,7 +126,7 @@
                     'start_time': startTime,
                     'end_time': endTime
                 }
-                const url = `https://www.nnbkqnp.cn/rde/powerFactor`
+                const url = this.$store.state.base_url + `/rde/powerFactor`
 
                 axios.post(url, qs.stringify(params)).then(response => {
                     const dict_con = response.data

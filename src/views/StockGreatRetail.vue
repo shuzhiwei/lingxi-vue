@@ -150,7 +150,7 @@
             this.$store.commit('controlShow')
 
             const token = this.token
-            const url = `https://www.nnbkqnp.cn/stock/view`
+            const url = this.$store.state.base_url + `/stock/view`
             const params = {
                     'token': this.token,
                     'pageSize': this.pageSize,
@@ -224,7 +224,7 @@
             },
             //获取分页数据totalDataNumber
             getPageData: function () {
-                const url = "https://www.nnbkqnp.cn/stock/view"
+                const url = this.$store.state.base_url + "/stock/view"
                 const params = {
                     'token': this.token,
                     'pageSize': this.pageSize,

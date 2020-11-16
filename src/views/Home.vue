@@ -192,7 +192,7 @@
 
         mounted () {
             const token = this.token
-            const url = `https://www.nnbkqnp.cn/lingxis/view/all`
+            const url = this.$store.state.base_url + `/lingxis/view/all`
             const params = {
                     'token': this.token,
                     'pageSize': this.pageSize,
@@ -268,7 +268,7 @@
                     'curImageAddrs': scope.row.imageAddr,
                     'delImageAddrs': '',
                 }
-                const url = `https://www.nnbkqnp.cn/lingxis/blog/edit/${scope.row.id}`
+                const url = this.$store.state.base_url + `/lingxis/blog/edit/${scope.row.id}`
                 axios.post(url, qs.stringify(params)).then(response => {
                     const code = response.data.code
                     if (code !== 200) {
@@ -370,7 +370,7 @@
                     }
                 }
 
-                const url = 'https://www.nnbkqnp.cn/lingxis/blog/addManyPhoto'
+                const url = this.$store.state.base_url + '/lingxis/blog/addManyPhoto'
 
                 var params0 = {
                     'token': this.token,
@@ -391,7 +391,7 @@
                     }else if (code === 200) {
                         let post_id = res0.id
                         console.log(code)
-                        const url1 = `https://www.nnbkqnp.cn/lingxis/blog/editAddPhoto/${post_id}`
+                        const url1 = this.$store.state.base_url + `/lingxis/blog/editAddPhoto/${post_id}`
 
 
                         var tmp_images = ''
@@ -481,7 +481,7 @@
             },
             //获取分页数据totalDataNumber
             getPageData: function () {
-                const url = "https://www.nnbkqnp.cn/lingxis/view/all"
+                const url = this.$store.state.base_url + "/lingxis/view/all"
                 const params = {
                     'token': this.token,
                     'pageSize': this.pageSize,
@@ -551,7 +551,7 @@
                     }).then(()=>{
                         
                         console.log('ids: ' + ids) 
-                        const url = 'https://www.nnbkqnp.cn/lingxis/blog/delete'
+                        const url = this.$store.state.base_url + '/lingxis/blog/delete'
                         const params = {
                             'token': this.token,
                             "ids": ids
@@ -615,7 +615,7 @@
                         cancelButtonText: '取消',
                         type: 'warning'
                     }).then(() => {
-                        const url = 'https://www.nnbkqnp.cn/lingxis/blog/delete'
+                        const url = this.$store.state.base_url + '/lingxis/blog/delete'
                         const params = {
                             'token': this.token,
                             "ids": scope.row.id + ','

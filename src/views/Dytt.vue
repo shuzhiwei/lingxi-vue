@@ -55,7 +55,7 @@
                     'token': this.token,
                     'name': this.input,
                 }
-                const url = `https://www.nnbkqnp.cn/entertainment/search`
+                const url = this.$store.state.base_url + `/entertainment/search`
 
                 axios.post(url, qs.stringify(params)).then(response => {
                     const dict_con = response.data
@@ -89,7 +89,7 @@
                     'token': this.token,
                     'name': this.input,
                 }
-                const url = `https://www.nnbkqnp.cn/entertainment/searchOnSelf`
+                const url = this.$store.state.base_url + `/entertainment/searchOnSelf`
 
                 axios.post(url, qs.stringify(params)).then(response => {
                     const dict_con = response.data

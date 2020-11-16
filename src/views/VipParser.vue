@@ -32,6 +32,13 @@
                 input: ''
             }
         },
+
+        mounted () {
+            if (!this.token) {
+                this.$router.push({path: '/login'})
+            }
+        },
+
         methods: {
             sleep (time) {
                 var timeStamp = new Date().getTime();
@@ -48,7 +55,7 @@
                 if (this.input.indexOf("http") === 0) {
                     window.open(base_url + this.input, '_blank')
                 }else{
-                    const url = `https://www.nnbkqnp.cn/entertainment/searchVipMovieUrl`
+                    const url = this.$store.state.base_url + `/entertainment/searchVipMovieUrl`
                     const params = {
                             'token': this.token,
                             'mv_name': this.input
@@ -84,7 +91,7 @@
                 if (this.input.indexOf("http") === 0) {
                     window.open(base_url + this.input, '_blank')
                 }else{
-                    const url = `https://www.nnbkqnp.cn/entertainment/searchVipMovieUrl`
+                    const url = this.$store.state.base_url + `/entertainment/searchVipMovieUrl`
                     const params = {
                             'token': this.token,
                             'mv_name': this.input
