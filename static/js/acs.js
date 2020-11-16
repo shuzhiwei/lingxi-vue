@@ -4,7 +4,7 @@ import qs from 'qs'
 import {setCookie,getCookie} from '../../static/js/cookie.js'
 
 export function refresh_token(username, token) {
-    const url = `https://www.食.tech/acs/api/v1/auth/relogin`
+    const url = `https://www.nnbkqnp.cn/acs/api/v1/auth/relogin`
     let data = {
         'username': username,
         'token': token
