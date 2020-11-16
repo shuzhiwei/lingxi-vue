@@ -41,8 +41,8 @@
               <template slot="title"><i class="el-icon-location"></i>Blog</template>
               <el-menu-item-group>
                 <el-menu-item index="1-1" @click="isCollapse=!isCollapse"><router-link to="/main/home"><i class="el-icon-tickets"></i>Home</router-link></el-menu-item>
-                <el-menu-item index="1-3" @click="isCollapse=!isCollapse"><router-link to="/main/hello"><i class="el-icon-tickets"></i>Tools</router-link></el-menu-item>
-                <el-menu-item index="1-4" @click="isCollapse=!isCollapse"><router-link to="/main/test"><i class="el-icon-tickets"></i>test</router-link></el-menu-item>
+                <el-menu-item v-show="this.username == 'shuzhiwei'" index="1-3" @click="isCollapse=!isCollapse"><router-link to="/main/hello"><i class="el-icon-tickets"></i>Tools</router-link></el-menu-item>
+                <el-menu-item v-show="this.username == 'shuzhiwei'" index="1-4" @click="isCollapse=!isCollapse"><router-link to="/main/test"><i class="el-icon-tickets"></i>test</router-link></el-menu-item>
               </el-menu-item-group>
             </el-submenu>
             <el-submenu index="2">
@@ -56,10 +56,11 @@
               </el-menu-item-group>
             </el-submenu>
             <el-submenu index="3">
-              <template slot="title"><i class="el-icon-location"></i>Movie</template>
+              <template slot="title"><i class="el-icon-location"></i>Play</template>
               <el-menu-item-group>
                 <el-menu-item index="3-1" @click="isCollapse=!isCollapse"> <router-link to="/main/dytt"><i class="el-icon-tickets"></i>Dytt</router-link></el-menu-item>
                 <el-menu-item index="3-2" @click="isCollapse=!isCollapse"> <router-link to="/main/vipParser"><i class="el-icon-tickets"></i>VipParser</router-link></el-menu-item>
+                <el-menu-item index="3-3" @click="aiqiyi"> <i class="el-icon-tickets"></i>Aiqiyi</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
             <el-submenu index="4">
@@ -68,13 +69,22 @@
                 <el-menu-item index="4-1" @click="storage"> <i class="el-icon-tickets"></i>Seafile</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
-            <el-submenu index="8">
+            <el-submenu index="5" v-show="this.username == 'shuzhiwei'">
+              <template slot="title"><i class="el-icon-location"></i>Work</template>
+              <el-menu-item-group>
+                <el-menu-item index="5-2" @click="jenkins"> <i class="el-icon-tickets"></i>Jenkins</el-menu-item>
+                <el-menu-item index="5-3" @click="konga"> <i class="el-icon-tickets"></i>Konga</el-menu-item>
+                <el-menu-item index="5-4" @click="glances"> <i class="el-icon-tickets"></i>Glances</el-menu-item>
+                <el-menu-item index="5-5" @click="jupyter"> <i class="el-icon-tickets"></i>Jupyter</el-menu-item>
+              </el-menu-item-group>
+            </el-submenu>
+            <el-submenu v-show="this.username == 'shuzhiwei'" index="8">
               <template slot="title"><i class="el-icon-location"></i>Rde</template>
               <el-menu-item-group>
                 <el-menu-item index="8-1" @click="isCollapse=!isCollapse"> <router-link to="/main/powerFactor"><i class="el-icon-tickets"></i>PowerFactor</router-link></el-menu-item>
               </el-menu-item-group>
             </el-submenu>
-            <el-submenu index="9">
+            <el-submenu v-show="this.username == 'shuzhiwei'" index="9">
               <template slot="title"><i class="el-icon-location"></i>System</template>
               <el-menu-item-group>
                 <el-menu-item index="9-1" @click="isCollapse=!isCollapse"> <router-link to="/main/authManage"><i class="el-icon-tickets"></i>AuthManage</router-link></el-menu-item>
@@ -148,7 +158,23 @@
                     })
                 })
                 
-            }
+            },
+            aiqiyi () {
+                window.open('https://www.iqiyi.com/', '_blank')
+            },
+            jenkins () {
+                window.open('https://www.食.tech:7994/', '_blank')
+            },
+            konga () {
+                window.open('https://www.食.tech:7993/', '_blank')
+            },
+            glances () {
+                window.open('https://www.食.tech:7995/', '_blank')
+            },
+            jupyter () {
+                window.open('https://www.食.tech:7992/', '_blank')
+            },
+           
         }
     }
 </script>

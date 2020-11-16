@@ -9,8 +9,10 @@
         clearable>
     </el-input> -->
     </br>
-    <el-button type="primary" @click="reqJenkins">Jenkins</el-button></br></br>
-    <el-button type="primary" @click="reqKonga">Konga</el-button></br>
+    <el-button type="primary" @click="reqJenkins">Jenkins</el-button>&nbsp;&nbsp;
+    <el-button type="primary" @click="reqKonga">Konga</el-button>&nbsp;&nbsp;
+    <el-button type="primary" @click="reqGlances">Glances</el-button>&nbsp;&nbsp;
+    <el-button type="primary" @click="reqJupyter">Jupyter</el-button>&nbsp;&nbsp;
 
 </div>
 </template>
@@ -33,11 +35,19 @@ import { getCookie } from '../../static/js/cookie'
 
     methods: {
         reqJenkins () {
-            window.open('http://www.食.tech:8080', '_blank')
+            window.open('https://www.食.tech:7994', '_blank')
         },
 
         reqKonga () {
-            window.open('http://www.食.tech:1337', '_blank')
+            window.open('https://www.食.tech:7993', '_blank')
+        },
+
+        reqGlances () {
+            window.open('https://www.食.tech:7995', '_blank')
+        },
+
+        reqJupyter () {
+            window.open('https://www.食.tech:7992', '_blank')
         }
     }
 
