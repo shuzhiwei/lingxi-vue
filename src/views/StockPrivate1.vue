@@ -117,7 +117,7 @@
 
         mounted () {
             const token = this.token
-            const url = `https://www.食.tech/stock/viewPrivate1`
+            const url = `https://www.nnbkqnp.cn/stock/viewPrivate1`
             const params = {
                     'token': this.token,
                     'pageSize': this.pageSize,
@@ -182,7 +182,7 @@
                     'private_name': scope.row.private_name,
                     'type': scope.row.type,
                 }
-                const url = `https://www.食.tech/stock/updatePrivate1Favorites`
+                const url = `https://www.nnbkqnp.cn/stock/updatePrivate1Favorites`
                 axios.post(url, qs.stringify(params)).then(response => {
                     const code = response.data.code
                     if (code !== 200) {
@@ -198,7 +198,7 @@
             },
 
             searchStock () {
-                const url = `https://www.食.tech/stock/searchPrivate1`
+                const url = `https://www.nnbkqnp.cn/stock/searchPrivate1`
                 const params = {
                     'token': this.token,
                     'stock': this.input,
@@ -256,7 +256,7 @@
             },
             //获取分页数据totalDataNumber
             getPageData: function () {
-                const url = "https://www.食.tech/stock/viewPrivate1"
+                const url = "https://www.nnbkqnp.cn/stock/viewPrivate1"
                 const params = {
                     'token': this.token,
                     'pageSize': this.pageSize,

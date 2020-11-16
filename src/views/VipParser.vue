@@ -48,7 +48,7 @@
                 if (this.input.indexOf("http") === 0) {
                     window.open(base_url + this.input, '_blank')
                 }else{
-                    const url = `https://www.食.tech/entertainment/searchVipMovieUrl`
+                    const url = `https://www.nnbkqnp.cn/entertainment/searchVipMovieUrl`
                     const params = {
                             'token': this.token,
                             'mv_name': this.input
@@ -84,7 +84,7 @@
                 if (this.input.indexOf("http") === 0) {
                     window.open(base_url + this.input, '_blank')
                 }else{
-                    const url = `https://www.食.tech/entertainment/searchVipMovieUrl`
+                    const url = `https://www.nnbkqnp.cn/entertainment/searchVipMovieUrl`
                     const params = {
                             'token': this.token,
                             'mv_name': this.input

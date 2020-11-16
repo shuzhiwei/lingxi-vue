@@ -180,7 +180,7 @@
         },
 
         mounted () {
-            const url = `https://www.食.tech/stock/viewKdj`
+            const url = `https://www.nnbkqnp.cn/stock/viewKdj`
             const params = {
                     'token': this.token,
                     'pageSize': this.pageSize,
@@ -265,7 +265,7 @@
             //获取分页数据totalDataNumber
             getPageData: function () {
                 this.datas = []
-                const url = "https://www.食.tech/stock/viewKdj"
+                const url = "https://www.nnbkqnp.cn/stock/viewKdj"
                 const params = {
                     'token': this.token,
                     'pageSize': this.pageSize,

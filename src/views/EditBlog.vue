@@ -92,7 +92,7 @@
         mounted () {
             let id = this.$route.params.id
             let token = getCookie('lingxi-token')
-            let url = `https://www.食.tech/lingxis/view/${id}?token=${token}`
+            let url = `https://www.nnbkqnp.cn/lingxis/view/${id}?token=${token}`
             axios.get(url).then(response =>{
                 const res = response.data
                 const code = res.code
@@ -167,8 +167,8 @@
                 console.log('hello123')
                 const token = getCookie('lingxi-token')
                 const id = this.$route.params.id
-                const url = `https://www.食.tech/lingxis/blog/edit/${id}`
-                const url1 = `https://www.食.tech/lingxis/blog/editAddPhoto/${id}`
+                const url = `https://www.nnbkqnp.cn/lingxis/blog/edit/${id}`
+                const url1 = `https://www.nnbkqnp.cn/lingxis/blog/editAddPhoto/${id}`
                 var cur_images = ''
                 for (let i=0; i<this.imageAddrs.length; i++) {
                     cur_images = cur_images + this.imageAddrs[i] + 'helloworld'

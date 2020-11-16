@@ -36,7 +36,7 @@
         
         methods: {
             SignIn () {
-                const url = `https://www.食.tech/acs/api/v1/auth/login`
+                const url = `https://www.nnbkqnp.cn/acs/api/v1/auth/login`
                 const params = {
                     "username": this.UserName,
                     "password": this.PassWord

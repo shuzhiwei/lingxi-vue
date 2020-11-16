@@ -177,7 +177,7 @@
 
         mounted () {
             const token = this.token
-            const url = `https://www.食.tech/acs-manage/policy/show`
+            const url = `https://www.nnbkqnp.cn/acs-manage/policy/show`
             const params = {
                 'token': token,
                 'pageSize': this.pageSize,
@@ -236,7 +236,7 @@
             },
             //获取分页数据totalDataNumber
             getPageData: function () {
-                const url = "https://www.食.tech/acs-manage/policy/show"
+                const url = "https://www.nnbkqnp.cn/acs-manage/policy/show"
                 const params = {
                     'token': this.token,
                     'pageSize': this.pageSize,
@@ -299,7 +299,7 @@
                             ids = ids + val[i].id + ','
                         }
                         console.log('ids: ' + ids)          
-                        const url = 'https://www.食.tech/acs-manage/policy/delete'
+                        const url = 'https://www.nnbkqnp.cn/acs-manage/policy/delete'
                         const params = {
                             'token': this.token,
                             "ids": ids
@@ -381,7 +381,7 @@
                 if (this.id === '') {
                     // 新建
                     if (this.p_type !== '' && this.v0 !== '' && this.v1 !== '') {
-                        const url = 'https://www.食.tech/acs-manage/policy/add'
+                        const url = 'https://www.nnbkqnp.cn/acs-manage/policy/add'
                         const params = {
                             'token': this.token,
                             'p_type': this.p_type,
@@ -408,7 +408,7 @@
                 }else{
                     // 修改
                     if (this.p_type !== '' && this.v0 !== '' && this.v1 !== '') {
-                        const url = 'https://www.食.tech/acs-manage/policy/update'
+                        const url = 'https://www.nnbkqnp.cn/acs-manage/policy/update'
                         const params = {
                             'token': this.token,
                             'id': this.id,
@@ -442,7 +442,7 @@
                     this.tableData.splice(scope.$index, 1)
                 } else {
                     if (confirm('确定删除吗？' + scope.row.p_type + ', ' + scope.row.v0 + ', ' + scope.row.v1 + ', ' + scope.row.v2 + ', ' + scope.row.v3) === true) {
-                        const url = 'https://www.食.tech/acs-manage/policy/delete'
+                        const url = 'https://www.nnbkqnp.cn/acs-manage/policy/delete'
                         const params = {
                             'token': this.token,
                             "ids": scope.row.id + ','
@@ -482,7 +482,7 @@
                     if (!checkboxValues) {
                         alert('不能删除0条！')
                     }else{
-                        const url = `https://www.食.tech/acs-manage/policy/delete`
+                        const url = `https://www.nnbkqnp.cn/acs-manage/policy/delete`
                         const params = {
                             "token": this.token,
                             "ids": checkboxValues

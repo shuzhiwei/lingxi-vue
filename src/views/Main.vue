@@ -126,7 +126,7 @@
         methods: {
             chat () {
                 // this.chatStatus = 'font-size:20px;color: white'
-                window.open('https://www.食.tech:7996/websocket', '_blank')
+                window.open('https://www.nnbkqnp.cn:7996/websocket', '_blank')
             },
 
             controlScreenShow () {
@@ -150,7 +150,7 @@
                     type: 'success'
                 }).then(() =>{
                     this.isCollapse = false
-                    window.open('https://www.食.tech:7996/', '_blank')
+                    window.open('https://www.nnbkqnp.cn:7996/', '_blank')
                 }).catch(() =>{
                     this.$message({
                         type: 'info',
@@ -163,16 +163,16 @@
                 window.open('https://www.iqiyi.com/', '_blank')
             },
             jenkins () {
-                window.open('https://www.食.tech:7994/', '_blank')
+                window.open('https://www.nnbkqnp.cn:7994/', '_blank')
             },
             konga () {
-                window.open('https://www.食.tech:7993/', '_blank')
+                window.open('https://www.nnbkqnp.cn:7993/', '_blank')
             },
             glances () {
-                window.open('https://www.食.tech:7995/', '_blank')
+                window.open('https://www.nnbkqnp.cn:7995/', '_blank')
             },
             jupyter () {
-                window.open('https://www.食.tech:7992/', '_blank')
+                window.open('https://www.nnbkqnp.cn:7992/', '_blank')
             },
            
         }

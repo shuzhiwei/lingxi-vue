@@ -129,7 +129,7 @@
 
         mounted () {
             const token = this.token
-            const url = `https://www.食.tech/stock/viewPrivate`
+            const url = `https://www.nnbkqnp.cn/stock/viewPrivate`
             const params = {
                     'token': this.token,
                     'pageSize': this.pageSize,
@@ -188,7 +188,7 @@
             },
 
             searchStock () {
-                const url = `https://www.食.tech/stock/searchPrivate`
+                const url = `https://www.nnbkqnp.cn/stock/searchPrivate`
                 const params = {
                     'token': this.token,
                     'stock': this.input,
@@ -248,7 +248,7 @@
             },
             //获取分页数据totalDataNumber
             getPageData: function () {
-                const url = "https://www.食.tech/stock/viewPrivate"
+                const url = "https://www.nnbkqnp.cn/stock/viewPrivate"
                 const params = {
                     'token': this.token,
                     'pageSize': this.pageSize,

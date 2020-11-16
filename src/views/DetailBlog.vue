@@ -84,7 +84,7 @@
         mounted () {
             const id = this.$route.params.id
             const token = getCookie('lingxi-token')
-            const url = `https://www.食.tech/lingxis/view/${id}?token=${token}`
+            const url = `https://www.nnbkqnp.cn/lingxis/view/${id}?token=${token}`
             axios.get(url).then(response =>{
                 let res = response.data
                 let code = res.code
