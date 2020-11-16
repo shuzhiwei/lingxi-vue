@@ -15,7 +15,8 @@ const store = new Vuex.Store({
     state: {
         isshow: true,
         screenWidth: document.body.clientWidth,
-        base_url: 'https://www.nnbkqnp.cn'
+        base_url: 'https://www.nnbkqnp.cn',
+        chatStatus: 'font-size:20px;color: white'
     },
 
     mutations: {
