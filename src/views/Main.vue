@@ -11,7 +11,7 @@
            <span>
                 <!-- <span>{{username}}</span> -->
                 <span>
-                    <i class="el-icon-chat-dot-square" style="font-size:20px;color: white" @click="chat"></i>
+                    <i class="el-icon-chat-dot-square" :style="chatStatus" @click="chat"></i>
 
                     <el-dropdown>
                         <span style="cursor: pointer; color: white;">
@@ -102,6 +102,7 @@
 </template>
 
 <script>
+    import axios from 'axios'
     import {setCookie,getCookie,delCookie} from '../../static/js/cookie.js'
     export default {
         inject: ['reload'],
@@ -111,7 +112,7 @@
                 token: getCookie('lingxi-token'),
                 username: getCookie('username'),
                 isCollapse: false,
-                chatStatus: 'font-size:20px;color: yellow',
+                chatStatus: 'font-size:20px;color: white',
             }
         },
 
@@ -121,11 +122,34 @@
             }
 
             this.$store.commit('controlShow')
+
+            axios.get('https://www.nnbkqnp.cn/watchFile/getChange').then(response =>{
+                var getChangeData = response.data
+                var name = getChangeData.username
+                var flag = getChangeData.flag
+                if (this.username === name || name === '') {
+                    this.chatStatus = 'font-size:20px;color: white'
+                }else {
+                    if (flag === 0 ) {
+                        this.chatStatus = 'font-size:20px;color: white'
+                    }else{
+                        this.chatStatus = 'font-size:20px;color: red'
+                    }
+                }
+            })
         },
 
         methods: {
             chat () {
                 // this.chatStatus = 'font-size:20px;color: white'
+                axios.get('https://www.nnbkqnp.cn/watchFile/setChange?data=0&username=' + this.username).then(response =>{
+                    var code = response.data.code
+                    if (code === 200) {
+                        this.chatStatus = 'font-size:20px;color: white'
+                    }else{
+                        this.chatStatus = 'font-size:20px;color: red'
+                    }
+                })
                 window.open(this.$store.state.base_url + ':7996/websocket', '_blank')
             },
 
