@@ -125,6 +125,7 @@
 
             axios.get('https://www.nnbkqnp.cn/watchFile/getChange').then(response =>{
                 var getChangeData = response.data
+                console.log(getChangeData)
                 var name = getChangeData.username
                 var flag = getChangeData.flag
                 if (this.username === name || name === '') {
@@ -134,6 +135,12 @@
                         this.chatStatus = 'font-size:20px;color: white'
                     }else{
                         this.chatStatus = 'font-size:20px;color: red'
+                        const h = this.$createElement;
+
+                        this.$notify({
+                        title: '消息',
+                        message: h('i', { style: 'color: teal'}, '您有未读消息哦')
+                        });
                     }
                 }
             })
