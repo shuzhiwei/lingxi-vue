@@ -6,7 +6,7 @@
         @click="addRow()"
         type="success"
         icon="el-icon-plus"
-        style="margin-bottom:10px;"
+        style="margin-bottom:10px;margin-left: 30px;"
         size="mini"
       ></el-button>
 
@@ -31,7 +31,8 @@
     ref="filterTable"
     :data="datas"
     @selection-change="handleSelectionChange"
-    style="width: 100%;font-size: 18px;">
+    style="width: 95%;font-size: 16px;margin-left: 30px;"
+    >
 
     <el-table-column
       type="selection"
