@@ -11,7 +11,7 @@
            <span>
                 <!-- <span>{{username}}</span> -->
                 <span>
-                    <i class="el-icon-chat-dot-square" :style="this.$store.state.chatStatus" @click="chat"></i>
+                    <i v-show="this.username !== 'helloworld'" class="el-icon-chat-dot-square" :style="this.$store.state.chatStatus" @click="chat"></i>
 
                     <el-dropdown>
                         <span style="cursor: pointer; color: white;">
@@ -37,7 +37,7 @@
                     background-color="#dbe9f1"
 
                     active-text-color="#6ec673" id="menu">
-            <el-submenu index="1">
+            <el-submenu index="1" v-show="this.username !== 'helloworld'">
               <template slot="title"><i class="el-icon-location"></i>Blog</template>
               <el-menu-item-group>
                 <el-menu-item index="1-1" @click="isCollapse=!isCollapse"><router-link to="/main/home"><i class="el-icon-tickets"></i>Home</router-link></el-menu-item>
@@ -63,7 +63,7 @@
                 <el-menu-item index="3-3" @click="aiqiyi"> <i class="el-icon-tickets"></i>Aiqiyi</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
-            <el-submenu index="4">
+            <el-submenu index="4" v-show="this.username !== 'helloworld'">
               <template slot="title"><i class="el-icon-location"></i>Storage</template>
               <el-menu-item-group>
                 <el-menu-item index="4-1" @click="storage"> <i class="el-icon-tickets"></i>Seafile</el-menu-item>
@@ -78,13 +78,13 @@
                 <el-menu-item index="5-5" @click="jupyter"> <i class="el-icon-tickets"></i>Jupyter</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
-            <el-submenu v-show="this.username == 'shuzhiwei'" index="8">
+            <el-submenu v-show="false" index="8">
               <template slot="title"><i class="el-icon-location"></i>Rde</template>
               <el-menu-item-group>
                 <el-menu-item index="8-1" @click="isCollapse=!isCollapse"> <router-link to="/main/powerFactor"><i class="el-icon-tickets"></i>PowerFactor</router-link></el-menu-item>
               </el-menu-item-group>
             </el-submenu>
-            <el-submenu v-show="this.username == 'shuzhiwei'" index="9">
+            <el-submenu v-show="(this.username == 'shuzhiwei' || this.username == 'admin')" index="9">
               <template slot="title"><i class="el-icon-location"></i>System</template>
               <el-menu-item-group>
                 <el-menu-item index="9-1" @click="isCollapse=!isCollapse"> <router-link to="/main/authManage"><i class="el-icon-tickets"></i>AuthManage</router-link></el-menu-item>

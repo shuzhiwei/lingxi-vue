@@ -132,7 +132,7 @@
                     const dict_con = response.data
                     console.log(dict_con['code'])
                     if (dict_con['code'] === 401) {
-                        alert(dict_con['message'])
+                        this.$message.error('无acs权限！')
                         return
                     }
                     var info = dict_con['info']

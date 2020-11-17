@@ -134,7 +134,7 @@
                     return
                 }
                 if (code === 401) {
-                    alert(con.message)
+                    this.$message.error('无acs权限！')
                     return
                 }
                 if (code === 200) {
@@ -161,11 +161,11 @@
                     }
                 }else{
                     console.log(con)
-                    alert(code)
+                    this.$message.error(code)
                 }
             }).catch(error => {
                 console.log(error)
-                alert(error)
+                this.$message.error(error)
             })
         },
 
@@ -213,7 +213,7 @@
                         return
                     }
                     if (code === 401) {
-                        alert(con.message)
+                        this.$message.error('无acs权限！')
                         return
                     }
                     if (code === 200) {
@@ -272,7 +272,7 @@
                         return
                     }
                     if (code === 401) {
-                        alert(con.message)
+                        this.$message.error('无acs权限！')
                         return
                     }
                     const res = con.data

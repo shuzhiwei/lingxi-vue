@@ -209,7 +209,7 @@
                     return
                 }
                 if (code === 401) {
-                    alert(con.message)
+                    this.$message.error('无acs权限！')
                     return
                 }
                 this.totalPage = con.totalPage
@@ -263,7 +263,7 @@
 
             }).catch(error => {
                 console.log(error)
-                alert(error)
+                this.$message.error(error)
             })
 
             
@@ -440,7 +440,7 @@
                                     }else if (code === 200) {
                                         console.log(code)
                                     }else{
-                                        alert(code)
+                                        this.$message.error(code)
                                     }
                                 })
                                 tmp_images = ''
@@ -462,14 +462,14 @@
                                 }else if (code === 200) {
                                     console.log(code)
                                 }else{
-                                    alert(code)
+                                    this.$message.error(code)
                                 }
                             })
                         }
 
 
                     }else{
-                        alert(code)
+                        this.$message.error(code)
                     }
                 })
                 
@@ -522,7 +522,7 @@
                         return
                     }
                     if (code === 401) {
-                        alert(con.message)
+                        this.$message.error('无acs权限！')
                         return
                     }
                     const res = con.data
@@ -549,7 +549,7 @@
                     }
                 }).catch(error => {
                     console.log(error)
-                    alert(error)
+                    this.$message.error(error)
 
                 })
             },
@@ -586,7 +586,7 @@
                             // if (res.data.code === 200) {
                             //     this.$message.success('删除成功')
                             // }else{
-                            //     alert(res.data.code)
+                            //     this.$message.error(res.data.code)
                             // }
 
                             if (code === 402) {
@@ -597,7 +597,7 @@
                                 this.$message.success('删除成功')
                                 this.reload()
                             }else{
-                                alert(code)
+                                this.$message.error(code)
                             }
                         }).catch(error => {
                             console.log(error)
@@ -619,7 +619,7 @@
 
             editBlog (scope) {
                 if (!scope.row.id) {
-                    alert('id为空')
+                    this.$message.error('id为空')
                     this.tableData.splice(scope.$index, 1)
                 }else if (this.username !== scope.row.author) {
                     this.$message.success('不是您的博客哦！')
@@ -630,7 +630,7 @@
 
             deleteBlog (scope) {
                 if (!scope.row.id) {
-                    alert('id为空')
+                    this.$message.error('id为空')
                     this.tableData.splice(scope.$index, 1)
                 }else if (this.username !== scope.row.author) {
                     this.$message.success('不是您的博客哦！')
@@ -655,14 +655,14 @@
                                 this.$message.success('删除成功')
                                 this.reload()
                             }else{
-                                alert(code)
+                                this.$message.error(code)
                             }
 
                             // if (res.data.code === 200) {
                             //     this.$message.success('删除成功')
                             //     this.reload()
                             // }else{
-                            //     alert(res.data.code)
+                            //     this.$message.error(res.data.code)
                             // }
                         }).catch(error => {
                             console.log(error)

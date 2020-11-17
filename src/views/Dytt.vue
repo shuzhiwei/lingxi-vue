@@ -62,7 +62,7 @@
                     const code = dict_con['code']
                     console.log(code)
                     if (code === 401) {
-                        alert(dict_con['message'])
+                        this.$message.error(dict_con['message'])
                         return
                     }
                     if (code === 200) {
@@ -96,7 +96,7 @@
                     const code = dict_con['code']
                     console.log(code)
                     if (code === 401) {
-                        alert(dict_con['message'])
+                        this.$message.error(dict_con['message'])
                         return
                     }
                     if (code === 200) {

@@ -117,7 +117,8 @@
                         this.imageAddr = res.data.imageAddr
                     }
                 }else{
-                    alert(code)
+                    console.log(code)
+                    this.$message.error('无acs权限！')
                 }
             })
         },
@@ -202,10 +203,10 @@
                                 axios.post(url1, qs.stringify(params1)).then(response => {
                                     let res = response.data
                                     if (res.code !== 200) {
-                                        alert(res.code)
+                                        this.$message.error(res.code)
                                     }
                                 }).catch(error =>{
-                                    alert(error)
+                                    this.$message.error(error)
                                 })
                                 newImages = ''
                             }
@@ -218,20 +219,20 @@
                             axios.post(url1, qs.stringify(params2)).then(response => {
                                 let res = response.data
                                 if (res.code !== 200) {
-                                    alert(res.code)
+                                    this.$message.error(res.code)
                                 }
                             }).catch(error =>{
-                                alert(error)
+                                this.$message.error(error)
                             })
                         }
                         load.close();
                     }else{
-                        alert(res.code)
+                        this.$message.error(res.code)
                         console.log(res.message)
                         load.close();
                     }
                 }).catch(error =>{
-                    alert(error)
+                    this.$message.error(error)
                 })
                 
                 this.$router.push({path: '/main/home'})

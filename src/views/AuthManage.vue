@@ -67,6 +67,9 @@
                 {text: 'houtingyu', value: 'houtingyu'},
                 {text: 'admin_role', value: 'admin_role'},
                 {text: 'user_role', value: 'user_role'},
+                {text: 'entertainment_role', value: 'entertainment_role'},
+                {text: 'helloworld', value: 'helloworld'},
+                {text: 'blog_role', value: 'blog_role'},
                 ]"
       :filter-method="filterHandler"
       >
@@ -196,7 +199,7 @@
                     return
                 }
                 if (code === 401) {
-                    alert(con.message)
+                    this.$message.error('无acs权限！')
                     return
                 }
                 this.totalPage = con.totalPage
@@ -219,7 +222,7 @@
                 }
             }).catch(error => {
                 console.log(error)
-                alert(error)
+                this.$message.error(error)
             })
 
             
@@ -255,7 +258,7 @@
                         return
                     }
                     if (code === 401) {
-                        alert(con.message)
+                        this.$message.error('无acs权限！')
                         return
                     }
                     const res = con.data
@@ -280,7 +283,7 @@
                     }
                 }).catch(error => {
                     console.log(error)
-                    alert(error)
+                    this.$message.error(error)
                 })
             },
 
@@ -310,7 +313,7 @@
                             if (res.data.code === 200) {
                                 this.$message.success('删除成功')
                             }else{
-                                alert(res.data.code)
+                                this.$message,error(res.data.code)
                             }
                         }).catch(error => {
                             console.log(error)
@@ -399,13 +402,13 @@
                                 this.reload()
                                 // this.checkTable()
                             } else {
-                                alert(res.data.code)
+                                this.$message.error(res.data.code)
                             }
                         }).catch(error =>{
                             console.log(error)
                         })
                     }else{
-                        alert('请补全数据')
+                        this.$message.error('请补全数据')
                     }
                 }else{
                     // 修改
@@ -427,7 +430,7 @@
                                 this.reload()
                                 // this.checkTable()
                             } else {
-                                alert(res.data.code)
+                                this.$message,error(res.data.code)
                             }
                         }).catch(error =>{
                             console.log(error)
@@ -440,7 +443,7 @@
             // 删除一行
             deleteFun (scope) {
                 if (!scope.row.id) {
-                    alert('id为空')
+                    this.$message.error('id为空')
                     this.tableData.splice(scope.$index, 1)
                 } else {
                     if (confirm('确定删除吗？' + scope.row.p_type + ', ' + scope.row.v0 + ', ' + scope.row.v1 + ', ' + scope.row.v2 + ', ' + scope.row.v3) === true) {
@@ -454,7 +457,7 @@
                                 this.$message.success('删除成功')
                                 this.reload()
                             }else{
-                                alert(res.data.code)
+                                this.$message,error(res.data.code)
                             }
                         }).catch(error => {
                             console.log(error)
@@ -482,7 +485,7 @@
                         }
                     }
                     if (!checkboxValues) {
-                        alert('不能删除0条！')
+                        this.$message.error('不能删除0条！')
                     }else{
                         const url = this.$store.state.base_url + `/acs-manage/policy/delete`
                         const params = {
@@ -494,7 +497,7 @@
                             if (res.code === 200) {
                                 this.reload()
                             }else{
-                                alert(res.code)
+                                this.$message.error(res.code)
                             }
                         })
                         

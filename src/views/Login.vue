@@ -30,8 +30,16 @@
         mounted () {
             const token = getCookie('lingxi-token')
             if(token !== 'None'){
-                this.$router.push({path: '/main/home'})
+                if (this.UserName !== '') {
+                    if (this.UserName !== 'helloworld') {
+                        this.$router.push({path: '/main/home'})
+                    }else{
+                        this.$router.push({path: '/main/vipParser'})
+                    }
+                    
+                }
             }
+                
         },
         
         methods: {
@@ -43,11 +51,16 @@
                 }
                 axios.post(url, qs.stringify(params)).then(response => {
                     const token = response.data
-                    this.$router.push({path: '/main/home'})
+                    if (this.UserName === 'helloworld') {
+                        this.$router.push({path: '/main/vipParser'})
+                    }else{
+                        this.$router.push({path: '/main/home'})
+                    }
                     setCookie('lingxi-token',token, 3600*24)
                     setCookie('username',this.UserName, 3600*24)
+                    
                 }).catch(error => {
-                    alert('登陆失败')
+                    this.$message.error('登陆失败')
                 })
             }
         }

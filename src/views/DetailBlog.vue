@@ -96,7 +96,7 @@
                     return
                 }
                 if (code === 401) {
-                    alert(con.message)
+                    this.$message.error('无acs权限！')
                     return
                 }
                 if (code === 200) {

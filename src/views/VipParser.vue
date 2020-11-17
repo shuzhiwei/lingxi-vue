@@ -72,7 +72,7 @@
                             this.sleep(3000)
                             this.search()
                         }else if (code === 401) {
-                            alert(con.message)
+                            this.$message.error('无acs权限！')
                         }else if (code === 200) {
                             if (con.url === '') {
                                 this.$message.error('请精确搜索关键字')
@@ -80,7 +80,7 @@
                                 window.open(base_url + con.url, '_blank')
                             }
                         }else {
-                            alert('未搜索到')
+                            this.$message.error('未搜索到')
                         }
                     })
                 }
@@ -99,6 +99,7 @@
                     axios.post(url, qs.stringify(params)).then(response => {
                         const con = response.data
                         const code = con.code
+                        console.log(con)
 
                         if (code === 402) {
                             console.log('token过期')
@@ -108,7 +109,7 @@
                             this.sleep(3000)
                             this.search()
                         }else if (code === 401) {
-                            alert(con.message)
+                            this.$message.error('无acs权限！')
                         }else if (code === 200) {
                             if (con.url === '') {
                                 this.$message.error('请精确搜索关键字')
@@ -116,7 +117,7 @@
                                 window.open(base_url + con.url, '_blank')
                             }
                         }else {
-                            alert('未搜索到')
+                            this.$message.error('未搜索到')
                         }
                     })
                 }
