@@ -98,7 +98,7 @@
         },
 
         mounted () {
-            const url = `https://www.食.tech/lingxis/view/allShare`
+            const url = this.$store.state.base_url + `/lingxis/view/allShare`
             const params = {
                     'pageSize': this.pageSize,
                     'pageNo': this.pageNo

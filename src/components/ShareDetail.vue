@@ -81,7 +81,7 @@
 
         mounted () {
             const id = this.$route.params.id
-            const url = `https://www.食.tech/lingxis/viewShare/${id}`
+            const url = this.$store.state.base_url + `/lingxis/viewShare/${id}`
             console.log(url)
             axios.get(url).then(response =>{
                 let res = response.data
