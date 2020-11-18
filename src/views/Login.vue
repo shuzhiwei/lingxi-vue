@@ -29,6 +29,7 @@
 
         mounted () {
             const token = getCookie('lingxi-token')
+            this.UserName = getCookie('username')
             if(token !== 'None'){
                 if (this.UserName !== '') {
                     if (this.UserName !== 'helloworld') {

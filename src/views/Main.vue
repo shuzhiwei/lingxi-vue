@@ -9,9 +9,9 @@
           </div></el-col>
           <el-col :span="12"><div class="grid-content bg-purple-light text-right">
            <span>
-                <!-- <span>{{username}}</span> -->
                 <span>
-                    <i v-show="this.username !== 'helloworld'" class="el-icon-chat-dot-square" :style="this.$store.state.chatStatus" @click="chat"></i>
+                    <i v-show="this.username !== 'helloworld'" class="el-icon-chat-dot-square" style="font-size:20px;color: white" @click="jumpChat">
+                    </i>
 
                     <el-dropdown>
                         <span style="cursor: pointer; color: white;">
@@ -41,7 +41,7 @@
               <template slot="title"><i class="el-icon-location"></i>Blog</template>
               <el-menu-item-group>
                 <el-menu-item index="1-1" @click="isCollapse=!isCollapse"><router-link to="/main/home"><i class="el-icon-tickets"></i>Home</router-link></el-menu-item>
-                <el-menu-item v-show="this.username == 'shuzhiwei'" index="1-3" @click="isCollapse=!isCollapse"><router-link to="/main/hello"><i class="el-icon-tickets"></i>Tools</router-link></el-menu-item>
+                <el-menu-item  index="1-3" @click="isCollapse=!isCollapse"><router-link to="/main/chat"><i class="el-icon-tickets"></i>Chat</router-link></el-menu-item>
                 <el-menu-item v-show="this.username == 'shuzhiwei'" index="1-4" @click="isCollapse=!isCollapse"><router-link to="/main/test"><i class="el-icon-tickets"></i>test</router-link></el-menu-item>
               </el-menu-item-group>
             </el-submenu>
@@ -119,24 +119,10 @@
             if (this.token === 'None') {
                 this.$router.push({path: '/login'})
             }
-
             this.$store.commit('controlShow')
-
         },
 
         methods: {
-            chat () {
-                // this.chatStatus = 'font-size:20px;color: white'
-                axios.get('https://www.nnbkqnp.cn/watchFile/setChange?data=0&username=' + this.username).then(response =>{
-                    var code = response.data.code
-                    if (code === 200) {
-                        this.$store.state.chatStatus = 'font-size:20px;color: white'
-                    }else{
-                        this.$store.state.chatStatus = 'font-size:20px;color: red'
-                    }
-                })
-                window.open(this.$store.state.base_url + ':7996/websocket', '_blank')
-            },
 
             controlScreenShow () {
                 if (this.screenWidth < 1236) {
@@ -183,6 +169,10 @@
             jupyter () {
                 window.open(this.$store.state.base_url + ':7992/', '_blank')
             },
+
+            jumpChat () {
+                this.$router.push({path: '/main/chat'})
+            }
            
         }
     }

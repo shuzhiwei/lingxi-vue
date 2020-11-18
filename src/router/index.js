@@ -9,7 +9,7 @@ import Login from '../views/Login.vue'
 import Main from '../views/Main.vue'
 
 import Home from '../views/Home.vue'
-import Hello from '../views/Hello.vue'
+import Chat from '../views/Chat.vue'
 
 import EditBlog from '../views/EditBlog.vue'
 import DetailBlog from '../views/DetailBlog.vue'
@@ -70,10 +70,10 @@ export default new VueRouter({
                       }
                 },
                 {
-                    path: 'hello',
-                    component: Hello,
+                    path: 'chat',
+                    component: Chat,
                     meta: {
-                        title: 'Tools', // 页签标题
+                        title: 'Chat', // 页签标题
                         icon: 'el-icon-paperclip', // 页签图标，可选
                         key: 'path', // 路由打开页签规则，可选
                         closable: true // 页签是否允许关闭，默认 `true`

@@ -239,35 +239,33 @@
                     this.paginationShow = true
                 }
 
-                const timer = setInterval(()=>{
-                    console.log(1)
-                    axios.get('https://www.nnbkqnp.cn/watchFile/getChange').then(response =>{
-                        var getChangeData = response.data
-                        // console.log(getChangeData)
-                        var name = getChangeData.username
-                        var flag = getChangeData.flag
-                        if (this.username === name || name === '') {
-                            this.$store.state.chatStatus = 'font-size:20px;color: white'
-                        }else {
-                            if (flag === 0 ) {
-                                this.$store.state.chatStatus = 'font-size:20px;color: white'
-                            }else{
-                                this.$store.state.chatStatus = 'font-size:20px;color: red'
-                                const h = this.$createElement;
+                // const timer = setInterval(()=>{
+                //     console.log(1)
+                //     axios.get('https://www.nnbkqnp.cn/watchFile/getChange').then(response =>{
+                //         var getChangeData = response.data
+                //         // console.log(getChangeData)
+                //         var name = getChangeData.username
+                //         var flag = getChangeData.flag
+                //         if (this.username === name || name === '') {
+                //             this.$store.state.chatStatus = 'font-size:20px;color: white'
+                //         }else {
+                //             if (flag === 0 ) {
+                //                 this.$store.state.chatStatus = 'font-size:20px;color: white'
+                //             }else{
+                //                 this.$store.state.chatStatus = 'font-size:20px;color: red'
+                //                 const h = this.$createElement;
 
-                                this.$notify({
-                                title: '消息',
-                                message: h('i', { style: 'color: teal'}, '您有未读消息哦')
-                                });
-                            }
-                        }
-                    })
-                },10000)
-                this.$once('hook:beforeDestroy', ()=>{
-                    clearInterval(timer)
-                })
-
-                
+                //                 this.$notify({
+                //                 title: '消息',
+                //                 message: h('i', { style: 'color: teal'}, '您有未读消息哦')
+                //                 });
+                //             }
+                //         }
+                //     })
+                // },10000)
+                // this.$once('hook:beforeDestroy', ()=>{
+                //     clearInterval(timer)
+                // })
 
             }).catch(error => {
                 console.log(error)
