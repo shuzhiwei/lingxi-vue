@@ -36,6 +36,7 @@
 <script>
     import {setCookie,getCookie} from '../../static/js/cookie.js'
     export default {
+        inject: ['reload'],
         data () {
             return {
                 token: getCookie('lingxi-token'),
@@ -219,13 +220,14 @@
             },
 
             leaveChat () {
-                // var user_info = {
-                //     'type': 'logout',
-                //     'content': this.username
-                // };
-                // this.sendMsg(user_info);
-                // this.ws.close();
+                var user_info = {
+                    'type': 'logout',
+                    'content': this.username
+                };
+                this.sendMsg(user_info);
+                this.ws.close();
                 this.$router.push({'path': '/main/home'})
+                this.reload()
                 // window.opener = null
                 // window.open("about:blank", "_top").close()
                 // this.$router.push({'path': '/main/home'})
