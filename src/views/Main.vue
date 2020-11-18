@@ -10,7 +10,7 @@
           <el-col :span="12"><div class="grid-content bg-purple-light text-right">
            <span>
                 <span>
-                    <i v-show="this.username !== 'helloworld'" class="el-icon-chat-dot-square" style="font-size:20px;color: white" @click="jumpChat">
+                    <i class="el-icon-chat-dot-square" style="font-size:20px;color: white" @click="jumpChat">
                     </i>
 
                     <el-dropdown>

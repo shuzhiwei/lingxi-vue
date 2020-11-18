@@ -1,22 +1,33 @@
 <template>
     <div>
-        <div style="text-align: right"><el-button type="primary" @click="leaveChat">Home</el-button></div>
-        <div style="width: 320px;height: 600px;margin: 30px auto;text-align: center">
+        <div style="width: 320px;height: 300px;margin: 30px auto;text-align: center">
         <h1>灵犀聊天室</h1>
-        <div style="width: 320px;border: 1px solid gray;height: 300px;">
-            <div style="width: 90px;height: 300px;float: left;text-align: left;">
+        <div style="width: 320px;border: 1px solid gray;height: 250px;">
+            <div style="width: 90px;height: 250px;float: left;text-align: left;">
                 <p><span>当前在线:</span><span id="user_num">0</span></p>
                 <div id="user_list" style="overflow: auto;">
 
                 </div>
             </div>
-            <div id="msg_list" style="width: 228px;border:  1px solid gray; height: 300px;overflow: scroll;float: left;text-align: left;">
+            <div id="msg_list" style="width: 228px;border:  1px solid gray; height: 250px;overflow: scroll;float: left;text-align: left;">
             </div>
         </div>
         <br>
-        <textarea id="msg_box" rows="6" cols="40" @keydown="confirm($event)"></textarea><br>
-        <!-- <input type="button" value="发送" @click="send">&nbsp;&nbsp; -->
-        <el-button type="primary" @click="send">发送</el-button>
+        <div style="width: 320px;height: 50px;">
+            <div style="width: 200px;height: 50px;float: left;text-align: left;">
+                <textarea id="msg_box" rows="2" cols="25" @keydown="confirm($event)"></textarea>
+            </div>
+            <div style="width: 60px;height: 50px;float: left;text-align: left;">
+                <el-button type="primary" size="mini" @click="send">发送</el-button>
+                
+            </div>
+            <div style="width: 60px;height: 50px;float: left;text-align: left;">
+                <el-button type="primary" size="mini" @click="leaveChat">返回</el-button>
+            </div>
+            
+        </div>
+        
+        
         </div>
 
     </div>
