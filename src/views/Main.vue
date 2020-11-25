@@ -64,9 +64,10 @@
               </el-menu-item-group>
             </el-submenu>
             <el-submenu index="4" v-show="this.username !== 'helloworld'">
-              <template slot="title"><i class="el-icon-location"></i>Storage</template>
+              <template slot="title"><i class="el-icon-location"></i>Learn</template>
               <el-menu-item-group>
                 <el-menu-item index="4-1" @click="storage"> <i class="el-icon-tickets"></i>Seafile</el-menu-item>
+                <el-menu-item index="4-2" @click="board"> <i class="el-icon-tickets"></i>Board</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
             <el-submenu index="5" v-show="this.username == 'shuzhiwei'">
@@ -172,6 +173,11 @@
 
             jumpChat () {
                 this.$router.push({path: '/main/chat'})
+            },
+
+            board () {
+                this.isCollapse = false
+                window.open('https://gitlab.com/virus123/PersonalWork/-/boards', '_blank')
             }
            
         }
