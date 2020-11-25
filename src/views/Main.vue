@@ -177,7 +177,7 @@
 
             board () {
                 this.isCollapse = false
-                window.open('https://gitlab.com/virus123/PersonalWork/-/boards', '_blank')
+                window.open('https://gitlab.com/lingxi-work/work-board/-/boards', '_blank')
             }
            
         }
