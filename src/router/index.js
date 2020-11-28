@@ -13,6 +13,7 @@ import Chat from '../views/Chat.vue'
 
 import EditBlog from '../views/EditBlog.vue'
 import DetailBlog from '../views/DetailBlog.vue'
+import AddBlog from '../views/AddBlog.vue'
 
 import PowerFactor from '../views/PowerFactor.vue'
 
@@ -84,6 +85,16 @@ export default new VueRouter({
                     component: EditBlog,
                     meta: {
                         title: 'EditBlog',
+                        icon: 'el-icon-paperclip',
+                        key: 'path',
+                        closable: true
+                      }
+                },
+                {
+                    path: 'add',
+                    component: AddBlog,
+                    meta: {
+                        title: 'AddBlog',
                         icon: 'el-icon-paperclip',
                         key: 'path',
                         closable: true

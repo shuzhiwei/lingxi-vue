@@ -9,14 +9,14 @@
 <!-- Form -->
 <!-- <el-button type="text" @click="dialogFormVisible = true">新建</el-button> -->
 <el-button
-        @click="dialogFormVisible = true"
+        @click="routeAdd"
         icon="el-icon-plus"
         type="success"
         style="margin-bottom:10px;margin-left: 30px;"
         size="mini"
       ></el-button>
 
-<el-dialog title="新建博客" :visible.sync="dialogFormVisible">
+<!-- <el-dialog title="新建博客" :visible.sync="dialogFormVisible">
 
   <el-form :model="form">
     <el-form-item label="标题">
@@ -38,8 +38,6 @@
 
     <br>
     <span v-for="(item, index) in form.images1" :key="index">
-        <!-- <img style="height:100px;weight:100px;" :src="item.image" alt=""> -->
-
             <div class="img-box">
              <img class="myimage" :src="item.image" alt="">
             <div class="del-icon" @click="deletePrePhoto(index)"></div>
@@ -52,7 +50,7 @@
     <el-button type="info" @click="dialogFormVisible = false">取 消</el-button>
     <el-button type="primary" @click="selectFile" :disabled="form.newCreating">确 定</el-button>
   </div>
-</el-dialog>
+</el-dialog> -->
 
       <el-button
         @click="delRows()"
@@ -278,6 +276,9 @@
         },
 
         methods: {
+            routeAdd () {
+                this.$router.push({'path': '/main/add'})
+            },
 
             shareChange (scope) {
 
