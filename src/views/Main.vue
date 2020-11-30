@@ -74,6 +74,7 @@
             <el-submenu index="5" v-show="this.username == 'shuzhiwei'">
               <template slot="title"><i class="el-icon-location"></i>Work</template>
               <el-menu-item-group>
+                <el-menu-item index="5-1" @click="personalNote"> <i class="el-icon-tickets"></i>Note</el-menu-item>
                 <el-menu-item index="5-2" @click="jenkins"> <i class="el-icon-tickets"></i>Jenkins</el-menu-item>
                 <el-menu-item index="5-3" @click="konga"> <i class="el-icon-tickets"></i>Konga</el-menu-item>
                 <el-menu-item index="5-4" @click="glances"> <i class="el-icon-tickets"></i>Glances</el-menu-item>
@@ -169,7 +170,7 @@
                 window.open(this.$store.state.base_url + ':7995/', '_blank')
             },
             jupyter () {
-                window.open(this.$store.state.base_url + ':7992/', '_blank')
+                window.open('http://www.nnbkqnp.cn:9999', '_blank')
             },
 
             jumpChat () {
@@ -179,7 +180,12 @@
             board () {
                 this.isCollapse = false
                 window.open('https://gitlab.com/lingxi-work/work-board/-/boards', '_blank')
-            }
+            },
+
+            personalNote () {
+                this.isCollapse = false
+                window.open('https://www.nnbkqnp.cn:7996/lib/2a8ae87c-ef5b-4966-ac0f-0d4f11d44591/file/%E4%B8%AA%E4%BA%BA%E7%AC%94%E8%AE%B0.md', '_blank')
+            },
            
         }
     }
