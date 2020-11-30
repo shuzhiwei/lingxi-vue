@@ -69,6 +69,7 @@
               <el-menu-item-group>
                 <el-menu-item index="4-1" @click="storage"> <i class="el-icon-tickets"></i>Seafile</el-menu-item>
                 <el-menu-item index="4-2" @click="board"> <i class="el-icon-tickets"></i>Board</el-menu-item>
+                <el-menu-item index="4-3" @click="english"> <i class="el-icon-tickets"></i>English</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
             <el-submenu index="5" v-show="this.username == 'shuzhiwei'">
@@ -186,6 +187,11 @@
                 this.isCollapse = false
                 window.open('https://www.nnbkqnp.cn:7996/lib/2a8ae87c-ef5b-4966-ac0f-0d4f11d44591/file/%E4%B8%AA%E4%BA%BA%E7%AC%94%E8%AE%B0.md', '_blank')
             },
+
+            english () {
+                this.isCollapse = false
+                window.open('https://bdc.youzack.com/Recitation/Home/ChooseDictionary', '_blank')
+            }
            
         }
     }
