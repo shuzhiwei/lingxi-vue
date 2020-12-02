@@ -76,10 +76,10 @@
               <template slot="title"><i class="el-icon-location"></i>Work</template>
               <el-menu-item-group>
                 <el-menu-item index="5-1" @click="personalNote"> <i class="el-icon-tickets"></i>Note</el-menu-item>
-                <el-menu-item index="5-2" @click="jenkins"> <i class="el-icon-tickets"></i>Jenkins</el-menu-item>
-                <el-menu-item index="5-3" @click="konga"> <i class="el-icon-tickets"></i>Konga</el-menu-item>
-                <el-menu-item index="5-4" @click="glances"> <i class="el-icon-tickets"></i>Glances</el-menu-item>
-                <el-menu-item index="5-5" @click="jupyter"> <i class="el-icon-tickets"></i>Jupyter</el-menu-item>
+                <el-menu-item index="5-2" @click="jupyter"> <i class="el-icon-tickets"></i>Jupyter</el-menu-item>
+                <el-menu-item index="5-3" @click="jenkins"> <i class="el-icon-tickets"></i>Jenkins</el-menu-item>
+                <el-menu-item index="5-4" @click="konga"> <i class="el-icon-tickets"></i>Konga</el-menu-item>
+                <el-menu-item index="5-5" @click="glances"> <i class="el-icon-tickets"></i>Glances</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
             <el-submenu v-show="false" index="8">
@@ -171,7 +171,7 @@
                 window.open(this.$store.state.base_url + ':7995/', '_blank')
             },
             jupyter () {
-                window.open('http://www.nnbkqnp.cn:9999', '_blank')
+                window.open('http://www.nnbkqnp.cn:9999/notebooks/test.ipynb', '_blank')
             },
 
             jumpChat () {
