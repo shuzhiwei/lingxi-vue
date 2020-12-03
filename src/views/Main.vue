@@ -62,6 +62,7 @@
                 <el-menu-item index="3-1" @click="isCollapse=!isCollapse"> <router-link to="/main/dytt"><i class="el-icon-tickets"></i>Dytt</router-link></el-menu-item>
                 <el-menu-item index="3-2" @click="isCollapse=!isCollapse"> <router-link to="/main/vipParser"><i class="el-icon-tickets"></i>VipParser</router-link></el-menu-item>
                 <el-menu-item index="3-3" @click="aiqiyi"> <i class="el-icon-tickets"></i>Aiqiyi</el-menu-item>
+                <el-menu-item index="3-4" @click="music"> <i class="el-icon-tickets"></i>Music</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
             <el-submenu index="4" v-show="this.username !== 'helloworld'">
@@ -160,6 +161,9 @@
             },
             aiqiyi () {
                 window.open('https://www.iqiyi.com/', '_blank')
+            },
+            music () {
+                window.open('https://music.163.com/', '_blank')
             },
             jenkins () {
                 window.open(this.$store.state.base_url + ':7994/', '_blank')
