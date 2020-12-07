@@ -83,6 +83,15 @@
                 <el-menu-item index="5-5" @click="glances"> <i class="el-icon-tickets"></i>Glances</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
+
+            <el-submenu index="6" v-show="this.username !== 'helloworld'">
+              <template slot="title"><i class="el-icon-location"></i>Tips</template>
+              <el-menu-item-group>
+                <el-menu-item index="6-1" @click="tianqi"> <i class="el-icon-tickets"></i>Tianqi</el-menu-item>
+                <el-menu-item index="6-2" @click="map"> <i class="el-icon-tickets"></i>Map</el-menu-item>
+              </el-menu-item-group>
+            </el-submenu>
+
             <el-submenu v-show="false" index="8">
               <template slot="title"><i class="el-icon-location"></i>Rde</template>
               <el-menu-item-group>
@@ -195,6 +204,16 @@
             english () {
                 this.isCollapse = false
                 window.open('https://bdc.youzack.com/Recitation/Home/ChooseDictionary', '_blank')
+            },
+
+            tianqi () {
+                this.isCollapse = false
+                window.open('https://tianqi.qq.com/index.htm', '_blank')
+            },
+
+            map () {
+                this.isCollapse = false
+                window.open('https://map.51240.com/', '_blank')
             }
            
         }
