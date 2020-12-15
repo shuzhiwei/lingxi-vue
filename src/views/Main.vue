@@ -76,11 +76,12 @@
             <el-submenu index="5" v-show="this.username == 'shuzhiwei'">
               <template slot="title"><i class="el-icon-location"></i>Work</template>
               <el-menu-item-group>
-                <el-menu-item index="5-1" @click="personalNote"> <i class="el-icon-tickets"></i>Note</el-menu-item>
-                <el-menu-item index="5-2" @click="jupyter"> <i class="el-icon-tickets"></i>Jupyter</el-menu-item>
-                <el-menu-item index="5-3" @click="jenkins"> <i class="el-icon-tickets"></i>Jenkins</el-menu-item>
-                <el-menu-item index="5-4" @click="konga"> <i class="el-icon-tickets"></i>Konga</el-menu-item>
-                <el-menu-item index="5-5" @click="glances"> <i class="el-icon-tickets"></i>Glances</el-menu-item>
+                <!-- <el-menu-item index="5-1" @click="personalNote"> <i class="el-icon-tickets"></i>Note</el-menu-item> -->
+                <el-menu-item index="5-2" @click="evernote"> <i class="el-icon-tickets"></i>Evernote</el-menu-item>
+                <el-menu-item index="5-3" @click="jupyter"> <i class="el-icon-tickets"></i>Jupyter</el-menu-item>
+                <el-menu-item index="5-4" @click="jenkins"> <i class="el-icon-tickets"></i>Jenkins</el-menu-item>
+                <el-menu-item index="5-5" @click="konga"> <i class="el-icon-tickets"></i>Konga</el-menu-item>
+                <el-menu-item index="5-6" @click="glances"> <i class="el-icon-tickets"></i>Glances</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
 
@@ -196,9 +197,14 @@
                 window.open('https://gitlab.com/lingxi-work/work-board/-/boards', '_blank')
             },
 
-            personalNote () {
+            // personalNote () {
+            //     this.isCollapse = false
+            //     window.open('https://www.nnbkqnp.cn:7996/lib/2a8ae87c-ef5b-4966-ac0f-0d4f11d44591/file/%E4%B8%AA%E4%BA%BA%E7%AC%94%E8%AE%B0.md', '_blank')
+            // },
+
+            evernote () {
                 this.isCollapse = false
-                window.open('https://www.nnbkqnp.cn:7996/lib/2a8ae87c-ef5b-4966-ac0f-0d4f11d44591/file/%E4%B8%AA%E4%BA%BA%E7%AC%94%E8%AE%B0.md', '_blank')
+                window.open('https://app.yinxiang.com/Home.action?login=true#n=db9ada5f-7cec-4eca-9eaf-6d81197e2637&s=s35&ses=4&sh=2&sds=2&', '_blank')
             },
 
             english () {
