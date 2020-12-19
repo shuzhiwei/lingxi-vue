@@ -14,6 +14,7 @@
         </el-input></br></br>
         <el-button type="primary" size="mini" @click="search">View</el-button>
         <el-button type="primary" size="mini" @click="search1">View1</el-button>
+        <el-button type="primary" size="mini" @click="search2">View2</el-button>
     </div>
 </template>
 
@@ -121,7 +122,14 @@
                         }
                     })
                 }
-            }
+            },
+            
+            search2 () {
+                const base_url = 'https://www.administratorw.com/index/qqvod.php?url='
+                if (this.input.indexOf("http") === 0) {
+                    window.open(base_url + this.input, '_blank')
+                }
+            },
         }
 
     }
