@@ -191,7 +191,7 @@ export default new VueRouter({
                     path: 'kdj',
                     component: StockKdj,
                     meta: {
-                        title: 'kdj',
+                        title: 'goldCross',
                         color: 'black',
                         icon: 'el-icon-paperclip',
                         key: 'path',
