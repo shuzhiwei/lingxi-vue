@@ -29,7 +29,6 @@ export function getDateDiff(data) {
         result = timePublish.getFullYear() + "-";
         result += timePublish.getMonth() + "-";
         result += timePublish.getDate();
-        alert(result);
     }
     else if (diffMonth > 1) {
         result = parseInt(diffMonth) + "月前";
