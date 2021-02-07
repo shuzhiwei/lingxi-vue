@@ -35,6 +35,8 @@ import StockKdj from '../views/StockKdj.vue'
 import Dytt from '../views/Dytt.vue'
 import VipParser from '../views/VipParser.vue'
 
+import TodoList1 from '../views/TodoList1.vue'
+
 Vue.use(VueRouter)
 
 
@@ -64,6 +66,17 @@ export default new VueRouter({
                     component: Home,
                     meta: {
                         title: 'Home', // 页签标题
+                        icon: 'el-icon-paperclip', // 页签图标，可选
+                        // tips: '这是一个页面', // 页签提示，可选，如未设置则跟 title 一致
+                        key: 'path', // 路由打开页签规则，可选
+                        closable: true // 页签是否允许关闭，默认 `true`
+                      }
+                },
+                {
+                    path: 'todo',
+                    component: TodoList1,
+                    meta: {
+                        title: 'Todo', // 页签标题
                         icon: 'el-icon-paperclip', // 页签图标，可选
                         // tips: '这是一个页面', // 页签提示，可选，如未设置则跟 title 一致
                         key: 'path', // 路由打开页签规则，可选

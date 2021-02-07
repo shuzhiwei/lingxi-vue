@@ -41,9 +41,10 @@
               <template slot="title"><i class="el-icon-location"></i>Blog</template>
               <el-menu-item-group>
                 <el-menu-item index="1-1" @click="isCollapse=!isCollapse"><router-link to="/main/home"><i class="el-icon-tickets"></i>Home</router-link></el-menu-item>
-                <el-menu-item index="1-2" @click="isCollapse=!isCollapse"><router-link to="/main/add"><i class="el-icon-tickets"></i>Add</router-link></el-menu-item>
-                <el-menu-item  index="1-3" @click="isCollapse=!isCollapse"><router-link to="/main/chat"><i class="el-icon-tickets"></i>Chat</router-link></el-menu-item>
-                <el-menu-item v-show="this.username == 'shuzhiwei'" index="1-4" @click="isCollapse=!isCollapse"><router-link to="/main/test"><i class="el-icon-tickets"></i>test</router-link></el-menu-item>
+                <el-menu-item index="1-2" @click="isCollapse=!isCollapse"><router-link to="/main/todo"><i class="el-icon-tickets"></i>Todo</router-link></el-menu-item>
+                <el-menu-item index="1-4" @click="isCollapse=!isCollapse"><router-link to="/main/add"><i class="el-icon-tickets"></i>Add</router-link></el-menu-item>
+                <el-menu-item  index="1-5" @click="isCollapse=!isCollapse"><router-link to="/main/chat"><i class="el-icon-tickets"></i>Chat</router-link></el-menu-item>
+                <el-menu-item v-show="this.username == 'shuzhiwei'" index="1-6" @click="isCollapse=!isCollapse"><router-link to="/main/test"><i class="el-icon-tickets"></i>test</router-link></el-menu-item>
               </el-menu-item-group>
             </el-submenu>
             <el-submenu index="2">
