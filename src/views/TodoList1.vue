@@ -7,8 +7,12 @@
       <todo-header @addTodo="addTodo"/> <!--给TodoHeader标签对象绑定addTodo事件监听-->
       <todo-list :todos="todos" :delTodo="delTodo"/>
       <todo-footer :todos="todos" :deleteCompleteTodos="deleteCompleteTodos" :selectAllTodos="selectAllTodos"/>
-      
     </div>
+    <div style="text-align: center"><el-button type="info" size="small" @click="showHistory">历史已完成</el-button></div>
+  </div>
+
+  <div class="todo-container">
+      <todo-list-history :todos="todos_history" :delTodo="deleteReadHistory"/>
   </div>
 </div>
     
@@ -18,6 +22,7 @@
     import TodoHeader from '../components/TodoHeader.vue'
     import TodoList from '../components/TodoList.vue'
     import TodoFooter from '../components/TodoFooter.vue'
+    import TodoListHistory from '../components/TodoListHistory.vue'
     import axios from 'axios'
     import qs from 'qs'
     import {setCookie,getCookie} from '../../static/js/cookie.js'
@@ -28,17 +33,17 @@
         components: {
             TodoHeader,
             TodoList,
-            TodoFooter
+            TodoFooter,
+            TodoListHistory
         },
 
         data () {
             return {
                 token: getCookie('lingxi-token'),
                 username: getCookie('username'),
-                todos: []
+                todos: [],
+                todos_history: [],
             }
-            
-
         },
 
         mounted () {
@@ -46,6 +51,7 @@
             const url = this.$store.state.base_url + `/entertainment/todoListShow`
             const params = {
                     'token': this.token,
+                    'username': this.username
                 }
             axios.post(url, qs.stringify(params)).then(response => {
                 const con = response.data
@@ -100,14 +106,14 @@
                 // var second=now.getSeconds(); //返回日期中的秒数（0到59）
                 return year+"-"+month+"-"+date+" "
             },
-
             addTodo (todo) {
                 var ts = (new Date()).valueOf()
                 const url = this.$store.state.base_url + `/entertainment/todoInsert`
                 const params = {
                         'token': this.token,
                         'create_date': ts,
-                        'todo': todo
+                        'todo': todo,
+                        'username': this.username
                     }
                 axios.post(url, qs.stringify(params)).then(response => {
                     const con = response.data
@@ -123,50 +129,51 @@
                         this.$message.error('无acs权限！')
                         return
                     }
-                }).catch(error => {
-                    console.log(error)
-                    this.$message.error(error)
-                })
-                const url1 = this.$store.state.base_url + `/entertainment/todoListShow`
-                const params1 = {
-                        'token': this.token,
-                    }
-                axios.post(url1, qs.stringify(params1)).then(response => {
-                    const con1 = response.data
-                    console.log(con1)
-                    const code1 = con1.code
-                    if (code1 === 402) {
-                        const username1 = getCookie('username')
-                        refresh_token(username1, token)
-                        this.reload()
-                        return
-                    }
-                    if (code1 === 401) {
-                        this.$message.error('无acs权限！')
-                        return
-                    }
-                    const res1 = con1.todos
-                    this.todos = []
-                    for (let i=0; i<res1.length; i++) {
-                        let id = res1[i].id
-                        let todo = res1[i].todo
-                        let status = res1[i].status
-                        let create_date = res1[i].create_date
-                        create_date = this.formatDate(new Date(parseInt(create_date)))
-                        let d = {
-                            'id': id,
-                            'todo': todo,
-                            'status': status,
-                            'create_date': create_date
+                    const url1 = this.$store.state.base_url + `/entertainment/todoListShow`
+                    const params1 = {
+                            'token': this.token,
+                            'username': this.username
                         }
-                        this.todos.push(d)
-                    }
+                    axios.post(url1, qs.stringify(params1)).then(response => {
+                        const con1 = response.data
+                        console.log(con1)
+                        const code1 = con1.code
+                        if (code1 === 402) {
+                            const username1 = getCookie('username')
+                            refresh_token(username1, token)
+                            this.reload()
+                            return
+                        }
+                        if (code1 === 401) {
+                            this.$message.error('无acs权限！')
+                            return
+                        }
+                        const res1 = con1.todos
+                        this.todos = []
+                        for (let i=0; i<res1.length; i++) {
+                            let id = res1[i].id
+                            let todo = res1[i].todo
+                            let status = res1[i].status
+                            let create_date = res1[i].create_date
+                            create_date = this.formatDate(new Date(parseInt(create_date)))
+                            let d = {
+                                'id': id,
+                                'todo': todo,
+                                'status': status,
+                                'create_date': create_date
+                            }
+                            this.todos.push(d)
+                        }
+                    }).catch(error => {
+                        console.log(error)
+                        this.$message.error(error)
+                    })
                 }).catch(error => {
                     console.log(error)
                     this.$message.error(error)
                 })
+                
             },
-
             delTodo (index) {
                 const url = this.$store.state.base_url + `/entertainment/todoDelete`
                 const params = {
@@ -187,47 +194,49 @@
                         this.$message.error('无acs权限！')
                         return
                     }
+                    const url1 = this.$store.state.base_url + `/entertainment/todoListShow`
+                    const params1 = {
+                            'token': this.token,
+                            'username': this.username
+                        }
+                    axios.post(url1, qs.stringify(params1)).then(response => {
+                        const con1 = response.data
+                        console.log(con1)
+                        const code1 = con1.code
+                        if (code1 === 402) {
+                            const username1 = getCookie('username')
+                            refresh_token(username1, token)
+                            this.reload()
+                            return
+                        }
+                        if (code1 === 401) {
+                            this.$message.error('无acs权限！')
+                            return
+                        }
+                        const res1 = con1.todos
+                        this.todos = []
+                        for (let i=0; i<res1.length; i++) {
+                            let id = res1[i].id
+                            let todo = res1[i].todo
+                            let status = res1[i].status
+                            let create_date = res1[i].create_date
+                            let d = {
+                                'id': id,
+                                'todo': todo,
+                                'status': status,
+                                'create_date': create_date
+                            }
+                            this.todos.push(d)
+                        }
+                    }).catch(error => {
+                        console.log(error)
+                    })
                 }).catch(error => {
                     console.log(error)
                     this.$message.error(error)
                 })
 
-                const url1 = this.$store.state.base_url + `/entertainment/todoListShow`
-                const params1 = {
-                        'token': this.token,
-                    }
-                axios.post(url1, qs.stringify(params1)).then(response => {
-                    const con1 = response.data
-                    console.log(con1)
-                    const code1 = con1.code
-                    if (code1 === 402) {
-                        const username1 = getCookie('username')
-                        refresh_token(username1, token)
-                        this.reload()
-                        return
-                    }
-                    if (code1 === 401) {
-                        this.$message.error('无acs权限！')
-                        return
-                    }
-                    const res1 = con1.todos
-                    this.todos = []
-                    for (let i=0; i<res1.length; i++) {
-                        let id = res1[i].id
-                        let todo = res1[i].todo
-                        let status = res1[i].status
-                        let create_date = res1[i].create_date
-                        let d = {
-                            'id': id,
-                            'todo': todo,
-                            'status': status,
-                            'create_date': create_date
-                        }
-                        this.todos.push(d)
-                    }
-                }).catch(error => {
-                    console.log(error)
-                })
+                
             },
             deleteCompleteTodos () {
                 const todos = this.todos.filter(todo => todo.status == 1 || todo.status == true)
@@ -256,49 +265,155 @@
                         this.$message.error('无acs权限！')
                         return
                     }
+                    const url1 = this.$store.state.base_url + `/entertainment/todoListShow`
+                    const params1 = {
+                            'token': this.token,
+                            'username': this.username
+                        }
+                    axios.post(url1, qs.stringify(params1)).then(response => {
+                        const con1 = response.data
+                        console.log(con1)
+                        const code1 = con1.code
+                        if (code1 === 402) {
+                            const username1 = getCookie('username')
+                            refresh_token(username1, token)
+                            this.reload()
+                            return
+                        }
+                        if (code1 === 401) {
+                            this.$message.error('无acs权限！')
+                            return
+                        }
+                        const res1 = con1.todos
+                        this.todos = []
+                        for (let i=0; i<res1.length; i++) {
+                            let id = res1[i].id
+                            let todo = res1[i].todo
+                            let status = res1[i].status
+                            let create_date = res1[i].create_date
+                            let d = {
+                                'id': id,
+                                'todo': todo,
+                                'status': status,
+                                'create_date': create_date
+                            }
+                            this.todos.push(d)
+                        }
+                    }).catch(error => {
+                        console.log(error)
+                    })
                 }).catch(error => {
                     console.log(error)
                 })
 
-                const url1 = this.$store.state.base_url + `/entertainment/todoListShow`
-                const params1 = {
+                
+            },
+            selectAllTodos (value) {
+                this.todos.forEach(todo => todo.status=value)
+            },
+            deleteReadHistory (index) {
+                const url = this.$store.state.base_url + `/entertainment/todoRealDeleteHistory`
+                const params = {
                         'token': this.token,
+                        'ids': index
                     }
-                axios.post(url1, qs.stringify(params1)).then(response => {
-                    const con1 = response.data
-                    console.log(con1)
-                    const code1 = con1.code
-                    if (code1 === 402) {
-                        const username1 = getCookie('username')
-                        refresh_token(username1, token)
+                axios.post(url, qs.stringify(params)).then(response => {
+                    const con = response.data
+                    console.log(con)
+                    const code = con.code
+                    if (code === 402) {
+                        const username = getCookie('username')
+                        refresh_token(username, token)
                         this.reload()
                         return
                     }
-                    if (code1 === 401) {
+                    if (code === 401) {
                         this.$message.error('无acs权限！')
                         return
                     }
-                    const res1 = con1.todos
-                    this.todos = []
-                    for (let i=0; i<res1.length; i++) {
-                        let id = res1[i].id
-                        let todo = res1[i].todo
-                        let status = res1[i].status
-                        let create_date = res1[i].create_date
+                    const url1 = this.$store.state.base_url + `/entertainment/todoShowHistory`
+                    const params1 = {
+                            'token': this.token,
+                            'username': this.username
+                        }
+                    axios.post(url1, qs.stringify(params1)).then(response => {
+                        const con1 = response.data
+                        console.log(con1)
+                        const code1 = con1.code
+                        if (code1 === 402) {
+                            const username1 = getCookie('username')
+                            refresh_token(username1, token)
+                            this.reload()
+                            return
+                        }
+                        if (code1 === 401) {
+                            this.$message.error('无acs权限！')
+                            return
+                        }
+                        const res1 = con1.todos
+                        this.todos_history = []
+                        for (let i=0; i<res1.length; i++) {
+                            let id = res1[i].id
+                            let todo = res1[i].todo
+                            let status = res1[i].status
+                            let create_date = res1[i].create_date
+                            let d = {
+                                'id': id,
+                                'todo': todo,
+                                'status': status,
+                                'create_date': create_date
+                            }
+                            this.todos_history.push(d)
+                        }
+                    }).catch(error => {
+                        console.log(error)
+                    })
+                }).catch(error => {
+                    console.log(error)
+                    this.$message.error(error)
+                })
+
+            },
+            showHistory () {
+                const token = this.token
+                const url = this.$store.state.base_url + `/entertainment/todoShowHistory`
+                const params = {
+                        'token': this.token,
+                        'username': this.username
+                    }
+                this.todos_history = []
+                axios.post(url, qs.stringify(params)).then(response => {
+                    const con = response.data
+                    console.log(con)
+                    const code = con.code
+                    if (code === 402) {
+                        const username = getCookie('username')
+                        refresh_token(username, token)
+                        this.reload()
+                        return
+                    }
+                    if (code === 401) {
+                        this.$message.error('无acs权限！')
+                        return
+                    }
+                    const res = con.todos
+                    for (let i=0; i<res.length; i++) {
+                        let id = res[i].id
+                        let todo = res[i].todo
+                        let status = res[i].status
+                        let create_date = res[i].create_date
+                        create_date = this.formatDate(new Date(parseInt(create_date)))
                         let d = {
                             'id': id,
                             'todo': todo,
                             'status': status,
                             'create_date': create_date
                         }
-                        this.todos.push(d)
+                        this.todos_history.push(d)
                     }
                 }).catch(error => {
                     console.log(error)
                 })
-            },
-            selectAllTodos (value) {
-                this.todos.forEach(todo => todo.status=value)
             }
         }
 
@@ -308,7 +423,7 @@
 <style>
 /*app*/
 .todo-container {
-  width: 600px;
+  width: 400px;
   margin: 0 auto;
 }
 .todo-container .todo-wrap {
@@ -319,7 +434,7 @@
 
 /*header*/
 .todo-header input {
-  width: 560px;
+  width: 360px;
   height: 28px;
   font-size: 14px;
   border: 1px solid #ccc;

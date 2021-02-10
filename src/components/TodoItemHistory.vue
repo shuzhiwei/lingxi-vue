@@ -6,7 +6,7 @@
             <span class="d">{{item.todo}}</span>
             <span>{{item.create_date}}</span>
         </label>
-        <button id="e" class="btn btn-danger" v-show="isShow" @click='delItem'>清除</button>
+        <button id="e" class="btn btn-danger" v-show="isShow" @click='delItem'>删除</button>
     </li>
 </div>
     
@@ -44,7 +44,9 @@
             },
             delItem () {
                 const {item, index, delTodo} = this
-                delTodo(index)
+                if(window.confirm(`确认删除${item.todo}吗？`)){
+                    delTodo(index)
+                }
             },
             
         }

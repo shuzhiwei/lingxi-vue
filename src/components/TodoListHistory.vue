@@ -1,18 +1,19 @@
 <template>
     <ul class="todo-main">
-        <todo-item v-for="(item, index) in todos" :key=index :item=item :index=item.id :delTodo="delTodo"/>
+        
+        <todo-item-history v-for="(item, index) in todos" :key=index :item=item :index=item.id :delTodo="delTodo"/>
       </ul>
 </template>
 
 <script>
-    import TodoItem from './TodoItem.vue'
+    import TodoItemHistory from './TodoItemHistory.vue'
     export default {
         props: {
             todos: Array,
             delTodo: Function
         },
         components: {
-            TodoItem
+            TodoItemHistory
         }
 
     }
