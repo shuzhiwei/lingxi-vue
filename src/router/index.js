@@ -5,37 +5,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import Login from '../views/Login.vue'
-import Main from '../views/Main.vue'
-
-import Home from '../views/Home.vue'
-import Chat from '../views/Chat.vue'
-
-import EditBlog from '../views/EditBlog.vue'
-import DetailBlog from '../views/DetailBlog.vue'
-import AddBlog from '../views/AddBlog.vue'
-
-import PowerFactor from '../views/PowerFactor.vue'
-
-import AuthManage from '../views/AuthManage.vue'
-
 import { RouterTabRoutes } from 'vue-router-tab'
-
-import test from '../views/test.vue'
-
-import Share from '../components/Share.vue'
-import ShareDetail from '../components/ShareDetail.vue'
-
-import StockGreatRetail from '../views/StockGreatRetail.vue'
-import StockPrivate from '../views/StockPrivate.vue'
-import StockPrivate1 from '../views/StockPrivate1.vue'
-import Favorites from '../views/Favorites.vue'
-import StockKdj from '../views/StockKdj.vue'
-
-import Dytt from '../views/Dytt.vue'
-import VipParser from '../views/VipParser.vue'
-
-import TodoList1 from '../views/TodoList1.vue'
 
 Vue.use(VueRouter)
 
@@ -46,24 +16,24 @@ export default new VueRouter({
     routes: [
         {
             path: '/login',
-            component: Login
+            component: resolve => require(['../views/Login.vue'], resolve)
         },
         {
             path: '/share',
-            component: Share
+            component: resolve => require(['../components/Share.vue'], resolve)
         },
         {
             path: '/shareDetail/:id',
-            component: ShareDetail
+            component: resolve => require(['../components/ShareDetail.vue'], resolve)
         },
         {
             path: '/main',
-            component: Main,
+            component: resolve => require(['../views/Main.vue'], resolve),
             children: [
                 ...RouterTabRoutes,
                 {
                     path: 'home',
-                    component: Home,
+                    component: resolve => require(['../views/Home.vue'], resolve),
                     meta: {
                         title: 'Home', // 页签标题
                         icon: 'el-icon-paperclip', // 页签图标，可选
@@ -74,7 +44,7 @@ export default new VueRouter({
                 },
                 {
                     path: 'todo',
-                    component: TodoList1,
+                    component: resolve => require(['../views/TodoList1.vue'], resolve),
                     meta: {
                         title: 'Todo', // 页签标题
                         icon: 'el-icon-paperclip', // 页签图标，可选
@@ -85,7 +55,7 @@ export default new VueRouter({
                 },
                 {
                     path: 'chat',
-                    component: Chat,
+                    component: resolve => require(['../views/Chat.vue'], resolve),
                     meta: {
                         title: 'Chat', // 页签标题
                         icon: 'el-icon-paperclip', // 页签图标，可选
@@ -95,7 +65,7 @@ export default new VueRouter({
                 },
                 {
                     path: 'edit/:id',
-                    component: EditBlog,
+                    component: resolve => require(['../views/EditBlog.vue'], resolve),
                     meta: {
                         title: 'EditBlog',
                         icon: 'el-icon-paperclip',
@@ -105,7 +75,7 @@ export default new VueRouter({
                 },
                 {
                     path: 'add',
-                    component: AddBlog,
+                    component: resolve => require(['../views/AddBlog.vue'], resolve),
                     meta: {
                         title: 'AddBlog',
                         icon: 'el-icon-paperclip',
@@ -115,7 +85,7 @@ export default new VueRouter({
                 },
                 {
                     path: 'detail/:id',
-                    component: DetailBlog,
+                    component: resolve => require(['../views/DetailBlog.vue'], resolve),
                     meta: {
                         title: 'DetailBlog',
                         icon: 'el-icon-paperclip',
@@ -126,7 +96,7 @@ export default new VueRouter({
                 },
                 {
                     path: 'powerFactor',
-                    component: PowerFactor,
+                    component: resolve => require(['../views/PowerFactor.vue'], resolve),
                     meta: {
                         title: 'PowerFactor',
                         icon: 'el-icon-paperclip',
@@ -136,7 +106,7 @@ export default new VueRouter({
                 },
                 {
                     path: 'authManage',
-                    component: AuthManage,
+                    component: resolve => require(['../views/AuthManage.vue'], resolve),
                     meta: {
                         title: 'AuthManage',
                         color: 'black',
@@ -147,7 +117,7 @@ export default new VueRouter({
                 },
                 {
                     path: 'test',
-                    component: test,
+                    component: resolve => require(['../views/test.vue'], resolve),
                     meta: {
                         title: 'test',
                         color: 'black',
@@ -158,7 +128,7 @@ export default new VueRouter({
                 },
                 {
                     path: 'greatRetail',
-                    component: StockGreatRetail,
+                    component: resolve => require(['../views/StockGreatRetail.vue'], resolve),
                     meta: {
                         title: 'greatRetail',
                         color: 'black',
@@ -169,7 +139,7 @@ export default new VueRouter({
                 },
                 {
                     path: 'private',
-                    component: StockPrivate,
+                    component: resolve => require(['../views/StockPrivate.vue'], resolve),
                     meta: {
                         title: 'private',
                         color: 'black',
@@ -180,7 +150,7 @@ export default new VueRouter({
                 },
                 {
                     path: 'private1',
-                    component: StockPrivate1,
+                    component: resolve => require(['../views/StockPrivate1.vue'], resolve),
                     meta: {
                         title: 'private1',
                         color: 'black',
@@ -191,7 +161,7 @@ export default new VueRouter({
                 },
                 {
                     path: 'favorites',
-                    component: Favorites,
+                    component: resolve => require(['../views/Favorites.vue'], resolve),
                     meta: {
                         title: 'favorites',
                         color: 'black',
@@ -202,7 +172,7 @@ export default new VueRouter({
                 },
                 {
                     path: 'kdj',
-                    component: StockKdj,
+                    component: resolve => require(['../views/StockKdj.vue'], resolve),
                     meta: {
                         title: 'goldCross',
                         color: 'black',
@@ -213,7 +183,7 @@ export default new VueRouter({
                 },
                 {
                     path: 'dytt',
-                    component: Dytt,
+                    component: resolve => require(['../views/Dytt.vue'], resolve),
                     meta: {
                         title: 'dytt',
                         color: 'black',
@@ -224,7 +194,7 @@ export default new VueRouter({
                 },
                 {
                     path: 'vipParser',
-                    component: VipParser,
+                    component: resolve => require(['../views/VipParser.vue'], resolve),
                     meta: {
                         title: 'vipParser',
                         color: 'black',

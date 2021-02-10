@@ -42,8 +42,8 @@
               <el-menu-item-group>
                 <el-menu-item index="1-1" @click="isCollapse=!isCollapse"><router-link to="/main/home"><i class="el-icon-tickets"></i>Home</router-link></el-menu-item>
                 <el-menu-item index="1-2" @click="isCollapse=!isCollapse"><router-link to="/main/todo"><i class="el-icon-tickets"></i>Todo</router-link></el-menu-item>
-                <el-menu-item index="1-4" @click="isCollapse=!isCollapse"><router-link to="/main/add"><i class="el-icon-tickets"></i>Add</router-link></el-menu-item>
-                <el-menu-item  index="1-5" @click="isCollapse=!isCollapse"><router-link to="/main/chat"><i class="el-icon-tickets"></i>Chat</router-link></el-menu-item>
+                <!-- <el-menu-item index="1-4" @click="isCollapse=!isCollapse"><router-link to="/main/add"><i class="el-icon-tickets"></i>Add</router-link></el-menu-item> -->
+                <!-- <el-menu-item  index="1-5" @click="isCollapse=!isCollapse"><router-link to="/main/chat"><i class="el-icon-tickets"></i>Chat</router-link></el-menu-item> -->
                 <el-menu-item v-show="this.username == 'shuzhiwei'" index="1-6" @click="isCollapse=!isCollapse"><router-link to="/main/test"><i class="el-icon-tickets"></i>test</router-link></el-menu-item>
               </el-menu-item-group>
             </el-submenu>
@@ -79,7 +79,7 @@
               <el-menu-item-group>
                 <!-- <el-menu-item index="5-1" @click="personalNote"> <i class="el-icon-tickets"></i>Note</el-menu-item> -->
                 <el-menu-item index="5-2" @click="evernote"> <i class="el-icon-tickets"></i>Evernote</el-menu-item>
-                <el-menu-item index="5-3" @click="jupyter"> <i class="el-icon-tickets"></i>Jupyter</el-menu-item>
+                <!-- <el-menu-item index="5-3" @click="jupyter"> <i class="el-icon-tickets"></i>Jupyter</el-menu-item> -->
                 <el-menu-item index="5-4" @click="jenkins"> <i class="el-icon-tickets"></i>Jenkins</el-menu-item>
                 <el-menu-item index="5-5" @click="konga"> <i class="el-icon-tickets"></i>Konga</el-menu-item>
                 <el-menu-item index="5-6" @click="glances"> <i class="el-icon-tickets"></i>Glances</el-menu-item>
@@ -177,31 +177,21 @@
                 window.open('https://music.163.com/', '_blank')
             },
             jenkins () {
-                window.open(this.$store.state.base_url + ':7994/', '_blank')
+                window.open('http://www.nnbkqnp.cn:8080/', '_blank')
             },
             konga () {
-                window.open(this.$store.state.base_url + ':7993/', '_blank')
+                window.open('http://www.nnbkqnp.cn:1337/', '_blank')
             },
             glances () {
-                window.open(this.$store.state.base_url + ':7995/', '_blank')
+                window.open('http://www.nnbkqnp.cn:61208/', '_blank')
             },
-            jupyter () {
-                window.open('http://www.nnbkqnp.cn:9999/notebooks/test.ipynb', '_blank')
-            },
-
             jumpChat () {
                 this.$router.push({path: '/main/chat'})
             },
-
             board () {
                 this.isCollapse = false
                 window.open('https://gitlab.com/lingxi-work/work-board/-/boards', '_blank')
             },
-
-            // personalNote () {
-            //     this.isCollapse = false
-            //     window.open('https://www.nnbkqnp.cn:7996/lib/2a8ae87c-ef5b-4966-ac0f-0d4f11d44591/file/%E4%B8%AA%E4%BA%BA%E7%AC%94%E8%AE%B0.md', '_blank')
-            // },
 
             evernote () {
                 this.isCollapse = false
