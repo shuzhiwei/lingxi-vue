@@ -220,6 +220,7 @@
                             let todo = res1[i].todo
                             let status = res1[i].status
                             let create_date = res1[i].create_date
+                            create_date = this.formatDate(new Date(parseInt(create_date)))
                             let d = {
                                 'id': id,
                                 'todo': todo,
@@ -291,6 +292,7 @@
                             let todo = res1[i].todo
                             let status = res1[i].status
                             let create_date = res1[i].create_date
+                            create_date = this.formatDate(new Date(parseInt(create_date)))
                             let d = {
                                 'id': id,
                                 'todo': todo,
@@ -357,6 +359,7 @@
                             let todo = res1[i].todo
                             let status = res1[i].status
                             let create_date = res1[i].create_date
+                            create_date = this.formatDate(new Date(parseInt(create_date)))
                             let d = {
                                 'id': id,
                                 'todo': todo,
@@ -423,7 +426,7 @@
 <style>
 /*app*/
 .todo-container {
-  width: 400px;
+  width: 350px;
   margin: 0 auto;
 }
 .todo-container .todo-wrap {
@@ -434,7 +437,7 @@
 
 /*header*/
 .todo-header input {
-  width: 360px;
+  width: 310px;
   height: 28px;
   font-size: 14px;
   border: 1px solid #ccc;
