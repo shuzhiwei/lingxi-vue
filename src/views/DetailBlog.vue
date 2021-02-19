@@ -33,16 +33,49 @@
                     <div v-if="imageAddr" align="center">
                         <div>
                             <img style="height:15rem;" :src="imageAddr" alt="logo" :onerror="defaultImg">
+                            <div>
+                            <el-button
+                            type="success"
+                            size="mini"
+                            @click="editBlog()"
+                            icon="el-icon-edit"
+                            >编辑</el-button>
+                
+                            <el-button 
+                            type="danger" 
+                            size="mini" 
+                            icon="el-icon-delete" 
+                            @click="deleteBlog()"
+                            >删除</el-button>
+                        </div>
                         </div>
                     </div>
                     <div v-else align="center">
                         <div v-for="(item, index) in imageAddrs" :key="index">
-                            <img style="height:25rem;" :src="item" alt="logo"  :onerror="defaultImg">
+                            <img style="height:25rem;" :src="item">
+                        </div>
+                        <div>
+                            <el-button
+                            type="success"
+                            size="mini"
+                            @click="editBlog()"
+                            icon="el-icon-edit"
+                            >编辑</el-button>
+                
+                            <el-button 
+                            type="danger" 
+                            size="mini" 
+                            icon="el-icon-delete" 
+                            @click="deleteBlog()"
+                            >删除</el-button>
                         </div>
                     </div>
+                    
                 </td>
                 <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+
             </tr>
+
 
         </table>
 
@@ -68,11 +101,15 @@
     import {setCookie,getCookie} from '../../static/js/cookie.js'
     import {refresh_token} from '../../static/js/acs.js'
     import axios from 'axios'
+    import qs from 'qs'
     export default {
         inject: ['reload'],
         data () {
             return {
+                token: getCookie('lingxi-token'),
+                id: '',
                 title: '',
+                username: '',
                 content: '',
                 imageAddr: '',
                 imageAddrs: [],
@@ -83,6 +120,7 @@
 
         mounted () {
             const id = this.$route.params.id
+            this.id = id
             const token = getCookie('lingxi-token')
             const url = this.$store.state.base_url + `/lingxis/view/${id}?token=${token}`
             axios.get(url).then(response =>{
@@ -101,6 +139,7 @@
                 }
                 if (code === 200) {
                     this.title = res.data.title
+                    this.username = res.data.author
                     this.content = res.data.content
                     let tmp = res.data.imageAddr
                     if (! tmp) {
@@ -116,6 +155,73 @@
                 }
                 console.log(this.imageAddr)
             })
+        },
+
+        methods: {
+            editBlog () {
+                if (!this.id) {
+                    this.$message.error('id为空')
+                }else if (this.username !== getCookie('username')) {
+                    console.log('this.username: ' + this.username)
+                    console.log('getCookie: ' + getCookie('username'))
+                    this.$message.success('不是您的博客哦！')
+                }else{
+                    this.$router.push({path: "/main/edit/" + this.id})
+                }
+            },
+
+            deleteBlog () {
+                console.log('id: ' + this.id)
+                if (!this.id) {
+                    this.$message.error('id为空')
+                }else if (this.username !== getCookie('username')) {
+                    this.$message.success('不是您的博客哦！')
+                }else {
+                    this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(() => {
+                        console.log('hello123')
+                        const url = this.$store.state.base_url + '/lingxis/blog/delete'
+                        const params = {
+                            'token': this.token,
+                            "ids": this.id + ','
+                        }
+                        console.log(url)
+                        console.log(params)
+                        axios.post(url, qs.stringify(params)).then(res => {
+                            const code = res.data.code
+                            console.log('res.data: ' + res.data)
+                            if (code === 402) {
+                                const username = getCookie('username')
+                                refresh_token(username, token)
+                                //this.reload()
+                            }else if (code === 200) {
+                                this.$message.success('删除成功')
+                                this.$router.push({path: '/main/home'})
+                                this.reload()
+                            }else{
+                                this.$message.error(code)
+                            }
+
+                            // if (res.data.code === 200) {
+                            //     this.$message.success('删除成功')
+                            //     this.reload()
+                            // }else{
+                            //     this.$message.error(res.data.code)
+                            // }
+                        }).catch(error => {
+                            console.log(error)
+                        })
+                    }).catch(() =>{
+                        this.$message({
+                            type: 'info',
+                            message: '已取消删除'
+                        })
+                    })
+                }
+            },
         }
 
     }

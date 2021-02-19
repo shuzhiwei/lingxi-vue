@@ -188,7 +188,10 @@
                     'curImageAddrs': cur_images,
                     'delImageAddrs': del_images,
                 }
+                console.log('url: ' + url)
+
                 axios.post(url, qs.stringify(params)).then(response => {
+                    console.log('aaaa')
                     const res = response.data
                     if (res.code === 200) {
                         var newImages = ''
@@ -196,19 +199,22 @@
                             newImages = newImages + this.form.images1[i].image + 'helloworld'
                             if (newImages.length > 1024*1024*10) {
                                 console.log(i)
-                                let params1 = {
+                                var params1 = {
                                     'token': token,
                                     'image': newImages
                                 }
+                                console.log(params1)
                                 axios.post(url1, qs.stringify(params1)).then(response => {
-                                    let res = response.data
+                                    var res = response.data
                                     if (res.code !== 200) {
                                         this.$message.error(res.code)
+                                    }else{
+                                        newImages = ''
                                     }
                                 }).catch(error =>{
                                     this.$message.error(error)
                                 })
-                                newImages = ''
+                                
                             }
                         }
                         if (newImages) {
@@ -216,28 +222,29 @@
                                 'token': token,
                                 'image': newImages
                             }
+                            console.log(params2)
                             axios.post(url1, qs.stringify(params2)).then(response => {
                                 let res = response.data
                                 if (res.code !== 200) {
                                     this.$message.error(res.code)
+                                }else{
+                                    this.$router.push({path: '/main/detail/' + id})
+                                    load.close()
+                                    this.reload()
+                                    // this.$router.go(0)
                                 }
                             }).catch(error =>{
                                 this.$message.error(error)
                             })
                         }
                         load.close();
-                    }else{
-                        this.$message.error(res.code)
-                        console.log(res.message)
-                        load.close();
                     }
-                }).catch(error =>{
-                    this.$message.error(error)
                 })
                 
-                this.$router.push({path: '/main/home'})
+                // this.$router.push({path: '/main/home'})
+                // this.$router.push({path: '/main/detail/' + id})
                 // 解决跳转页面后不刷新数据的问题
-                this.$router.go(0)
+                // this.$router.go(0)
 
             }
         }
