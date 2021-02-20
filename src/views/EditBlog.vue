@@ -208,12 +208,11 @@
                                     var res = response.data
                                     if (res.code !== 200) {
                                         this.$message.error(res.code)
-                                    }else{
-                                        newImages = ''
                                     }
                                 }).catch(error =>{
                                     this.$message.error(error)
                                 })
+                                newImages = ''
                                 
                             }
                         }
@@ -228,8 +227,8 @@
                                 load.close();
                                 this.$message.error(res.code)
                             }else{
-                                this.$router.push({path: '/main/detail/' + id})
                                 load.close()
+                                this.$router.push({path: '/main/detail/' + id})
                                 this.reload()
                                 // this.$router.go(0)
                             }
@@ -238,6 +237,11 @@
                             this.$message.error(error)
                         })
                     }
+                }).catch(error => {
+                    console.log(error)
+                    console.log('aaaaaaaaa')
+                    load.close();
+                    this.$message.error('添加失败！')
                 })
             }
         }

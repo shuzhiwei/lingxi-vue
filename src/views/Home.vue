@@ -382,110 +382,110 @@
                 console.log('has delete: ' + this.form.images)
             },
 
-            // 新建Blog
-            selectFile () {
-                // 点击即呈现新建中
-                // this.form.newCreating = true
-                const load = this.$loading({
-                    lock: true,
-                    text: 'Loading',
-                    spinner: 'el-icon-loading',
-                    background: 'rgba(0, 0, 0, 0.7)'
-                });
+            // // 新建Blog
+            // selectFile () {
+            //     // 点击即呈现新建中
+            //     // this.form.newCreating = true
+            //     const load = this.$loading({
+            //         lock: true,
+            //         text: 'Loading',
+            //         spinner: 'el-icon-loading',
+            //         background: 'rgba(0, 0, 0, 0.7)'
+            //     });
 
-                // 根据title去重
-                for (let i=0; i<this.datas.length; i++) {
-                    if (this.form.title === this.datas[i].title) {
-                        this.$message.success('含有重复标题哦！')
-                        this.form.newCreating = false
-                        return
-                    }
-                }
+            //     // 根据title去重
+            //     for (let i=0; i<this.datas.length; i++) {
+            //         if (this.form.title === this.datas[i].title) {
+            //             this.$message.success('含有重复标题哦！')
+            //             this.form.newCreating = false
+            //             return
+            //         }
+            //     }
 
-                const url = this.$store.state.base_url + '/lingxis/blog/addManyPhoto'
+            //     const url = this.$store.state.base_url + '/lingxis/blog/addManyPhoto'
 
-                var params0 = {
-                    'token': this.token,
-                    'title': this.form.title,
-                    'content': this.form.content,
-                    'author': this.username,
-                    'share_flag': this.form.radio,
-                }
-                axios.post(url, qs.stringify(params0)).then(response => {
-                    var res0 = response.data
-                    console.log(res0)
-                    let code = res0.code
-                    if (code === 402) {
-                        let username = getCookie('username')
-                        refresh_token(username, this.token)
-                        this.token = getCookie('lingxi-token')
+            //     var params0 = {
+            //         'token': this.token,
+            //         'title': this.form.title,
+            //         'content': this.form.content,
+            //         'author': this.username,
+            //         'share_flag': this.form.radio,
+            //     }
+            //     axios.post(url, qs.stringify(params0)).then(response => {
+            //         var res0 = response.data
+            //         console.log(res0)
+            //         let code = res0.code
+            //         if (code === 402) {
+            //             let username = getCookie('username')
+            //             refresh_token(username, this.token)
+            //             this.token = getCookie('lingxi-token')
 
-                    }else if (code === 200) {
-                        let post_id = res0.id
-                        console.log(code)
-                        const url1 = this.$store.state.base_url + `/lingxis/blog/editAddPhoto/${post_id}`
-
-
-                        var tmp_images = ''
-                        console.log(this.form.images1.length)
-                        for (let i=0; i<this.form.images1.length; i++) {
-                            tmp_images = tmp_images + this.form.images1[i].image + 'helloworld'
-                            if (tmp_images.length > 1024*1024*10) {
-                                var params1 = {
-                                    'token': this.token,
-                                    'image': tmp_images,
-                                }
-                                axios.post(url1, qs.stringify(params1)).then(response => {
-                                    let res = response.data
-                                    console.log(res)
-                                    let code = res.code
-                                    if (code === 402) {
-                                        let username = getCookie('username')
-                                        refresh_token(username, this.token)
-                                        this.token = getCookie('lingxi-token')
-
-                                    }else if (code === 200) {
-                                        console.log(code)
-                                    }else{
-                                        this.$message.error(code)
-                                    }
-                                })
-                                tmp_images = ''
-                            }
-                        }
-                        if (tmp_images) {
-                            var params2 = {
-                                'token': this.token,
-                                'image': tmp_images,
-                            }
-                            axios.post(url1, qs.stringify(params2)).then(response => {
-                                let res = response.data
-                                let code = res.code
-                                if (code === 402) {
-                                    const username = getCookie('username')
-                                    refresh_token(username, this.token)
-                                    this.token = getCookie('lingxi-token')
-
-                                }else if (code === 200) {
-                                    console.log(code)
-                                }else{
-                                    this.$message.error(code)
-                                }
-                            })
-                        }
+            //         }else if (code === 200) {
+            //             let post_id = res0.id
+            //             console.log(code)
+            //             const url1 = this.$store.state.base_url + `/lingxis/blog/editAddPhoto/${post_id}`
 
 
-                    }else{
-                        this.$message.error(code)
-                    }
-                })
+            //             var tmp_images = ''
+            //             console.log(this.form.images1.length)
+            //             for (let i=0; i<this.form.images1.length; i++) {
+            //                 tmp_images = tmp_images + this.form.images1[i].image + 'helloworld'
+            //                 if (tmp_images.length > 1024*1024*10) {
+            //                     var params1 = {
+            //                         'token': this.token,
+            //                         'image': tmp_images,
+            //                     }
+            //                     axios.post(url1, qs.stringify(params1)).then(response => {
+            //                         let res = response.data
+            //                         console.log(res)
+            //                         let code = res.code
+            //                         if (code === 402) {
+            //                             let username = getCookie('username')
+            //                             refresh_token(username, this.token)
+            //                             this.token = getCookie('lingxi-token')
+
+            //                         }else if (code === 200) {
+            //                             console.log(code)
+            //                         }else{
+            //                             this.$message.error(code)
+            //                         }
+            //                     })
+            //                     tmp_images = ''
+            //                 }
+            //             }
+            //             if (tmp_images) {
+            //                 var params2 = {
+            //                     'token': this.token,
+            //                     'image': tmp_images,
+            //                 }
+            //                 axios.post(url1, qs.stringify(params2)).then(response => {
+            //                     let res = response.data
+            //                     let code = res.code
+            //                     if (code === 402) {
+            //                         const username = getCookie('username')
+            //                         refresh_token(username, this.token)
+            //                         this.token = getCookie('lingxi-token')
+
+            //                     }else if (code === 200) {
+            //                         console.log(code)
+            //                     }else{
+            //                         this.$message.error(code)
+            //                     }
+            //                 })
+            //             }
+
+
+            //         }else{
+            //             this.$message.error(code)
+            //         }
+            //     })
                 
-                load.close();
-                this.$message.success('新建成功')
-                this.dialogFormVisible = false
-                this.reload()
+            //     load.close();
+            //     this.$message.success('新建成功')
+            //     this.dialogFormVisible = false
+            //     this.reload()
                 
-            },
+            // },
 
             formatter(row, column) {
                 return row.title

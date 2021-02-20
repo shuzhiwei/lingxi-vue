@@ -148,7 +148,7 @@
                         console.log(this.form.images1.length)
                         for (let i=0; i<this.form.images1.length; i++) {
                             tmp_images = tmp_images + this.form.images1[i].image + 'helloworld'
-                            if (tmp_images.length > 1024*1024*10) {
+                            if (tmp_images.length > 1024*1024*5) {
                                 var params1 = {
                                     'token': this.token,
                                     'image': tmp_images,
@@ -198,6 +198,11 @@
                         load.close();
                         this.$message.error('内部错误')
                     }
+                }).catch(error => {
+                    console.log(error)
+                    console.log('aaaaaaaaa')
+                    load.close();
+                    this.$message.error('添加失败！')
                 })
                 
                 // load.close();
