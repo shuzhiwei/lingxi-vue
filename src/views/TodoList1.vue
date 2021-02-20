@@ -543,13 +543,6 @@
                 this.otherUser = this.username
             },
             showMyselfTodo () {
-                if(this.username == "shuzhiwei"){
-                    this.otherUser = "houtingyu"
-                    this.otherUserShow = "候婷玉"
-                }else{
-                    this.otherUser = "shuzhiwei"
-                    this.otherUserShow = "舒志伟"
-                }
                 const token = this.token
                 const url = this.$store.state.base_url + `/entertainment/todoListShow`
                 const params = {
