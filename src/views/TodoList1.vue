@@ -54,7 +54,7 @@
 
         mounted () {
             if(this.username == "shuzhiwei"){
-                this.otherUserShow = "候婷玉"
+                this.otherUserShow = "侯婷玉"
             }else{
                 this.otherUserShow = "舒志伟"
             }
