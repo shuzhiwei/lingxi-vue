@@ -11,8 +11,7 @@
     <div style="text-align: center">
         <el-button type="success" size="small" @click="showMyself">自己</el-button>
         <el-button type="success" size="small" @click="showHistory">历史</el-button>
-        <el-button type="success" size="small" @click="showOther">{{otherUser}}</el-button>
-        <el-button type="success" size="small" @click="showOtherHistory">{{otherUser}}历史</el-button>
+        <el-button type="success" size="small" @click="showOther">{{otherUserShow}}</el-button>
     </div>
   </div>
 
@@ -48,15 +47,18 @@
                 username: getCookie('username'),
                 todos: [],
                 todos_history: [],
-                otherUser: ''
+                otherUser: getCookie('username'),
+                otherUserShow: ''
             }
         },
 
         mounted () {
             if(this.username == "shuzhiwei"){
                 this.otherUser = "houtingyu"
+                this.otherUserShow = "候婷玉"
             }else{
                 this.otherUser = "shuzhiwei"
+                this.otherUserShow = "舒志伟"
             }
             const token = this.token
             const url = this.$store.state.base_url + `/entertainment/todoListShow`
@@ -85,11 +87,14 @@
                     let status = res[i].status
                     let create_date = res[i].create_date
                     create_date = this.formatDate(new Date(parseInt(create_date)))
+                    let author = res[i].username
                     let d = {
                         'id': id,
                         'todo': todo,
                         'status': status,
-                        'create_date': create_date
+                        'create_date': create_date,
+                        'author': author
+
                     }
                     this.todos.push(d)
                 }
@@ -124,7 +129,7 @@
                         'token': this.token,
                         'create_date': ts,
                         'todo': todo,
-                        'username': this.username
+                        'username': this.otherUser
                     }
                 axios.post(url, qs.stringify(params)).then(response => {
                     const con = response.data
@@ -143,7 +148,7 @@
                     const url1 = this.$store.state.base_url + `/entertainment/todoListShow`
                     const params1 = {
                             'token': this.token,
-                            'username': this.username
+                            'username': this.otherUser
                         }
                     axios.post(url1, qs.stringify(params1)).then(response => {
                         const con1 = response.data
@@ -186,6 +191,10 @@
                 
             },
             delTodo (index) {
+                if (this.username !== this.otherUser) {
+                    this.$message.error('不是您的todo哦！')
+                    return
+                }
                 const url = this.$store.state.base_url + `/entertainment/todoDelete`
                 const params = {
                         'token': this.token,
@@ -208,7 +217,7 @@
                     const url1 = this.$store.state.base_url + `/entertainment/todoListShow`
                     const params1 = {
                             'token': this.token,
-                            'username': this.username
+                            'username': this.otherUser
                         }
                     axios.post(url1, qs.stringify(params1)).then(response => {
                         const con1 = response.data
@@ -251,6 +260,10 @@
                 
             },
             deleteCompleteTodos () {
+                if (this.username !== this.otherUser) {
+                    this.$message.error('不是您的todo哦！')
+                    return
+                }
                 const todos = this.todos.filter(todo => todo.status == 1 || todo.status == true)
                 var ids = ''
                 for (let i=0; i<todos.length; i++) {
@@ -280,7 +293,7 @@
                     const url1 = this.$store.state.base_url + `/entertainment/todoListShow`
                     const params1 = {
                             'token': this.token,
-                            'username': this.username
+                            'username': this.otherUser
                         }
                     axios.post(url1, qs.stringify(params1)).then(response => {
                         const con1 = response.data
@@ -325,6 +338,10 @@
                 this.todos.forEach(todo => todo.status=value)
             },
             deleteReadHistory (index) {
+                if (this.username !== this.otherUser) {
+                    this.$message.error('不是您的todo哦！')
+                    return
+                }
                 const url = this.$store.state.base_url + `/entertainment/todoRealDeleteHistory`
                 const params = {
                         'token': this.token,
@@ -389,6 +406,9 @@
 
             },
             showHistory () {
+                this.todos = []
+                this.showMyselfTodo()
+                this.otherUser = this.username
                 const token = this.token
                 const url = this.$store.state.base_url + `/entertainment/todoShowHistory`
                 const params = {
@@ -432,15 +452,14 @@
             showOther () {
                 const token = this.token
                 const url = this.$store.state.base_url + `/entertainment/todoListShow`
-                var otherUser = ""
                 if (this.username == "shuzhiwei"){
-                    otherUser = "houtingyu"
+                    this.otherUser = "houtingyu"
                 }else{
-                    otherUser = "shuzhiwei"
+                    this.otherUser = "shuzhiwei"
                 }
                 const params = {
                         'token': this.token,
-                        'username': otherUser
+                        'username': this.otherUser
                     }
                 axios.post(url, qs.stringify(params)).then(response => {
                     const con = response.data
@@ -458,6 +477,7 @@
                     }
                     const res = con.todos
                     this.todos = []
+                    this.todos_history = []
                     for (let i=0; i<res.length; i++) {
                         let id = res[i].id
                         let todo = res[i].todo
@@ -472,6 +492,7 @@
                         }
                         this.todos.push(d)
                     }
+                    this.showOtherHistory()
                 }).catch(error => {
                     console.log(error)
                 })
@@ -479,15 +500,9 @@
             showOtherHistory () {
                 const token = this.token
                 const url = this.$store.state.base_url + `/entertainment/todoShowHistory`
-                var otherUser = ""
-                if (this.username == "shuzhiwei"){
-                    otherUser = "houtingyu"
-                }else{
-                    otherUser = "shuzhiwei"
-                }
                 const params = {
                         'token': this.token,
-                        'username': otherUser
+                        'username': this.otherUser
                     }
                 this.todos_history = []
                 axios.post(url, qs.stringify(params)).then(response => {
@@ -525,6 +540,57 @@
             },
             showMyself () {
                 this.reload()
+                this.otherUser = this.username
+            },
+            showMyselfTodo () {
+                if(this.username == "shuzhiwei"){
+                    this.otherUser = "houtingyu"
+                    this.otherUserShow = "候婷玉"
+                }else{
+                    this.otherUser = "shuzhiwei"
+                    this.otherUserShow = "舒志伟"
+                }
+                const token = this.token
+                const url = this.$store.state.base_url + `/entertainment/todoListShow`
+                const params = {
+                        'token': this.token,
+                        'username': this.username
+                    }
+                axios.post(url, qs.stringify(params)).then(response => {
+                    const con = response.data
+                    console.log(con)
+                    const code = con.code
+                    if (code === 402) {
+                        const username = getCookie('username')
+                        refresh_token(username, token)
+                        this.reload()
+                        return
+                    }
+                    if (code === 401) {
+                        this.$message.error('无acs权限！')
+                        return
+                    }
+                    const res = con.todos
+                    for (let i=0; i<res.length; i++) {
+                        let id = res[i].id
+                        let todo = res[i].todo
+                        let status = res[i].status
+                        let create_date = res[i].create_date
+                        create_date = this.formatDate(new Date(parseInt(create_date)))
+                        let author = res[i].username
+                        let d = {
+                            'id': id,
+                            'todo': todo,
+                            'status': status,
+                            'create_date': create_date,
+                            'author': author
+
+                        }
+                        this.todos.push(d)
+                    }
+                }).catch(error => {
+                    console.log(error)
+                })
             }
         }
 
