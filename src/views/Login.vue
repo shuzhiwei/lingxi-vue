@@ -19,6 +19,7 @@
     import axios from 'axios'
     import qs from 'qs'
     import {setCookie,getCookie} from '../../static/js/cookie.js'
+    import {b64_md5} from "../../static/js/md5.js"
     export default {
         data () {
             return {
@@ -46,10 +47,12 @@
         methods: {
             SignIn () {
                 const url = this.$store.state.base_url + `/acs/api/v1/auth/login`
+                this.PassWord = b64_md5(this.PassWord)
                 const params = {
                     "username": this.UserName,
                     "password": this.PassWord
                 }
+                console.log(params)
                 axios.post(url, qs.stringify(params)).then(response => {
                     const token = response.data
                     if (this.UserName === 'helloworld') {
