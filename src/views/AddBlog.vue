@@ -170,33 +170,30 @@
                                 tmp_images = ''
                             }
                         }
-                        if (tmp_images) {
-                            var params2 = {
-                                'token': this.token,
-                                'image': tmp_images,
-                            }
-                            axios.post(url1, qs.stringify(params2)).then(response => {
-                                let res = response.data
-                                let code = res.code
-                                if (code === 402) {
-                                    refresh_token(this.username, this.token)
-                                    this.token = getCookie('lingxi-token')
-
-                                }else if (code === 200) {
-                                    console.log(code)
-                                }else{
-                                    this.$message.error(code)
-                                }
-                            })
+                        var params2 = {
+                            'token': this.token,
+                            'image': tmp_images,
                         }
-                        load.close();
-                        this.$message.success('新建成功')
-                        // alert('已新建成功！')
-                        this.$router.push({path: '/main/home'})
-                        // 解决跳转页面后不刷新数据的问题
-                        this.$router.go(0)
+                        axios.post(url1, qs.stringify(params2)).then(response => {
+                            let res = response.data
+                            let code = res.code
+                            if (code === 402) {
+                                refresh_token(this.username, this.token)
+                                this.token = getCookie('lingxi-token')
+                                load.close();
 
-
+                            }else if (code === 200) {
+                                console.log(code)
+                                load.close();
+                                this.$message.success('新建成功')
+                                this.$router.push({path: '/main/home'})
+                                // 解决跳转页面后不刷新数据的问题
+                                this.$router.go(0)
+                            }else{
+                                load.close();
+                                this.$message.error(code)
+                            }
+                        })
                     }else{
                         load.close();
                         this.$message.error('内部错误')

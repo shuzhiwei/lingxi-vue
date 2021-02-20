@@ -217,35 +217,28 @@
                                 
                             }
                         }
-                        if (newImages) {
-                            let params2 = {
-                                'token': token,
-                                'image': newImages
-                            }
-                            console.log(params2)
-                            axios.post(url1, qs.stringify(params2)).then(response => {
-                                let res = response.data
-                                if (res.code !== 200) {
-                                    this.$message.error(res.code)
-                                }else{
-                                    this.$router.push({path: '/main/detail/' + id})
-                                    load.close()
-                                    this.reload()
-                                    // this.$router.go(0)
-                                }
-                            }).catch(error =>{
-                                this.$message.error(error)
-                            })
+                        let params2 = {
+                            'token': token,
+                            'image': newImages
                         }
-                        load.close();
+                        console.log(params2)
+                        axios.post(url1, qs.stringify(params2)).then(response => {
+                            let res = response.data
+                            if (res.code !== 200) {
+                                load.close();
+                                this.$message.error(res.code)
+                            }else{
+                                this.$router.push({path: '/main/detail/' + id})
+                                load.close()
+                                this.reload()
+                                // this.$router.go(0)
+                            }
+                        }).catch(error =>{
+                            load.close();
+                            this.$message.error(error)
+                        })
                     }
                 })
-                
-                // this.$router.push({path: '/main/home'})
-                // this.$router.push({path: '/main/detail/' + id})
-                // 解决跳转页面后不刷新数据的问题
-                // this.$router.go(0)
-
             }
         }
     }
