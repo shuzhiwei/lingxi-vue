@@ -483,11 +483,13 @@
                         let status = res[i].status
                         let create_date = res[i].create_date
                         create_date = this.formatDate(new Date(parseInt(create_date)))
+                        let priority = res[i].priority
                         let d = {
                             'id': id,
                             'todo': todo,
                             'status': status,
-                            'create_date': create_date
+                            'create_date': create_date,
+                            'priority': priority
                         }
                         this.todos.push(d)
                     }
