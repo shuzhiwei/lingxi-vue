@@ -86,13 +86,14 @@
                     let create_date = res[i].create_date
                     create_date = this.formatDate(new Date(parseInt(create_date)))
                     let author = res[i].username
+                    let priority = res[i].priority
                     let d = {
                         'id': id,
                         'todo': todo,
                         'status': status,
                         'create_date': create_date,
-                        'author': author
-
+                        'author': author,
+                        'priority': priority
                     }
                     this.todos.push(d)
                 }
@@ -571,13 +572,14 @@
                         let create_date = res[i].create_date
                         create_date = this.formatDate(new Date(parseInt(create_date)))
                         let author = res[i].username
+                        let priority = res[i].priority
                         let d = {
                             'id': id,
                             'todo': todo,
                             'status': status,
                             'create_date': create_date,
-                            'author': author
-
+                            'author': author,
+                            'priority': priority
                         }
                         this.todos.push(d)
                     }

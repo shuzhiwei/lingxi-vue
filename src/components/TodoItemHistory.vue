@@ -3,8 +3,11 @@
     <li class="a" @mouseenter="aaa(true)" @mouseleave="aaa(false)" :style="{background: backColor}">
         <label class="b">
             <input class="c" type="checkbox" v-model="item.status"/>
-            <span class="d">{{item.todo}}</span>
-            <span>{{item.create_date}}</span>
+            <span v-if="item.priority===1" class="d">{{item.todo}}</span>
+            <span v-else>{{item.todo}}</span>
+            
+            <span v-if="item.priority===1" class="d">{{item.create_date}}</span>
+            <span v-else>{{item.create_date}}</span>
         </label>
         <button id="e" class="btn btn-danger" v-show="isShow" @click='delItem'>删除</button>
     </li>
