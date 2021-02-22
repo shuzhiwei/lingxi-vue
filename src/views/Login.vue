@@ -6,7 +6,7 @@
                     <p>管理员登录</p>
                 </div>
                 <el-input class="userpassword" v-model="UserName" clearable placeholder="用户名" @keyup.enter="submit"></el-input>
-                <el-input class="userpassword" v-model="PassWord" clearable show-password placeholder="密码"></el-input>
+                <el-input class="userpassword" v-model="PassWord" clearable show-password placeholder="密码" @keyup.enter.native="SignIn"></el-input>
                 <div class="content_button">
                     <el-button class="login" type="primary" @click="SignIn">登录</el-button>
                 </div>

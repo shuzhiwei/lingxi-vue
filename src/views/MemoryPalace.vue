@@ -153,7 +153,7 @@
       >
       <template slot-scope="scope">
             <span v-if="scope.row.statusBtn===false">{{scope.row.p10}}</span>
-            <el-input size="mini" v-else-if="scope.row.statusBtn===true" v-model="p10"></el-input>
+            <el-input size="mini" v-else-if="scope.row.statusBtn===true" v-model="p10" @keyup.enter.native="sureCheck"></el-input>
           </template>
     </el-table-column>
 
@@ -194,6 +194,7 @@
             return {
                 datas: [],
                 token: getCookie('lingxi-token'),
+                username: getCookie('username'),
                 id: '',
                 address: '',
                 p1: '',
@@ -216,6 +217,7 @@
             console.log(url)
             const params = {
                 'token': token,
+                'author': this.username
             }
             axios.post(url, qs.stringify(params)).then(response => {
                 const con = response.data
@@ -384,6 +386,7 @@
                             'p8': this.p8,
                             'p9': this.p9,
                             'p10': this.p10,
+                            'author': this.username
                         }
                         axios.post(url, qs.stringify(params)).then(res => {
                             if (res.data.code === 200) {
@@ -419,14 +422,9 @@
                         'p10': this.p10,
                     }
                     axios.post(url, qs.stringify(params)).then(res => {
-                        if (res.data.code === 200) {
-                            this.$message.success('保存成功')
-                            this.id = ''
-                            this.reload()
-                            // this.checkTable()
-                        } else {
-                            this.$message,error(res.data.code)
-                        }
+                        console.log(res.data)
+                        this.id = ''
+                        this.reload()
                     }).catch(error =>{
                         console.log(error)
                     })
