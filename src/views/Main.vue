@@ -69,9 +69,10 @@
             <el-submenu index="4" v-show="this.username !== 'helloworld'">
               <template slot="title"><i class="el-icon-location"></i>Learn</template>
               <el-menu-item-group>
-                <el-menu-item index="4-1" @click="storage"> <i class="el-icon-tickets"></i>Seafile</el-menu-item>
-                <el-menu-item index="4-2" @click="board"> <i class="el-icon-tickets"></i>Board</el-menu-item>
-                <el-menu-item index="4-3" @click="english"> <i class="el-icon-tickets"></i>English</el-menu-item>
+                <el-menu-item index="4-1" @click="isCollapse=!isCollapse"> <router-link to="/main/memoryPalace"><i class="el-icon-tickets"></i>Memory</router-link></el-menu-item>
+                <el-menu-item index="4-2" @click="storage"> <i class="el-icon-tickets"></i>Seafile</el-menu-item>
+                <el-menu-item index="4-3" @click="board"> <i class="el-icon-tickets"></i>Board</el-menu-item>
+                <el-menu-item index="4-4" @click="english"> <i class="el-icon-tickets"></i>English</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
             <el-submenu index="5" v-show="this.username == 'shuzhiwei'">
