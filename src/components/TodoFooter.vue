@@ -6,7 +6,7 @@
         <span>
           <span>已完成{{completeSize}}</span> / 全部{{todos.length}}
         </span>
-        <button class="btn btn-danger" v-show="completeSize" @click="deleteCompleteTodos">清除已完成任务</button>
+        <button class="btn btn-danger" v-show="completeSize" @click="aaa">清除已完成任务</button>
       </div>
 </template>
 
@@ -32,9 +32,18 @@
         },
         methods : {
             aaa () {
-                if(window.confirm(`确认删除${item.todo}吗？`)){
-                    deleteCompleteTodos
-                }
+                this.$confirm(`确认清除所有已完成吗？`, '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'success'
+                }).then(() =>{
+                    this.deleteCompleteTodos()
+                }).catch(() =>{
+                    this.$message({
+                        type: 'info',
+                        message: '已取消'
+                    })
+                })
             }
         }
 

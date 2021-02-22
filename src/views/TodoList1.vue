@@ -171,11 +171,15 @@
                             let status = res1[i].status
                             let create_date = res1[i].create_date
                             create_date = this.formatDate(new Date(parseInt(create_date)))
+                            let author = res1[i].username
+                            let priority = res1[i].priority
                             let d = {
                                 'id': id,
                                 'todo': todo,
                                 'status': status,
-                                'create_date': create_date
+                                'create_date': create_date,
+                                'author': author,
+                                'priority': priority
                             }
                             this.todos.push(d)
                         }
@@ -240,11 +244,15 @@
                             let status = res1[i].status
                             let create_date = res1[i].create_date
                             create_date = this.formatDate(new Date(parseInt(create_date)))
+                            let author = res1[i].username
+                            let priority = res1[i].priority
                             let d = {
                                 'id': id,
                                 'todo': todo,
                                 'status': status,
-                                'create_date': create_date
+                                'create_date': create_date,
+                                'author': author,
+                                'priority': priority
                             }
                             this.todos.push(d)
                         }
@@ -316,11 +324,15 @@
                             let status = res1[i].status
                             let create_date = res1[i].create_date
                             create_date = this.formatDate(new Date(parseInt(create_date)))
+                            let author = res1[i].username
+                            let priority = res1[i].priority
                             let d = {
                                 'id': id,
                                 'todo': todo,
                                 'status': status,
-                                'create_date': create_date
+                                'create_date': create_date,
+                                'author': author,
+                                'priority': priority
                             }
                             this.todos.push(d)
                         }
@@ -483,12 +495,14 @@
                         let status = res[i].status
                         let create_date = res[i].create_date
                         create_date = this.formatDate(new Date(parseInt(create_date)))
+                        let author = res[i].username
                         let priority = res[i].priority
                         let d = {
                             'id': id,
                             'todo': todo,
                             'status': status,
                             'create_date': create_date,
+                            'author': author,
                             'priority': priority
                         }
                         this.todos.push(d)

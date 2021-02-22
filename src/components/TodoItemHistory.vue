@@ -47,9 +47,18 @@
             },
             delItem () {
                 const {item, index, delTodo} = this
-                if(window.confirm(`确认删除${item.todo}吗？`)){
+                this.$confirm(`确认删除${item.todo}吗？`, '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'success'
+                }).then(() =>{
                     delTodo(index)
-                }
+                }).catch(() =>{
+                    this.$message({
+                        type: 'info',
+                        message: '已取消'
+                    })
+                })
             },
             
         }

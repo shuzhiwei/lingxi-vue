@@ -36,9 +36,19 @@
                 username: getCookie('username'),
                 backColor: 'white',
                 isShow: false,
+                todos: this.item
             }
         },
         methods: {
+            formatDate(now) { 
+                var year=now.getFullYear();  //取得4位数的年份
+                var month=now.getMonth()+1;  //取得日期中的月份，其中0表示1月，11表示12月
+                var date=now.getDate();      //返回日期月份中的天数（1到31）
+                // var hour=now.getHours();     //返回日期中的小时数（0到23）
+                // var minute=now.getMinutes(); //返回日期中的分钟数（0到59）
+                // var second=now.getSeconds(); //返回日期中的秒数（0到59）
+                return year+"-"+month+"-"+date+" "
+            },
             
             aaa (isEnter) {
                 if(isEnter){
@@ -51,7 +61,19 @@
             },
             delItem () {
                 const {item, index, delTodo} = this
-                delTodo(index)
+                this.$confirm(`确认清除${item.todo}吗？`, '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'success'
+                }).then(() =>{
+                    delTodo(index)
+                }).catch(() =>{
+                    this.$message({
+                        type: 'info',
+                        message: '已取消'
+                    })
+                })
+                
             },
 
             changePriority (author, id) {
@@ -68,9 +90,15 @@
                 axios.post(url, qs.stringify(params)).then(response => {
                     const code = response.data.code
                     console.log(code)
-                    this.$router.push({path: '/main/todo'})
-                    // 解决跳转页面后不刷新数据的问题
-                    this.$router.go(0)
+                    if(code == 200){
+                        var priority = this.item.priority
+                        if (priority) {
+                            priority = 0
+                        }else{
+                            priority = 1
+                        }
+                        this.item.priority = priority
+                    }
                 }).catch(error =>{
                     this.$message.error('请求失败！')
                 })
