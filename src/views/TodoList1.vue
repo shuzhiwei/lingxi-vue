@@ -383,44 +383,12 @@
                         this.$message.error('无acs权限！')
                         return
                     }
-                    const url1 = this.$store.state.base_url + `/entertainment/todoShowHistory`
-                    const params1 = {
-                            'token': this.token,
-                            'username': this.username
-                        }
-                    axios.post(url1, qs.stringify(params1)).then(response => {
-                        const con1 = response.data
-                        console.log(con1)
-                        const code1 = con1.code
-                        if (code1 === 402) {
-                            const username1 = getCookie('username')
-                            refresh_token(username1, token)
-                            this.reload()
-                            return
-                        }
-                        if (code1 === 401) {
-                            this.$message.error('无acs权限！')
-                            return
-                        }
-                        const res1 = con1.todos
-                        this.todos_history = []
-                        for (let i=0; i<res1.length; i++) {
-                            let id = res1[i].id
-                            let todo = res1[i].todo
-                            let status = res1[i].status
-                            let create_date = res1[i].create_date
-                            create_date = this.formatDate(new Date(parseInt(create_date)))
-                            let d = {
-                                'id': id,
-                                'todo': todo,
-                                'status': status,
-                                'create_date': create_date
-                            }
-                            this.todos_history.push(d)
-                        }
-                    }).catch(error => {
-                        console.log(error)
-                    })
+                    
+                    var a = (new Date()).toLocaleDateString()
+                    a =a.replace(/\//g,'-')
+                    const timestamp = (new Date(a))/1000 * 1000
+                    console.log('hello: ' + timestamp)
+                    this.showHistory(timestamp, this.username)
                 }).catch(error => {
                     console.log(error)
                     this.$message.error(error)
