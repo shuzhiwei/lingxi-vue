@@ -44,7 +44,7 @@
                 <el-menu-item index="1-2" @click="isCollapse=!isCollapse"><router-link to="/main/todo"><i class="el-icon-tickets"></i>Todo</router-link></el-menu-item>
                 <!-- <el-menu-item index="1-4" @click="isCollapse=!isCollapse"><router-link to="/main/add"><i class="el-icon-tickets"></i>Add</router-link></el-menu-item> -->
                 <!-- <el-menu-item  index="1-5" @click="isCollapse=!isCollapse"><router-link to="/main/chat"><i class="el-icon-tickets"></i>Chat</router-link></el-menu-item> -->
-                <el-menu-item v-show="this.username == 'shuzhiwei'" index="1-6" @click="isCollapse=!isCollapse"><router-link to="/main/test"><i class="el-icon-tickets"></i>test</router-link></el-menu-item>
+                <!-- <el-menu-item v-show="this.username == 'shuzhiwei'" index="1-6" @click="isCollapse=!isCollapse"><router-link to="/main/test"><i class="el-icon-tickets"></i>test</router-link></el-menu-item> -->
               </el-menu-item-group>
             </el-submenu>
             <el-submenu index="2">
@@ -62,8 +62,9 @@
               <el-menu-item-group>
                 <el-menu-item index="3-1" @click="isCollapse=!isCollapse"> <router-link to="/main/dytt"><i class="el-icon-tickets"></i>Dytt</router-link></el-menu-item>
                 <el-menu-item index="3-2" @click="isCollapse=!isCollapse"> <router-link to="/main/vipParser"><i class="el-icon-tickets"></i>VipParser</router-link></el-menu-item>
-                <el-menu-item index="3-3" @click="aiqiyi"> <i class="el-icon-tickets"></i>Aiqiyi</el-menu-item>
-                <el-menu-item index="3-4" @click="music"> <i class="el-icon-tickets"></i>Music</el-menu-item>
+                <el-menu-item index="3-3" @click="music"> <i class="el-icon-tickets"></i>Music</el-menu-item>
+                <el-menu-item index="3-4" @click="aiqiyi"> <i class="el-icon-tickets"></i>Aiqiyi</el-menu-item>
+                <el-menu-item index="3-5" @click="tengxun"> <i class="el-icon-tickets"></i>Tengxun</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
             <el-submenu index="4" v-show="this.username !== 'helloworld'">
@@ -71,8 +72,9 @@
               <el-menu-item-group>
                 <el-menu-item index="4-1" @click="isCollapse=!isCollapse"> <router-link to="/main/memoryPalace"><i class="el-icon-tickets"></i>Memory</router-link></el-menu-item>
                 <el-menu-item index="4-2" @click="storage"> <i class="el-icon-tickets"></i>Seafile</el-menu-item>
-                <el-menu-item index="4-3" @click="board"> <i class="el-icon-tickets"></i>Board</el-menu-item>
+                <!-- <el-menu-item index="4-3" @click="board"> <i class="el-icon-tickets"></i>Board</el-menu-item> -->
                 <el-menu-item index="4-4" @click="english"> <i class="el-icon-tickets"></i>English</el-menu-item>
+                <el-menu-item index="4-5" @click="youdao"> <i class="el-icon-tickets"></i>Youdao</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
             <el-submenu index="5" v-show="this.username == 'shuzhiwei'">
@@ -175,6 +177,9 @@
             aiqiyi () {
                 window.open('https://www.iqiyi.com/', '_blank')
             },
+            tengxun () {
+                window.open('https://v.qq.com/', '_blank')
+            },
             music () {
                 window.open('https://music.163.com/', '_blank')
             },
@@ -190,10 +195,10 @@
             jumpChat () {
                 this.$router.push({path: '/main/chat'})
             },
-            board () {
-                this.isCollapse = false
-                window.open('https://gitlab.com/lingxi-work/work-board/-/boards', '_blank')
-            },
+            // board () {
+            //     this.isCollapse = false
+            //     window.open('https://gitlab.com/lingxi-work/work-board/-/boards', '_blank')
+            // },
 
             evernote () {
                 this.isCollapse = false
@@ -203,6 +208,11 @@
             english () {
                 this.isCollapse = false
                 window.open('https://bdc.youzack.com/Recitation/Home/ChooseDictionary', '_blank')
+            },
+
+            youdao () {
+                this.isCollapse = false
+                window.open('https://ke.youdao.com/', '_blank')
             },
 
             tianqi () {
