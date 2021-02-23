@@ -8,10 +8,15 @@
       <todo-list :todos="todos" :delTodo="delTodo"/>
       <todo-footer :todos="todos" :deleteCompleteTodos="deleteCompleteTodos" :selectAllTodos="selectAllTodos"/>
     </div>
-    <div style="text-align: center">
-        <el-button type="success" size="small" @click="showMyself">自己</el-button>
-        <el-button type="success" size="small" @click="showHistory">历史</el-button>
-        <el-button type="success" size="small" @click="showOther">{{otherUserShow}}</el-button>
+    <div style="text-align: center; width:350px; height:40px">
+        <el-button type="success" size="small" @click="showMyselfTodo">未完成</el-button>
+        <el-button type="success" size="small" @click="showMyselfAllHistory">历史已完成</el-button>
+        <el-button type="success" size="small" @click="showMyselfHistoryOnlyToday">今日已完成</el-button>
+    </div>
+    <div style="text-align: center; width:350px; height:40px">
+        <el-button type="success" size="small" @click="showOtherTodo">{{otherUserShow}}</el-button>
+        <el-button type="success" size="small" @click="showOtherAllHistory">历史已完成</el-button>
+        <el-button type="success" size="small" @click="showOtherHistoryOnlyToday">今日已完成</el-button>
     </div>
   </div>
 
@@ -198,10 +203,12 @@
                     this.$message.error('不是您的todo哦！')
                     return
                 }
+                const ts = (new Date()).valueOf()
                 const url = this.$store.state.base_url + `/entertainment/todoDelete`
                 const params = {
                         'token': this.token,
-                        'ids': index
+                        'ids': index,
+                        'timestamp': ts,
                     }
                 axios.post(url, qs.stringify(params)).then(response => {
                     const con = response.data
@@ -278,10 +285,12 @@
                 }
                 ids = ids.substr(0, ids.length-1)
                 console.log('ids: ' + ids)
+                const ts = (new Date()).valueOf()
                 const url = this.$store.state.base_url + `/entertainment/todoDelete`
                 const params = {
                         'token': this.token,
-                        'ids': ids
+                        'ids': ids,
+                        'timestamp': ts,
                     }
                 axios.post(url, qs.stringify(params)).then(response => {
                     const con = response.data
@@ -416,15 +425,16 @@
                 })
 
             },
-            showHistory () {
+
+            showHistory (timestamp, username) {
                 this.todos = []
-                this.showMyselfTodo()
-                this.otherUser = this.username
+                this.showTodo(username)
                 const token = this.token
                 const url = this.$store.state.base_url + `/entertainment/todoShowHistory`
                 const params = {
                         'token': this.token,
-                        'username': this.username
+                        'username': username,
+                        'timestamp': timestamp
                     }
                 this.todos_history = []
                 axios.post(url, qs.stringify(params)).then(response => {
@@ -460,118 +470,53 @@
                     console.log(error)
                 })
             },
-            showOther () {
-                const token = this.token
-                const url = this.$store.state.base_url + `/entertainment/todoListShow`
+            showMyselfHistoryOnlyToday () {
+                var a = (new Date()).toLocaleDateString()
+                a =a.replace(/\//g,'-')
+                const timestamp = (new Date(a))/1000 * 1000
+                console.log('hello: ' + timestamp)
+                this.showHistory(timestamp, this.username)
+            },
+            showMyselfAllHistory () {
+                const timestamp = "1613785971000"
+                this.showHistory(timestamp, this.username)
+                this.otherUser = this.username
+            },
+            showOtherHistoryOnlyToday () {
                 if (this.username == "shuzhiwei"){
                     this.otherUser = "houtingyu"
                 }else{
                     this.otherUser = "shuzhiwei"
                 }
-                const params = {
-                        'token': this.token,
-                        'username': this.otherUser
-                    }
-                axios.post(url, qs.stringify(params)).then(response => {
-                    const con = response.data
-                    console.log(con)
-                    const code = con.code
-                    if (code === 402) {
-                        const username = getCookie('username')
-                        refresh_token(username, token)
-                        this.reload()
-                        return
-                    }
-                    if (code === 401) {
-                        this.$message.error('无acs权限！')
-                        return
-                    }
-                    const res = con.todos
-                    this.todos = []
-                    this.todos_history = []
-                    for (let i=0; i<res.length; i++) {
-                        let id = res[i].id
-                        let todo = res[i].todo
-                        let status = res[i].status
-                        let create_date = res[i].create_date
-                        create_date = this.formatDate(new Date(parseInt(create_date)))
-                        let author = res[i].username
-                        let priority = res[i].priority
-                        let d = {
-                            'id': id,
-                            'todo': todo,
-                            'status': status,
-                            'create_date': create_date,
-                            'author': author,
-                            'priority': priority
-                        }
-                        this.todos.push(d)
-                    }
-                    this.showOtherHistory()
-                }).catch(error => {
-                    console.log(error)
-                })
+                var a = (new Date()).toLocaleDateString()
+                a =a.replace(/\//g,'-')
+                const timestamp = (new Date(a))/1000 * 1000
+                console.log('hello: ' + timestamp)
+                this.showHistory(timestamp, this.otherUser)
             },
-            showOtherHistory () {
-                const token = this.token
-                const url = this.$store.state.base_url + `/entertainment/todoShowHistory`
-                const params = {
-                        'token': this.token,
-                        'username': this.otherUser
-                    }
-                this.todos_history = []
-                axios.post(url, qs.stringify(params)).then(response => {
-                    const con = response.data
-                    console.log(con)
-                    const code = con.code
-                    if (code === 402) {
-                        const username = getCookie('username')
-                        refresh_token(username, token)
-                        this.reload()
-                        return
-                    }
-                    if (code === 401) {
-                        this.$message.error('无acs权限！')
-                        return
-                    }
-                    const res = con.todos
-                    for (let i=0; i<res.length; i++) {
-                        let id = res[i].id
-                        let todo = res[i].todo
-                        let status = res[i].status
-                        let create_date = res[i].create_date
-                        create_date = this.formatDate(new Date(parseInt(create_date)))
-                        let d = {
-                            'id': id,
-                            'todo': todo,
-                            'status': status,
-                            'create_date': create_date
-                        }
-                        this.todos_history.push(d)
-                    }
-                }).catch(error => {
-                    console.log(error)
-                })
+            showOtherAllHistory () {
+                if (this.username == "shuzhiwei"){
+                    this.otherUser = "houtingyu"
+                }else{
+                    this.otherUser = "shuzhiwei"
+                }
+                const timestamp = "1613785971000"
+                this.showHistory(timestamp, this.otherUser)
             },
-            showMyself () {
-                this.todos_history = []
+            showTodo (username) {
                 this.todos = []
-                this.showMyselfTodo()
-                this.otherUser = this.username
-            },
-            showMyselfTodo () {
                 const token = this.token
                 const url = this.$store.state.base_url + `/entertainment/todoListShow`
                 const params = {
                         'token': this.token,
-                        'username': this.username
+                        'username': username
                     }
                 axios.post(url, qs.stringify(params)).then(response => {
                     const con = response.data
                     console.log(con)
                     const code = con.code
                     if (code === 402) {
-                        const username = getCookie('username')
+                        username = getCookie('username')
                         refresh_token(username, token)
                         this.reload()
                         return
@@ -602,6 +547,20 @@
                 }).catch(error => {
                     console.log(error)
                 })
+            },
+            showMyselfTodo () {
+                this.showTodo(this.username)
+                this.otherUser = this.username
+                this.todos_history = []
+            },
+            showOtherTodo () {
+                if (this.username == "shuzhiwei"){
+                    this.otherUser = "houtingyu"
+                }else{
+                    this.otherUser = "shuzhiwei"
+                }
+                this.showTodo(this.otherUser)
+                this.todos_history = []
             }
         }
 
