@@ -446,6 +446,7 @@
                 const timestamp = (new Date(a))/1000 * 1000
                 console.log('hello: ' + timestamp)
                 this.showHistory(timestamp, this.username)
+                this.otherUser = this.username
             },
             showMyselfAllHistory () {
                 const timestamp = "1613785971000"
