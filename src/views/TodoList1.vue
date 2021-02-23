@@ -263,6 +263,7 @@
                             }
                             this.todos.push(d)
                         }
+                        this.showMyselfHistoryOnlyToday()
                     }).catch(error => {
                         console.log(error)
                     })
@@ -345,6 +346,7 @@
                             }
                             this.todos.push(d)
                         }
+                        this.showMyselfHistoryOnlyToday()
                     }).catch(error => {
                         console.log(error)
                     })
