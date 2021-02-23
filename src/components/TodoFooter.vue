@@ -4,9 +4,9 @@
           <input type="checkbox" v-model="isAllCheck"/>
         </label>
         <span>
-          <span>已完成{{completeSize}}</span> / 全部{{todos.length}}
+          <span>已勾选{{completeSize}}</span> / 全部{{todos.length}}
         </span>
-        <button class="btn btn-danger" v-show="completeSize" @click="aaa">清除已完成任务</button>
+        <button class="btn btn-danger" v-show="completeSize" @click="aaa">完成已勾选任务</button>
       </div>
 </template>
 
@@ -32,7 +32,7 @@
         },
         methods : {
             aaa () {
-                this.$confirm(`确认清除所有已完成吗？`, '提示', {
+                this.$confirm(`确认完成所有已勾选吗？`, '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'success'

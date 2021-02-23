@@ -13,7 +13,7 @@
             <span v-if="item.priority===1" class="d">{{item.create_date}}</span>
             <span v-else>{{item.create_date}}</span>
         </label>
-        <button id="e" class="btn btn-danger" v-show="isShow" @click='delItem'>清除</button>
+        <button id="e" class="btn btn-danger" v-show="isShow" @click='delItem'>完成</button>
     </li>
 </div>
     
@@ -61,7 +61,7 @@
             },
             delItem () {
                 const {item, index, delTodo} = this
-                this.$confirm(`确认清除${item.todo}吗？`, '提示', {
+                this.$confirm(`确认完成${item.todo}吗？`, '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'success'
