@@ -14,9 +14,9 @@
         <el-button type="success" size="small" @click="showMyselfHistoryOnlyToday">今日已完成</el-button>
     </div>
     <div style="text-align: center; width:350px; height:40px">
-        <el-button type="success" size="small" @click="showOtherTodo">{{otherUserShow}}</el-button>
-        <el-button type="success" size="small" @click="showOtherAllHistory">历史已完成</el-button>
-        <el-button type="success" size="small" @click="showOtherHistoryOnlyToday">今日已完成</el-button>
+        <el-button type="primary" size="small" @click="showOtherTodo">{{otherUserShow}}</el-button>
+        <el-button type="primary" size="small" @click="showOtherAllHistory">历史已完成</el-button>
+        <el-button type="primary" size="small" @click="showOtherHistoryOnlyToday">今日已完成</el-button>
     </div>
   </div>
 
