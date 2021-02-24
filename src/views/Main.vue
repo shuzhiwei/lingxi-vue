@@ -44,9 +44,35 @@
                 <el-menu-item index="1-2" @click="isCollapse=!isCollapse"><router-link to="/main/todo"><i class="el-icon-tickets"></i>Todo</router-link></el-menu-item>
                 <!-- <el-menu-item index="1-4" @click="isCollapse=!isCollapse"><router-link to="/main/add"><i class="el-icon-tickets"></i>Add</router-link></el-menu-item> -->
                 <!-- <el-menu-item  index="1-5" @click="isCollapse=!isCollapse"><router-link to="/main/chat"><i class="el-icon-tickets"></i>Chat</router-link></el-menu-item> -->
-                <!-- <el-menu-item v-show="this.username == 'shuzhiwei'" index="1-6" @click="isCollapse=!isCollapse"><router-link to="/main/test"><i class="el-icon-tickets"></i>test</router-link></el-menu-item> -->
+                <el-menu-item v-show="this.username == 'shuzhiwei'" index="1-6" @click="isCollapse=!isCollapse"><router-link to="/main/test"><i class="el-icon-tickets"></i>test</router-link></el-menu-item>
               </el-menu-item-group>
             </el-submenu>
+
+            <el-submenu index="4" v-show="this.username !== 'helloworld'">
+              <template slot="title"><i class="el-icon-location"></i>Learn</template>
+              <el-menu-item-group>
+                <el-menu-item index="4-1" @click="isCollapse=!isCollapse"> <router-link to="/main/bookMarks"><i class="el-icon-tickets"></i>BookMarks</router-link></el-menu-item>
+                <el-menu-item index="4-2" @click="isCollapse=!isCollapse"> <router-link to="/main/memoryPalace"><i class="el-icon-tickets"></i>Memory</router-link></el-menu-item>
+                <el-menu-item index="4-3" @click="storage"> <i class="el-icon-tickets"></i>Seafile</el-menu-item>
+                <!-- <el-menu-item index="4-3" @click="board"> <i class="el-icon-tickets"></i>Board</el-menu-item> -->
+                <el-menu-item index="4-4" @click="english"> <i class="el-icon-tickets"></i>English</el-menu-item>
+                <el-menu-item index="4-5" @click="youdao"> <i class="el-icon-tickets"></i>Youdao</el-menu-item>
+              </el-menu-item-group>
+            </el-submenu>
+
+            <el-submenu index="5" v-show="this.username == 'shuzhiwei'">
+              <template slot="title"><i class="el-icon-location"></i>Work</template>
+              <el-menu-item-group>
+                <!-- <el-menu-item index="5-1" @click="personalNote"> <i class="el-icon-tickets"></i>Note</el-menu-item> -->
+                <el-menu-item index="5-2" @click="jenkins"> <i class="el-icon-tickets"></i>Jenkins</el-menu-item>
+                <el-menu-item index="5-4" @click="evernote"> <i class="el-icon-tickets"></i>Evernote</el-menu-item>
+                <!-- <el-menu-item index="5-3" @click="jupyter"> <i class="el-icon-tickets"></i>Jupyter</el-menu-item> -->
+                
+                <el-menu-item index="5-5" @click="konga"> <i class="el-icon-tickets"></i>Konga</el-menu-item>
+                <el-menu-item index="5-6" @click="glances"> <i class="el-icon-tickets"></i>Glances</el-menu-item>
+              </el-menu-item-group>
+            </el-submenu>
+
             <el-submenu index="2">
               <template slot="title"><i class="el-icon-location"></i>Stock</template>
               <el-menu-item-group>
@@ -67,29 +93,7 @@
                 <el-menu-item index="3-5" @click="tengxun"> <i class="el-icon-tickets"></i>Tengxun</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
-            <el-submenu index="4" v-show="this.username !== 'helloworld'">
-              <template slot="title"><i class="el-icon-location"></i>Learn</template>
-              <el-menu-item-group>
-                <el-menu-item index="4-1" @click="isCollapse=!isCollapse"> <router-link to="/main/memoryPalace"><i class="el-icon-tickets"></i>Memory</router-link></el-menu-item>
-                <el-menu-item index="4-2" @click="storage"> <i class="el-icon-tickets"></i>Seafile</el-menu-item>
-                <!-- <el-menu-item index="4-3" @click="board"> <i class="el-icon-tickets"></i>Board</el-menu-item> -->
-                <el-menu-item index="4-4" @click="english"> <i class="el-icon-tickets"></i>English</el-menu-item>
-                <el-menu-item index="4-5" @click="youdao"> <i class="el-icon-tickets"></i>Youdao</el-menu-item>
-              </el-menu-item-group>
-            </el-submenu>
-            <el-submenu index="5" v-show="this.username == 'shuzhiwei'">
-              <template slot="title"><i class="el-icon-location"></i>Work</template>
-              <el-menu-item-group>
-                <!-- <el-menu-item index="5-1" @click="personalNote"> <i class="el-icon-tickets"></i>Note</el-menu-item> -->
-                <el-menu-item index="5-2" @click="jenkins"> <i class="el-icon-tickets"></i>Jenkins</el-menu-item>
-                <el-menu-item index="5-4" @click="evernote"> <i class="el-icon-tickets"></i>Evernote</el-menu-item>
-                <!-- <el-menu-item index="5-3" @click="jupyter"> <i class="el-icon-tickets"></i>Jupyter</el-menu-item> -->
-                
-                <el-menu-item index="5-5" @click="konga"> <i class="el-icon-tickets"></i>Konga</el-menu-item>
-                <el-menu-item index="5-6" @click="glances"> <i class="el-icon-tickets"></i>Glances</el-menu-item>
-              </el-menu-item-group>
-            </el-submenu>
-
+            
             <el-submenu index="6" v-show="this.username !== 'helloworld'">
               <template slot="title"><i class="el-icon-location"></i>Tips</template>
               <el-menu-item-group>

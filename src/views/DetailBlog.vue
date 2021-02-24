@@ -141,6 +141,7 @@
                     this.title = res.data.title
                     this.username = res.data.author
                     this.content = res.data.content
+                    this.dateStr = getDateDiff(res.data.posted_on * 1000)
                     let tmp = res.data.imageAddr
                     if (! tmp) {
                         return
@@ -150,10 +151,7 @@
                     }else{
                         this.imageAddr = res.data.imageAddr
                     }
-                    
-                    this.dateStr = getDateDiff(res.data.posted_on * 1000)
                 }
-                console.log(this.imageAddr)
             })
         },
 
