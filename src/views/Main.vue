@@ -3,15 +3,16 @@
     <el-container class="con">
       <el-header class="header" height="80px">
         <el-row>
-          <el-col :span="12"><div class="grid-content bg-purple">
+          <el-col :span="19"><div class="grid-content bg-purple">
               <img src="../../static/img/555.png" class="header-logo" @click="isCollapse=!isCollapse"/> 
-              <img v-show="this.$store.state.isshow" src="../../static/img/777.png" class="header-logo"/> 
+              <!-- <img v-show="this.$store.state.isshow" src="../../static/img/777.png" class="header-logo" @click="goHome"/>  -->
+              <img src="../../static/img/777.png" class="header-logo" @click="goHome"/> 
           </div></el-col>
-          <el-col :span="12"><div class="grid-content bg-purple-light text-right">
+          <el-col :span="4"><div class="grid-content bg-purple-light text-right">
            <span>
                 <span>
-                    <i class="el-icon-chat-dot-square" style="font-size:20px;color: white" @click="jumpChat">
-                    </i>
+                    <!-- <i class="el-icon-chat-dot-square" style="font-size:20px;color: white" @click="jumpChat">
+                    </i> -->
 
                     <el-dropdown>
                         <span style="cursor: pointer; color: white;">
@@ -43,7 +44,7 @@
                 <el-menu-item index="1-1" @click="isCollapse=!isCollapse"><router-link to="/main/home"><i class="el-icon-tickets"></i>Home</router-link></el-menu-item>
                 <el-menu-item index="1-2" @click="isCollapse=!isCollapse"><router-link to="/main/todo"><i class="el-icon-tickets"></i>Todo</router-link></el-menu-item>
                 <!-- <el-menu-item index="1-4" @click="isCollapse=!isCollapse"><router-link to="/main/add"><i class="el-icon-tickets"></i>Add</router-link></el-menu-item> -->
-                <!-- <el-menu-item  index="1-5" @click="isCollapse=!isCollapse"><router-link to="/main/chat"><i class="el-icon-tickets"></i>Chat</router-link></el-menu-item> -->
+                <el-menu-item  index="1-5" @click="isCollapse=!isCollapse"><router-link to="/main/chat"><i class="el-icon-tickets"></i>Chat</router-link></el-menu-item>
                 <el-menu-item v-show="this.username == 'shuzhiwei'" index="1-6" @click="isCollapse=!isCollapse"><router-link to="/main/test"><i class="el-icon-tickets"></i>test</router-link></el-menu-item>
               </el-menu-item-group>
             </el-submenu>
@@ -160,6 +161,10 @@
                 delCookie('lingxi-token')
                 delCookie('username')
                 this.reload()
+            },
+
+            goHome() {
+                this.$router.push({path: '/main/todo'})
             },
 
             storage () {
