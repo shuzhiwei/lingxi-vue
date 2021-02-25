@@ -83,7 +83,7 @@
                 const code = con.code
                 if (code === 402) {
                     refresh_token(this.username, token)
-                    this.getDatas (username)
+                    this.reload()
                     return
                 }
                 const res = con.todos
@@ -141,7 +141,7 @@
                 const code = con.code
                 if (code === 402) {
                     refresh_token(this.username, token)
-                    this.insertTodo(todo)
+                    await this.insertTodo(todo)
                 }
                 console.log('insertTodo执行成功')
             },
@@ -166,7 +166,7 @@
                 console.log(con)
                 if (con.code === 402) {
                     refresh_token(this.username, token)
-                    this.deleteTodo (index)
+                    await this.deleteTodo (index)
                 }
                 console.log('deleteTodo执行成功')
             },
@@ -209,7 +209,7 @@
                 const code = con.code
                 if (code === 402) {
                     refresh_token(this.username, token)
-                    this.deleteFact(index)
+                    await this.deleteFact(index)
                     return
                 }
             },
@@ -237,7 +237,7 @@
                 const code = con.code
                 if (code === 402) {
                     refresh_token(this.username, token)
-                    this.showHistory(timestamp, username)
+                    await this.showHistory(timestamp, username)
                     return
                 }
                 const res = con.todos

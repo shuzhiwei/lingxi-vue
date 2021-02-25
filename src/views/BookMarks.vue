@@ -137,7 +137,7 @@
                 const code = con.code
                 if (code === 402) {
                     refresh_token(this.username, token)
-                    this.getDatas()
+                    this.reload()
                     return
                 }
                 this.datas = []
@@ -168,7 +168,7 @@
                 const con = await api.post(url, params)
                 if (con.code === 402) {
                     refresh_token(this.username, token)
-                    this.delRowsApi(ids)
+                    await this.delRowsApi(ids)
                     return
                 }
                 console.log('delRowsApi执行成功')
@@ -265,7 +265,7 @@
                 const con = await api.post(url, params)
                 if (con.code === 402) {
                     refresh_token(this.username, token)
-                    this.insertBookMarks()
+                    await this.insertBookMarks()
                     return
                 }
                 this.$message.success('保存成功')
@@ -284,7 +284,7 @@
                 const con = await api.post(url, params)
                 if (con.code === 402) {
                     refresh_token(this.username, token)
-                    this.updataBookMarks()
+                    await this.updataBookMarks()
                     return
                 }
             },

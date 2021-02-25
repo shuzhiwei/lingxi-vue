@@ -160,6 +160,7 @@
             safeQuit () {
                 delCookie('lingxi-token')
                 delCookie('username')
+                this.$router.push({path: '/login'})
                 this.reload()
             },
 

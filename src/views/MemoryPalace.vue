@@ -292,7 +292,7 @@
                         const con = await api.post(url, params)
                         if (con.code === 402) {
                             refresh_token(getCookie('username'), getCookie('lingxi-token'))
-                            this.delRows()
+                            await this.delRows()
                         }
                         this.reload()
                     }

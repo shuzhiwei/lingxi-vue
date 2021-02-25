@@ -55,13 +55,19 @@
                 console.log(params)
                 axios.post(url, qs.stringify(params)).then(response => {
                     const token = response.data
-                    if (this.UserName === 'helloworld') {
-                        this.$router.push({path: '/main/vipParser'})
+                    if (token) {
+                        console.log(token)
+                        if (this.UserName === 'helloworld') {
+                            this.$router.push({path: '/main/vipParser'})
+                        }else{
+                            this.$router.push({path: '/main/todo'})
+                        }
+                        setCookie('lingxi-token',token, 3600*24)
+                        setCookie('username',this.UserName, 3600*24)
                     }else{
-                        this.$router.push({path: '/main/todo'})
+                        this.$message.error('用户名或密码错误！')
                     }
-                    setCookie('lingxi-token',token, 3600*24)
-                    setCookie('username',this.UserName, 3600*24)
+                    
                     
                 }).catch(error => {
                     this.$message.error('登陆失败')
