@@ -146,8 +146,8 @@
                 console.log('insertTodo执行成功')
             },
             async addTodo (todo) {
-                this.insertTodo(todo)
-                this.getDatas(this.otherUser)
+                await this.insertTodo(todo)
+                await this.getDatas(this.otherUser)
             },
             async deleteTodo (index) {
                 if (this.username !== this.otherUser) {
@@ -170,11 +170,11 @@
                 }
                 console.log('deleteTodo执行成功')
             },
-            delTodo (index) {
-                this.deleteTodo(index)
-                this.getDatas(this.otherUser)
+            async delTodo (index) {
+                await this.deleteTodo(index)
+                await this.getDatas(this.otherUser)
             },
-            deleteCompleteTodos () {
+            async deleteCompleteTodos () {
                 if (this.username !== this.otherUser) {
                     this.$message.error('不是您的todo哦！')
                     return
@@ -186,8 +186,8 @@
                 }
                 ids = ids.substr(0, ids.length-1)
                 console.log('ids: ' + ids)
-                this.deleteTodo (ids)
-                this.getDatas(this.otherUser)
+                await this.deleteTodo (ids)
+                await this.getDatas(this.otherUser)
                 // this.showMyselfHistoryOnlyToday()
             },
             selectAllTodos (value) {
@@ -213,13 +213,13 @@
                     return
                 }
             },
-            deleteReadHistory (index) {
-                this.deleteFact(index)
+            async deleteReadHistory (index) {
+                await this.deleteFact(index)
                 var a = (new Date()).toLocaleDateString()
                 // a =a.replace(/\//g,'-')
                 const timestamp = (new Date(a))/1000 * 1000
                 console.log('hello: ' + timestamp)
-                this.showHistory(timestamp, this.username)
+                await this.showHistory(timestamp, this.username)
             },
             async showHistory (timestamp, username) {
                 this.todos = []
