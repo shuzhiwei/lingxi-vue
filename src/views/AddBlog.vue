@@ -1,18 +1,33 @@
 <template>
-    <div>
-        <table>
-        <tr><th><label for="title">标题:</label></th><td><input id="title" name="title" size="30" type="text" v-model="title"/></td></tr>
-        <tr><th><label for="content">内容:</label></th><td><textarea cols="40" id="content" name="content" rows="20" v-model="content"></textarea></td></tr>
+    <div align="center">
+        <table align="center">
+        <tr><th><label for="title">标题：</label></th><td>
+            <!-- <input id="title" name="title" size="30" type="text" v-model="title"/> -->
+            <el-input
+                placeholder="请输入内容"
+                v-model="title"
+                clearable>
+            </el-input>
+        </td></tr>
+        <tr><th><label for="content">内容：</label></th><td>
+            <!-- <textarea cols="40" id="content" name="content" rows="20" v-model="content"></textarea> -->
+            <el-input
+                type="textarea"
+                :autosize="{ minRows: 8, maxRows: 20}"
+                placeholder="请输入内容"
+                v-model="content">
+            </el-input>
+        </td></tr>
         
 
-        <tr><th><label for="content">是否公开:</label></th>
+        <tr><th><label for="content">分享：</label></th>
         <td>
             <el-radio style="margin-left: 10px" v-model="form.radio" :label="1">公开</el-radio>
             <el-radio v-model="form.radio" :label="0">不公开</el-radio>
         </td></tr>
 
         <br>
-        <tr><th><label for="addOther">添加图片</label></th>
+        <tr><th><label for="addOther">图片：</label></th>
             <td>
                 <span align="left">
                 <el-button type="primary" v-on:click="openFile()" round>选择文件</el-button>
