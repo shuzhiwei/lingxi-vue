@@ -306,6 +306,7 @@
                 this.id = ''
                 this.name = ''
                 this.url = ''
+                this.hiddenUrl = false
             },
 
             async deleteBookMarks (ids) {
