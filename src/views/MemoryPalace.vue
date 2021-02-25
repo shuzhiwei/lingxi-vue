@@ -53,7 +53,7 @@
     >
     <template slot-scope="scope">
             <span v-if="scope.row.statusBtn===false">{{scope.row.address}}</span>
-            <el-input size="mini" v-else-if="scope.row.statusBtn===true" v-model="address"></el-input>
+            <el-input size="mini" v-else-if="scope.row.statusBtn===true" v-model="address" @keyup.enter.native="sureCheck"></el-input>
           </template>
     </el-table-column>
 
@@ -63,7 +63,7 @@
       >
       <template slot-scope="scope">
             <span v-if="scope.row.statusBtn===false">{{scope.row.p1}}</span>
-            <el-input size="mini" v-else-if="scope.row.statusBtn===true" v-model="p1"></el-input>
+            <el-input size="mini" v-else-if="scope.row.statusBtn===true" v-model="p1" @keyup.enter.native="sureCheck"></el-input>
           </template>
     </el-table-column>
 
@@ -73,7 +73,7 @@
       >
       <template slot-scope="scope">
             <span v-if="scope.row.statusBtn===false">{{scope.row.p2}}</span>
-            <el-input size="mini" v-else-if="scope.row.statusBtn===true" v-model="p2"></el-input>
+            <el-input size="mini" v-else-if="scope.row.statusBtn===true" v-model="p2" @keyup.enter.native="sureCheck"></el-input>
           </template>
     </el-table-column>
 
@@ -83,7 +83,7 @@
       >
       <template slot-scope="scope">
             <span v-if="scope.row.statusBtn===false">{{scope.row.p3}}</span>
-            <el-input size="mini" v-else-if="scope.row.statusBtn===true" v-model="p3"></el-input>
+            <el-input size="mini" v-else-if="scope.row.statusBtn===true" v-model="p3" @keyup.enter.native="sureCheck"></el-input>
           </template>
     </el-table-column>
 
@@ -93,7 +93,7 @@
       >
       <template slot-scope="scope">
             <span v-if="scope.row.statusBtn===false">{{scope.row.p4}}</span>
-            <el-input size="mini" v-else-if="scope.row.statusBtn===true" v-model="p4"></el-input>
+            <el-input size="mini" v-else-if="scope.row.statusBtn===true" v-model="p4" @keyup.enter.native="sureCheck"></el-input>
           </template>
     </el-table-column>
 
@@ -103,7 +103,7 @@
       >
       <template slot-scope="scope">
             <span v-if="scope.row.statusBtn===false">{{scope.row.p5}}</span>
-            <el-input size="mini" v-else-if="scope.row.statusBtn===true" v-model="p5"></el-input>
+            <el-input size="mini" v-else-if="scope.row.statusBtn===true" v-model="p5" @keyup.enter.native="sureCheck"></el-input>
           </template>
     </el-table-column>
 
@@ -113,7 +113,7 @@
       >
       <template slot-scope="scope">
             <span v-if="scope.row.statusBtn===false">{{scope.row.p6}}</span>
-            <el-input size="mini" v-else-if="scope.row.statusBtn===true" v-model="p6"></el-input>
+            <el-input size="mini" v-else-if="scope.row.statusBtn===true" v-model="p6" @keyup.enter.native="sureCheck"></el-input>
           </template>
     </el-table-column>
 
@@ -123,7 +123,7 @@
       >
       <template slot-scope="scope">
             <span v-if="scope.row.statusBtn===false">{{scope.row.p7}}</span>
-            <el-input size="mini" v-else-if="scope.row.statusBtn===true" v-model="p7"></el-input>
+            <el-input size="mini" v-else-if="scope.row.statusBtn===true" v-model="p7" @keyup.enter.native="sureCheck"></el-input>
           </template>
     </el-table-column>
 
@@ -133,7 +133,7 @@
       >
       <template slot-scope="scope">
             <span v-if="scope.row.statusBtn===false">{{scope.row.p8}}</span>
-            <el-input size="mini" v-else-if="scope.row.statusBtn===true" v-model="p8"></el-input>
+            <el-input size="mini" v-else-if="scope.row.statusBtn===true" v-model="p8" @keyup.enter.native="sureCheck"></el-input>
           </template>
     </el-table-column>
 
@@ -143,7 +143,7 @@
       >
       <template slot-scope="scope">
             <span v-if="scope.row.statusBtn===false">{{scope.row.p9}}</span>
-            <el-input size="mini" v-else-if="scope.row.statusBtn===true" v-model="p9"></el-input>
+            <el-input size="mini" v-else-if="scope.row.statusBtn===true" v-model="p9" @keyup.enter.native="sureCheck"></el-input>
           </template>
     </el-table-column>
 
@@ -188,6 +188,7 @@
     import {setCookie,getCookie} from '../../static/js/cookie.js'
     import {refresh_token} from '../../static/js/acs.js'
     import PubSub from 'pubsub-js'
+    import {api} from '../../static/js/api.js'
     export default {
         inject: ['reload'],
         data () {
@@ -212,11 +213,10 @@
         },
 
         mounted () {
-            const token = this.token
             const url =  this.$store.state.base_url + `/entertainment/memoryPalaceShow`
             console.log(url)
             const params = {
-                'token': token,
+                'token': getCookie('lingxi-token'),
                 'author': this.username
             }
             axios.post(url, qs.stringify(params)).then(response => {
@@ -224,8 +224,7 @@
                 console.log(con)
                 const code = con.code
                 if (code === 402) {
-                    const username = getCookie('username')
-                    refresh_token(username, token)
+                    refresh_token(getCookie('username'), getCookie('lingxi-token'))
                     this.reload()
                     return
                 }
@@ -274,7 +273,7 @@
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'success'
-                }).then(() =>{
+                }).then(async () =>{
                     // 拿到选中的数据；
                     var val = this.tableDataAmount
                     // 如果选中数据存在
@@ -287,15 +286,14 @@
                         console.log('ids: ' + ids)          
                         const url = this.$store.state.base_url + '/entertainment/memoryPalaceDelete'
                         const params = {
-                            'token': this.token,
+                            'token': getCookie('lingxi-token'),
                             "ids": ids
                         }
-                        axios.post(url, qs.stringify(params)).then(res => {
-                            console.log(res.data.code)
-                            console.log(res.data)
-                        }).catch(error => {
-                            console.log(error)
-                        })
+                        const con = await api.post(url, params)
+                        if (con.code === 402) {
+                            refresh_token(getCookie('username'), getCookie('lingxi-token'))
+                            this.delRows()
+                        }
                         this.reload()
                     }
                 }).catch(() =>{
@@ -389,13 +387,19 @@
                             'author': this.username
                         }
                         axios.post(url, qs.stringify(params)).then(res => {
-                            if (res.data.code === 200) {
+                            const con = res.data
+                            if (con.code === 402) {
+                                refresh_token(getCookie('username'), getCookie('lingxi-token'))
+                                this.sureCheck()
+                                return
+                            }
+                            if (con.code === 200) {
                                 this.$message.success('保存成功')
                                 this.id = ''
                                 this.reload()
                                 // this.checkTable()
-                            } else {
-                                this.$message.error(res.data.code)
+                            }else{
+                                console.log(con)
                             }
                         }).catch(error =>{
                             console.log(error)
@@ -422,6 +426,12 @@
                         'p10': this.p10,
                     }
                     axios.post(url, qs.stringify(params)).then(res => {
+                        const con = res.data
+                        if (con.code === 402) {
+                            refresh_token(getCookie('username'), getCookie('lingxi-token'))
+                            this.sureCheck()
+                            return
+                        }
                         console.log(res.data)
                         this.id = ''
                         this.reload()
@@ -449,6 +459,12 @@
                             "ids": scope.row.id + ','
                         }
                         axios.post(url, qs.stringify(params)).then(res => {
+                            const con = res.data
+                            if (con.code === 402) {
+                                refresh_token(getCookie('username'), getCookie('lingxi-token'))
+                                this.deleteFun(scope)
+                                return
+                            }
                             console.log(res.data)
                             this.reload()
                         }).catch(error => {
@@ -462,37 +478,6 @@
                 })
                 }
             },
-
-            deleteAuth () {
-                if (confirm('确定删除吗？') === true) {
-                    var aa = this.$refs.inputTitle
-                    var checkboxValues = ''
-                    for (let i=0; i<aa.length; i++) {
-                        if (aa[i].checked) {
-                            checkboxValues = checkboxValues + aa[i].value + ','
-                            // checkboxValues.push(aa[i].value)
-                        }
-                    }
-                    if (!checkboxValues) {
-                        this.$message.error('不能删除0条！')
-                    }else{
-                        const url = this.$store.state.base_url + `/entertainment/memoryPalaceDelete`
-                        const params = {
-                            "token": this.token,
-                            "ids": checkboxValues
-                        }
-                        axios.post(url, qs.stringify(params)).then(response => {
-                            let res = response.data
-                            if (res.code === 200) {
-                                this.reload()
-                            }else{
-                                this.$message.error(res.code)
-                            }
-                        })
-                        
-                    }
-                }
-            }
         }
     }
 </script>

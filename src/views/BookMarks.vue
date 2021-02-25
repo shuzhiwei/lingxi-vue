@@ -103,12 +103,12 @@
     import {setCookie,getCookie} from '../../static/js/cookie.js'
     import {refresh_token} from '../../static/js/acs.js'
     import PubSub from 'pubsub-js'
+    import {api} from '../../static/js/api.js'
     export default {
         inject: ['reload'],
         data () {
             return {
                 datas: [],
-                token: getCookie('lingxi-token'),
                 username: getCookie('username'),
                 id: '',
                 name: '',
@@ -120,29 +120,27 @@
         },
 
         mounted () {
-            const token = this.token
-            const url =  this.$store.state.base_url + `/entertainment/bookMarksShow`
-            console.log(url)
-            const params = {
-                'token': token,
-                'author': this.username
-            }
-            axios.post(url, qs.stringify(params)).then(response => {
-                const con = response.data
+            this.getDatas()
+        },
+
+        methods: {
+            async getDatas () {
+                const token = getCookie('lingxi-token')
+                const url =  this.$store.state.base_url + `/entertainment/bookMarksShow`
+                console.log(url)
+                const params = {
+                    'token': token,
+                    'author': this.username
+                }
+                const con = await api.post(url, params)
                 console.log(con)
                 const code = con.code
                 if (code === 402) {
-                    const username = getCookie('username')
-                    refresh_token(username, token)
-                    this.reload()
+                    refresh_token(this.username, token)
+                    this.getDatas()
                     return
                 }
-                if (code === 401) {
-                    this.$message.error('无acs权限！')
-                    return
-                }
-                this.totalPage = con.totalPage
-                this.totalCount = con.totalCount
+                this.datas = []
                 const res = con.memory_palaces
                 for (let i=0; i<res.length; i++) {
                     let data = {
@@ -154,27 +152,33 @@
                     }
                     this.datas.push(data)
                 }
-            }).catch(error => {
-                console.log(error)
-                this.$message.error(error)
-            })
-
-            
-        },
-
-        methods: {
-
+                console.log('getDatas执行成功')
+            },
             // 选择事件 得到选中的数据
             handleSelectionChange (data) {
                 this.tableDataAmount = data
             },
-
+            async delRowsApi (ids) {
+                const token = getCookie('lingxi-token')
+                const url = this.$store.state.base_url + '/entertainment/bookMarksDelete'
+                const params = {
+                    'token': token,
+                    "ids": ids
+                }
+                const con = await api.post(url, params)
+                if (con.code === 402) {
+                    refresh_token(this.username, token)
+                    this.delRowsApi(ids)
+                    return
+                }
+                console.log('delRowsApi执行成功')
+            },
             delRows () {
                 this.$confirm(`确认删除吗？`, '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'success'
-                }).then(() =>{
+                }).then(async () =>{
                     // 拿到选中的数据；
                     var val = this.tableDataAmount
                     // 如果选中数据存在
@@ -184,19 +188,9 @@
                         for(let i=0; i<val.length; i++){
                             ids = ids + val[i].id + ','
                         }
-                        console.log('ids: ' + ids)          
-                        const url = this.$store.state.base_url + '/entertainment/bookMarksDelete'
-                        const params = {
-                            'token': this.token,
-                            "ids": ids
-                        }
-                        axios.post(url, qs.stringify(params)).then(res => {
-                            console.log(res.data.code)
-                            console.log(res.data)
-                        }).catch(error => {
-                            console.log(error)
-                        })
-                        this.reload()
+                        console.log('ids: ' + ids)  
+                        await this.delRowsApi(ids)        
+                        await this.getDatas()
                     }
                 }).catch(() =>{
                     this.$message({
@@ -206,19 +200,16 @@
                 })
 
             },
-
             cancelRow () {
                 this.reload()
             },
-
             filterHandler(value, row, column) {
                 const property = column['property'];
                 return row[property] === value;
             },
-
             flagFun () {
                 const flag = this.datas.every(item => {
-                    if (item.p_type !== '' && item.v0 !== '' && item.v1 !== '') {
+                    if (item.name !== '' && item.url !== '') {
                         return true
                     } else {
                         return false
@@ -226,7 +217,6 @@
                 })
                 return flag
             },
-
             addRow () {
                 this.hiddenUrl = true
                 if (this.datas.length === 0) {
@@ -260,58 +250,82 @@
                 this.name = row.name
                 this.url = row.url
             },
+
+            async insertBookMarks () {
+                const token = getCookie('lingxi-token')
+                const url = this.$store.state.base_url + '/entertainment/bookMarksInsert'
+                const create_date = (new Date()).valueOf()
+                const params = {
+                    'token': token,
+                    'name': this.name,
+                    'url': this.url,
+                    'create_date': create_date,
+                    'author': this.username,
+                }
+                const con = await api.post(url, params)
+                if (con.code === 402) {
+                    refresh_token(this.username, token)
+                    this.insertBookMarks()
+                    return
+                }
+                this.$message.success('保存成功')
+                console.log('insertBookMarks执行成功')
+                // this.checkTable()
+            },
+            async updataBookMarks () {
+                const token = getCookie('lingxi-token')
+                const url = this.$store.state.base_url + '/entertainment/bookMarksUpdate'
+                const params = {
+                    'token': token,
+                    'id': this.id,
+                    'name': this.name,
+                    'url': this.url,
+                }
+                const con = await api.post(url, params)
+                if (con.code === 402) {
+                    refresh_token(this.username, token)
+                    this.updataBookMarks()
+                    return
+                }
+            },
             // 勾选弹框保存按钮
-            sureCheck () {
+            async sureCheck () {
                 if (this.id === '') {
                     // 新建
-                    if (this.p_type !== '' && this.v0 !== '' && this.v1 !== '') {
-                        const url = this.$store.state.base_url + '/entertainment/bookMarksInsert'
-                        const create_date = (new Date()).valueOf()
-                        const params = {
-                            'token': this.token,
-                            'name': this.name,
-                            'url': this.url,
-                            'create_date': create_date,
-                            'author': this.username,
-                        }
-                        axios.post(url, qs.stringify(params)).then(res => {
-                            if (res.data.code === 200) {
-                                this.$message.success('保存成功')
-                                this.id = ''
-                                this.reload()
-                                // this.checkTable()
-                            } else {
-                                this.$message.error(res.data.code)
-                            }
-                        }).catch(error =>{
-                            console.log(error)
-                        })
+                    if (this.name !== '' && this.url !== '') {
+                        await this.insertBookMarks()
+                        await this.getDatas()
                     }else{
                         this.$message.error('请补全数据')
                     }
                 }else{
                     // 修改
-                    const url = this.$store.state.base_url + '/entertainment/bookMarksUpdate'
-                    const params = {
-                        'token': this.token,
-                        'id': this.id,
-                        'name': this.name,
-                        'url': this.url,
-                    }
-                    axios.post(url, qs.stringify(params)).then(res => {
-                        console.log(res.data)
-                        this.id = ''
-                        this.reload()
-                    }).catch(error =>{
-                        console.log(error)
-                    })
+                    await this.updataBookMarks()
+                    await this.getDatas()
                 }
+                this.id = ''
+                this.name = ''
+                this.url = ''
+            },
 
-                
+            async deleteBookMarks (ids) {
+                const token = getCookie('lingxi-token')
+                const url = this.$store.state.base_url + '/entertainment/bookMarksDelete'
+                const params = {
+                    'token': token,
+                    "ids": ids + ','
+                }
+                const con = await api.post(url, params)
+                if (con.code === 402){
+                    refresh_token(this.username, token)
+                    this.deleteBookMarks()
+                }
+                console.log('deleteBookMarks执行成功')
             },
             // 删除一行
             deleteFun (scope) {
-                if (!scope.row.id) {
+                const ids = scope.row.id
+                if (!ids) {
                     this.$message.error('id为空')
                     this.tableData.splice(scope.$index, 1)
                 } else {
@@ -319,56 +333,17 @@
                         confirmButtonText: '确定',
                         cancelButtonText: '取消',
                         type: 'success'
-                    }).then(() =>{
-                        const url = this.$store.state.base_url + '/entertainment/bookMarksDelete'
-                        const params = {
-                            'token': this.token,
-                            "ids": scope.row.id + ','
-                        }
-                        axios.post(url, qs.stringify(params)).then(res => {
-                            console.log(res.data)
-                            this.reload()
-                        }).catch(error => {
-                            console.log(error)
-                        })
+                    }).then(async () =>{
+                        await this.deleteBookMarks(ids)
+                        await this.getDatas()
                     }).catch(() =>{
-                    this.$message({
-                        type: 'info',
-                        message: '已取消'
+                        this.$message({
+                            type: 'info',
+                            message: '已取消'
+                        })
                     })
-                })
                 }
             },
-            deleteAuth () {
-                if (confirm('确定删除吗？') === true) {
-                    var aa = this.$refs.inputTitle
-                    var checkboxValues = ''
-                    for (let i=0; i<aa.length; i++) {
-                        if (aa[i].checked) {
-                            checkboxValues = checkboxValues + aa[i].value + ','
-                            // checkboxValues.push(aa[i].value)
-                        }
-                    }
-                    if (!checkboxValues) {
-                        this.$message.error('不能删除0条！')
-                    }else{
-                        const url = this.$store.state.base_url + `/entertainment/bookMarksDelete`
-                        const params = {
-                            "token": this.token,
-                            "ids": checkboxValues
-                        }
-                        axios.post(url, qs.stringify(params)).then(response => {
-                            let res = response.data
-                            if (res.code === 200) {
-                                this.reload()
-                            }else{
-                                this.$message.error(res.code)
-                            }
-                        })
-                        
-                    }
-                }
-            }
         }
     }
 </script>

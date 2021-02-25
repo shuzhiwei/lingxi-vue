@@ -36,6 +36,7 @@
     import qs from 'qs'
     import {setCookie,getCookie} from '../../static/js/cookie.js'
     import {refresh_token} from '../../static/js/acs.js'
+    import {api} from '../../static/js/api.js'
     export default {
         inject: ['reload'],
 
@@ -63,27 +64,30 @@
             }else{
                 this.otherUserShow = "舒志伟"
             }
-            const token = this.token
-            const url = this.$store.state.base_url + `/entertainment/todoListShow`
-            const params = {
-                    'token': this.token,
-                    'username': this.username
-                }
-            axios.post(url, qs.stringify(params)).then(response => {
-                const con = response.data
+            this.getDatas(this.username)
+        },
+
+        methods: {
+            async getDatas (username) {
+                const token = getCookie('lingxi-token')
+                const url = this.$store.state.base_url + `/entertainment/todoListShow`
+                const params = {
+                        'token': token,
+                        'username': username
+                    }
+
+                console.log('hello')
+                var con = await api.post(url, params)
+                
                 console.log(con)
                 const code = con.code
                 if (code === 402) {
-                    const username = getCookie('username')
-                    refresh_token(username, token)
-                    this.reload()
-                    return
-                }
-                if (code === 401) {
-                    this.$message.error('无acs权限！')
+                    refresh_token(this.username, token)
+                    this.getDatas (username)
                     return
                 }
                 const res = con.todos
+                this.todos = []
                 for (let i=0; i<res.length; i++) {
                     let id = res[i].id
                     let todo = res[i].todo
@@ -102,12 +106,8 @@
                     }
                     this.todos.push(d)
                 }
-            }).catch(error => {
-                console.log(error)
-            })
-        },
-
-        methods: {
+                console.log('getDatas执行成功')
+            },
             sleep (time) {
                 var timeStamp = new Date().getTime();
                 var endTime = timeStamp + time;
@@ -126,153 +126,53 @@
                 // var second=now.getSeconds(); //返回日期中的秒数（0到59）
                 return year+"-"+month+"-"+date+" "
             },
-            addTodo (todo) {
+            async insertTodo(todo) {
+                const token = getCookie('lingxi-token')
                 var ts = (new Date()).valueOf()
                 const url = this.$store.state.base_url + `/entertainment/todoInsert`
                 const params = {
-                        'token': this.token,
+                        'token': token,
                         'create_date': ts,
                         'todo': todo,
                         'username': this.otherUser
                     }
-                axios.post(url, qs.stringify(params)).then(response => {
-                    const con = response.data
-                    console.log(con)
-                    const code = con.code
-                    if (code === 402) {
-                        const username = getCookie('username')
-                        refresh_token(username, token)
-                        this.reload()
-                        return
-                    }
-                    if (code === 401) {
-                        this.$message.error('无acs权限！')
-                        return
-                    }
-                    const url1 = this.$store.state.base_url + `/entertainment/todoListShow`
-                    const params1 = {
-                            'token': this.token,
-                            'username': this.otherUser
-                        }
-                    axios.post(url1, qs.stringify(params1)).then(response => {
-                        const con1 = response.data
-                        console.log(con1)
-                        const code1 = con1.code
-                        if (code1 === 402) {
-                            const username1 = getCookie('username')
-                            refresh_token(username1, token)
-                            this.reload()
-                            return
-                        }
-                        if (code1 === 401) {
-                            this.$message.error('无acs权限！')
-                            return
-                        }
-                        const res1 = con1.todos
-                        this.todos = []
-                        for (let i=0; i<res1.length; i++) {
-                            let id = res1[i].id
-                            let todo = res1[i].todo
-                            let status = res1[i].status
-                            let create_date = res1[i].create_date
-                            create_date = this.formatDate(new Date(parseInt(create_date)))
-                            let author = res1[i].username
-                            let priority = res1[i].priority
-                            let d = {
-                                'id': id,
-                                'todo': todo,
-                                'status': status,
-                                'create_date': create_date,
-                                'author': author,
-                                'priority': priority
-                            }
-                            this.todos.push(d)
-                        }
-                    }).catch(error => {
-                        console.log(error)
-                        this.$message.error(error)
-                    })
-                }).catch(error => {
-                    console.log(error)
-                    this.$message.error(error)
-                })
-                
+                var con = await api.post(url, params)
+                console.log(con)
+                const code = con.code
+                if (code === 402) {
+                    refresh_token(this.username, token)
+                    this.insertTodo(todo)
+                }
+                console.log('insertTodo执行成功')
             },
-            delTodo (index) {
+            async addTodo (todo) {
+                this.insertTodo(todo)
+                this.getDatas(this.otherUser)
+            },
+            async deleteTodo (index) {
                 if (this.username !== this.otherUser) {
                     this.$message.error('不是您的todo哦！')
                     return
                 }
+                const token = getCookie('lingxi-token')
                 const ts = (new Date()).valueOf()
                 const url = this.$store.state.base_url + `/entertainment/todoDelete`
                 const params = {
-                        'token': this.token,
+                        'token': token,
                         'ids': index,
                         'timestamp': ts,
                     }
-                axios.post(url, qs.stringify(params)).then(response => {
-                    const con = response.data
-                    console.log(con)
-                    const code = con.code
-                    if (code === 402) {
-                        const username = getCookie('username')
-                        refresh_token(username, token)
-                        this.reload()
-                        return
-                    }
-                    if (code === 401) {
-                        this.$message.error('无acs权限！')
-                        return
-                    }
-                    const url1 = this.$store.state.base_url + `/entertainment/todoListShow`
-                    const params1 = {
-                            'token': this.token,
-                            'username': this.otherUser
-                        }
-                    axios.post(url1, qs.stringify(params1)).then(response => {
-                        const con1 = response.data
-                        console.log(con1)
-                        const code1 = con1.code
-                        if (code1 === 402) {
-                            const username1 = getCookie('username')
-                            refresh_token(username1, token)
-                            this.reload()
-                            return
-                        }
-                        if (code1 === 401) {
-                            this.$message.error('无acs权限！')
-                            return
-                        }
-                        const res1 = con1.todos
-                        this.todos = []
-                        for (let i=0; i<res1.length; i++) {
-                            let id = res1[i].id
-                            let todo = res1[i].todo
-                            let status = res1[i].status
-                            let create_date = res1[i].create_date
-                            create_date = this.formatDate(new Date(parseInt(create_date)))
-                            let author = res1[i].username
-                            let priority = res1[i].priority
-                            let d = {
-                                'id': id,
-                                'todo': todo,
-                                'status': status,
-                                'create_date': create_date,
-                                'author': author,
-                                'priority': priority
-                            }
-                            this.todos.push(d)
-                        }
-                        this.showMyselfHistoryOnlyToday()
-                    }).catch(error => {
-                        console.log(error)
-                    })
-                }).catch(error => {
-                    console.log(error)
-                    this.$message.error(error)
-                })
-
-                
+                var con = await api.post(url, params)
+                console.log(con)
+                if (con.code === 402) {
+                    refresh_token(this.username, token)
+                    this.deleteTodo (index)
+                }
+                console.log('deleteTodo执行成功')
+            },
+            delTodo (index) {
+                this.deleteTodo(index)
+                this.getDatas(this.otherUser)
             },
             deleteCompleteTodos () {
                 if (this.username !== this.otherUser) {
@@ -286,163 +186,79 @@
                 }
                 ids = ids.substr(0, ids.length-1)
                 console.log('ids: ' + ids)
-                const ts = (new Date()).valueOf()
-                const url = this.$store.state.base_url + `/entertainment/todoDelete`
-                const params = {
-                        'token': this.token,
-                        'ids': ids,
-                        'timestamp': ts,
-                    }
-                axios.post(url, qs.stringify(params)).then(response => {
-                    const con = response.data
-                    console.log(con)
-                    const code = con.code
-                    if (code === 402) {
-                        const username = getCookie('username')
-                        refresh_token(username, token)
-                        this.reload()
-                        return
-                    }
-                    if (code === 401) {
-                        this.$message.error('无acs权限！')
-                        return
-                    }
-                    const url1 = this.$store.state.base_url + `/entertainment/todoListShow`
-                    const params1 = {
-                            'token': this.token,
-                            'username': this.otherUser
-                        }
-                    axios.post(url1, qs.stringify(params1)).then(response => {
-                        const con1 = response.data
-                        console.log(con1)
-                        const code1 = con1.code
-                        if (code1 === 402) {
-                            const username1 = getCookie('username')
-                            refresh_token(username1, token)
-                            this.reload()
-                            return
-                        }
-                        if (code1 === 401) {
-                            this.$message.error('无acs权限！')
-                            return
-                        }
-                        const res1 = con1.todos
-                        this.todos = []
-                        for (let i=0; i<res1.length; i++) {
-                            let id = res1[i].id
-                            let todo = res1[i].todo
-                            let status = res1[i].status
-                            let create_date = res1[i].create_date
-                            create_date = this.formatDate(new Date(parseInt(create_date)))
-                            let author = res1[i].username
-                            let priority = res1[i].priority
-                            let d = {
-                                'id': id,
-                                'todo': todo,
-                                'status': status,
-                                'create_date': create_date,
-                                'author': author,
-                                'priority': priority
-                            }
-                            this.todos.push(d)
-                        }
-                        this.showMyselfHistoryOnlyToday()
-                    }).catch(error => {
-                        console.log(error)
-                    })
-                }).catch(error => {
-                    console.log(error)
-                })
-
-                
+                this.deleteTodo (ids)
+                this.getDatas(this.otherUser)
+                // this.showMyselfHistoryOnlyToday()
             },
             selectAllTodos (value) {
                 this.todos.forEach(todo => todo.status=value)
             },
-            deleteReadHistory (index) {
+            async deleteFact (index) {
                 if (this.username !== this.otherUser) {
                     this.$message.error('不是您的todo哦！')
                     return
                 }
+                const token = getCookie('lingxi-token')
                 const url = this.$store.state.base_url + `/entertainment/todoRealDeleteHistory`
                 const params = {
-                        'token': this.token,
+                        'token': token,
                         'ids': index
                     }
-                axios.post(url, qs.stringify(params)).then(response => {
-                    const con = response.data
-                    console.log(con)
-                    const code = con.code
-                    if (code === 402) {
-                        const username = getCookie('username')
-                        refresh_token(username, token)
-                        this.reload()
-                        return
-                    }
-                    if (code === 401) {
-                        this.$message.error('无acs权限！')
-                        return
-                    }
-                    
-                    var a = (new Date()).toLocaleDateString()
-                    a =a.replace(/\//g,'-')
-                    const timestamp = (new Date(a))/1000 * 1000
-                    console.log('hello: ' + timestamp)
-                    this.showHistory(timestamp, this.username)
-                }).catch(error => {
-                    console.log(error)
-                    this.$message.error(error)
-                })
-
+                const con = await api.post(url, params)
+                console.log(con)
+                const code = con.code
+                if (code === 402) {
+                    refresh_token(this.username, token)
+                    this.deleteFact(index)
+                    return
+                }
             },
-
-            showHistory (timestamp, username) {
+            deleteReadHistory (index) {
+                this.deleteFact(index)
+                var a = (new Date()).toLocaleDateString()
+                // a =a.replace(/\//g,'-')
+                const timestamp = (new Date(a))/1000 * 1000
+                console.log('hello: ' + timestamp)
+                this.showHistory(timestamp, this.username)
+            },
+            async showHistory (timestamp, username) {
                 this.todos = []
-                this.showTodo(username)
-                const token = this.token
+                // this.showTodo(username)
+                const token = getCookie('lingxi-token')
                 const url = this.$store.state.base_url + `/entertainment/todoShowHistory`
                 const params = {
-                        'token': this.token,
+                        'token': token,
                         'username': username,
                         'timestamp': timestamp
                     }
                 this.todos_history = []
-                axios.post(url, qs.stringify(params)).then(response => {
-                    const con = response.data
-                    console.log(con)
-                    const code = con.code
-                    if (code === 402) {
-                        const username = getCookie('username')
-                        refresh_token(username, token)
-                        this.reload()
-                        return
+                const con = await api.post(url, params)
+                console.log(con)
+                const code = con.code
+                if (code === 402) {
+                    refresh_token(this.username, token)
+                    this.showHistory(timestamp, username)
+                    return
+                }
+                const res = con.todos
+                for (let i=0; i<res.length; i++) {
+                    let id = res[i].id
+                    let todo = res[i].todo
+                    let status = res[i].status
+                    let create_date = res[i].create_date
+                    create_date = this.formatDate(new Date(parseInt(create_date)))
+                    let d = {
+                        'id': id,
+                        'todo': todo,
+                        'status': status,
+                        'create_date': create_date
                     }
-                    if (code === 401) {
-                        this.$message.error('无acs权限！')
-                        return
-                    }
-                    const res = con.todos
-                    for (let i=0; i<res.length; i++) {
-                        let id = res[i].id
-                        let todo = res[i].todo
-                        let status = res[i].status
-                        let create_date = res[i].create_date
-                        create_date = this.formatDate(new Date(parseInt(create_date)))
-                        let d = {
-                            'id': id,
-                            'todo': todo,
-                            'status': status,
-                            'create_date': create_date
-                        }
-                        this.todos_history.push(d)
-                    }
-                }).catch(error => {
-                    console.log(error)
-                })
+                    this.todos_history.push(d)
+                }
             },
             showMyselfHistoryOnlyToday () {
                 var a = (new Date()).toLocaleDateString()
-                a =a.replace(/\//g,'-')
+                // a =a.replace(/\//g,'-')
                 const timestamp = (new Date(a))/1000 * 1000
                 console.log('hello: ' + timestamp)
                 this.showHistory(timestamp, this.username)
@@ -460,7 +276,7 @@
                     this.otherUser = "shuzhiwei"
                 }
                 var a = (new Date()).toLocaleDateString()
-                a =a.replace(/\//g,'-')
+                // a =a.replace(/\//g,'-')
                 const timestamp = (new Date(a))/1000 * 1000
                 console.log('hello: ' + timestamp)
                 this.showHistory(timestamp, this.otherUser)
@@ -474,53 +290,8 @@
                 const timestamp = "1613785971000"
                 this.showHistory(timestamp, this.otherUser)
             },
-            showTodo (username) {
-                this.todos = []
-                const token = this.token
-                const url = this.$store.state.base_url + `/entertainment/todoListShow`
-                const params = {
-                        'token': this.token,
-                        'username': username
-                    }
-                axios.post(url, qs.stringify(params)).then(response => {
-                    const con = response.data
-                    console.log(con)
-                    const code = con.code
-                    if (code === 402) {
-                        username = getCookie('username')
-                        refresh_token(username, token)
-                        this.reload()
-                        return
-                    }
-                    if (code === 401) {
-                        this.$message.error('无acs权限！')
-                        return
-                    }
-                    const res = con.todos
-                    for (let i=0; i<res.length; i++) {
-                        let id = res[i].id
-                        let todo = res[i].todo
-                        let status = res[i].status
-                        let create_date = res[i].create_date
-                        create_date = this.formatDate(new Date(parseInt(create_date)))
-                        let author = res[i].username
-                        let priority = res[i].priority
-                        let d = {
-                            'id': id,
-                            'todo': todo,
-                            'status': status,
-                            'create_date': create_date,
-                            'author': author,
-                            'priority': priority
-                        }
-                        this.todos.push(d)
-                    }
-                }).catch(error => {
-                    console.log(error)
-                })
-            },
             showMyselfTodo () {
-                this.showTodo(this.username)
+                this.getDatas(this.username)
                 this.otherUser = this.username
                 this.todos_history = []
             },
@@ -530,7 +301,7 @@
                 }else{
                     this.otherUser = "shuzhiwei"
                 }
-                this.showTodo(this.otherUser)
+                this.getDatas(this.otherUser)
                 this.todos_history = []
             }
         }

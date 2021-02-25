@@ -201,8 +201,7 @@
                 console.log(con)
                 const code = con.code
                 if (code === 402) {
-                    const username = getCookie('username')
-                    refresh_token(username, token)
+                    refresh_token(getCookie('username'), getCookie('lingxi-token'))
                     this.reload()
                     return
                 }
@@ -523,9 +522,8 @@
                     const con = response.data
                     const code = con.code
                     if (code === 402) {
-                        const username = getCookie('username')
-                        refresh_token(username, token)
-                        this.reload()
+                        refresh_token(getCookie('username'), getCookie('lingxi-token'))
+                        this.getPageData()
                         return
                     }
                     if (code === 401) {
@@ -597,9 +595,10 @@
                             // }
 
                             if (code === 402) {
-                                const username = getCookie('username')
-                                refresh_token(username, token)
-                                //this.reload()
+                                refresh_token(getCookie('username'), getCookie('lingxi-token'))
+                                this.delRows()
+                                return
+
                             }else if (code === 200) {
                                 this.$message.success('删除成功')
                                 this.reload()
@@ -649,15 +648,14 @@
                     }).then(() => {
                         const url = this.$store.state.base_url + '/lingxis/blog/delete'
                         const params = {
-                            'token': this.token,
+                            'token': getCookie('lingxi-token'),
                             "ids": scope.row.id + ','
                         }
                         axios.post(url, qs.stringify(params)).then(res => {
                             const code = res.data.code
                             if (code === 402) {
-                                const username = getCookie('username')
-                                refresh_token(username, token)
-                                //this.reload()
+                                refresh_token(getCookie('username'), getCookie('lingxi-token'))
+                                this.deleteBlog(scope)
                             }else if (code === 200) {
                                 this.$message.success('删除成功')
                                 this.reload()

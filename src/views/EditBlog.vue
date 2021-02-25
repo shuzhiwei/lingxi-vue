@@ -66,6 +66,7 @@
     import {refresh_token} from '../../static/js/acs.js'
     import axios from 'axios'
     import qs from 'qs'
+    import {api} from '../../static/js/api.js'
     export default {
         inject: ['reload'],
         data () {
@@ -151,12 +152,11 @@
                 }
             },
 
-
             postCancel () {
                 this.$router.push({path: '/main/home'})
             },
 
-            postEntry () {
+            async postEntry () {
                 // 点击即呈现新建中
                 // this.form.newCreating = true
                 const load = this.$loading({
@@ -189,60 +189,39 @@
                     'delImageAddrs': del_images,
                 }
                 console.log('url: ' + url)
-
-                axios.post(url, qs.stringify(params)).then(response => {
-                    console.log('aaaa')
-                    const res = response.data
-                    if (res.code === 200) {
-                        var newImages = ''
-                        for (let i=0; i<this.form.images1.length; i++) {
-                            newImages = newImages + this.form.images1[i].image + 'helloworld'
-                            if (newImages.length > 1024*1024*10) {
-                                console.log(i)
-                                var params1 = {
-                                    'token': token,
-                                    'image': newImages
-                                }
-                                console.log(params1)
-                                axios.post(url1, qs.stringify(params1)).then(response => {
-                                    var res = response.data
-                                    if (res.code !== 200) {
-                                        this.$message.error(res.code)
-                                    }
-                                }).catch(error =>{
-                                    this.$message.error(error)
-                                })
-                                newImages = ''
-                                
-                            }
-                        }
-                        let params2 = {
+                
+                var res = await api.post(url, params)
+                console.log('aaaa')
+                if (res.code === 402) {
+                    refresh_token(this.username, token)
+                    this.postEntry()
+                    return
+                }
+                var newImages = ''
+                for (let i=0; i<this.form.images1.length; i++) {
+                    newImages = newImages + this.form.images1[i].image + 'helloworld'
+                    if (newImages.length > 1024*1024*5) {
+                        console.log(i)
+                        var params1 = {
                             'token': token,
                             'image': newImages
                         }
-                        console.log(params2)
-                        axios.post(url1, qs.stringify(params2)).then(response => {
-                            let res = response.data
-                            if (res.code !== 200) {
-                                load.close();
-                                this.$message.error(res.code)
-                            }else{
-                                load.close()
-                                this.$router.push({path: '/main/detail/' + id})
-                                this.reload()
-                                // this.$router.go(0)
-                            }
-                        }).catch(error =>{
-                            load.close();
-                            this.$message.error(error)
-                        })
+                        console.log(params1)
+                        res = await api.post(url1, params1)
+                        newImages = ''
                     }
-                }).catch(error => {
-                    console.log(error)
-                    console.log('aaaaaaaaa')
-                    load.close();
-                    this.$message.error('添加失败！')
-                })
+                }
+                if (newImages) {
+                    var params2 = {
+                        'token': token,
+                        'image': newImages
+                    }
+                    console.log(params2)
+                    await api.post(url1, params2)
+                }
+                load.close()
+                this.$router.push({path: '/main/detail/' + id})
+                this.reload()
             }
         }
     }

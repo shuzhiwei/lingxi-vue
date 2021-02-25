@@ -169,6 +169,7 @@
             },
 
             deleteBlog () {
+                const token = getCookie('lingxi-token')
                 console.log('id: ' + this.id)
                 if (!this.id) {
                     this.$message.error('id为空')
@@ -183,7 +184,7 @@
                         console.log('hello123')
                         const url = this.$store.state.base_url + '/lingxis/blog/delete'
                         const params = {
-                            'token': this.token,
+                            'token': token,
                             "ids": this.id + ','
                         }
                         console.log(url)
@@ -192,8 +193,7 @@
                             const code = res.data.code
                             console.log('res.data: ' + res.data)
                             if (code === 402) {
-                                const username = getCookie('username')
-                                refresh_token(username, token)
+                                refresh_token(getCookie('username'), token)
                                 //this.reload()
                             }else if (code === 200) {
                                 this.$message.success('删除成功')
@@ -203,12 +203,6 @@
                                 this.$message.error(code)
                             }
 
-                            // if (res.data.code === 200) {
-                            //     this.$message.success('删除成功')
-                            //     this.reload()
-                            // }else{
-                            //     this.$message.error(res.data.code)
-                            // }
                         }).catch(error => {
                             console.log(error)
                         })

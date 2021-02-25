@@ -48,6 +48,7 @@
     import {refresh_token} from '../../static/js/acs.js'
     import axios from 'axios'
     import qs from 'qs'
+    import {api} from '../../static/js/api.js'
     export default {
         inject: ['reload'],
         data () {
@@ -106,8 +107,69 @@
                 this.$router.push({path: '/main/home'})
             },
 
+            async addManyPhoto () {
+                const token = getCookie('lingxi-token')
+                const url = this.$store.state.base_url + '/lingxis/blog/addManyPhoto'
+
+                var params = {
+                    'token': token,
+                    'title': this.title,
+                    'content': this.content,
+                    'author': this.username,
+                    'share_flag': this.form.radio,
+                }
+                const res0 = await api.post(url, params)
+                console.log(res0)
+                var code = res0.code
+                if (code === 402) {
+                    // load.close();
+                    refresh_token(this.username, token)
+                    this.addManyPhoto()
+                    return
+                }
+                return res0.id
+            },
+
+            async addManyPhoto1 (post_id) {
+                const token = getCookie('lingxi-token')
+                const url1 = this.$store.state.base_url + `/lingxis/blog/editAddPhoto/${post_id}`
+                var tmp_images = ''
+                console.log(this.form.images1.length)
+                for (let i=0; i<this.form.images1.length; i++) {
+                    tmp_images = tmp_images + this.form.images1[i].image + 'helloworld'
+                    if (tmp_images.length > 1024*1024*5) {
+                        var params1 = {
+                            'token': token,
+                            'image': tmp_images,
+                        }
+                        var res = await api.post(url1, params1)
+                        console.log(res)
+                        let code = res.code
+                        if (code === 402) {
+                            refresh_token(this.username, token)
+                            this.addManyPhoto1(post_id)
+                            return
+                        }
+                        tmp_images = ''
+                    }
+                }
+                if (tmp_images) {
+                    var params2 = {
+                        'token': this.token,
+                        'image': tmp_images,
+                    }
+                    var res = await api.post(url1, params2)
+                    let code = res.code
+                    if (code === 402) {
+                        refresh_token(this.username, token)
+                        return
+                    }
+                    console.log(res)
+                }
+            },
+
             // 新建Blog
-            selectFile () {
+            async selectFile () {
                 // 点击即呈现新建中
                 // this.form.newCreating = true
                 const load = this.$loading({
@@ -116,101 +178,13 @@
                     spinner: 'el-icon-loading',
                     background: 'rgba(0, 0, 0, 0.7)'
                 });
-
-                const url = this.$store.state.base_url + '/lingxis/blog/addManyPhoto'
-
-                var params0 = {
-                    'token': this.token,
-                    'title': this.title,
-                    'content': this.content,
-                    'author': this.username,
-                    'share_flag': this.form.radio,
-                }
-                axios.post(url, qs.stringify(params0)).then(response => {
-                    var res0 = response.data
-                    console.log(res0)
-                    var code = res0.code
-                    if (code === 402) {
-                        // load.close();
-                        console.log('token 过期')
-                        refresh_token(this.username, this.token)
-                        this.token = getCookie('lingxi-token')
-                        this.selectFile()
-                        return
-
-                    }else if (code === 200) {
-                        let post_id = res0.id
-                        console.log(code)
-                        const url1 = this.$store.state.base_url + `/lingxis/blog/editAddPhoto/${post_id}`
-
-
-                        var tmp_images = ''
-                        console.log(this.form.images1.length)
-                        for (let i=0; i<this.form.images1.length; i++) {
-                            tmp_images = tmp_images + this.form.images1[i].image + 'helloworld'
-                            if (tmp_images.length > 1024*1024*5) {
-                                var params1 = {
-                                    'token': this.token,
-                                    'image': tmp_images,
-                                }
-                                axios.post(url1, qs.stringify(params1)).then(response => {
-                                    let res = response.data
-                                    console.log(res)
-                                    let code = res.code
-                                    if (code === 402) {
-                                        refresh_token(this.username, this.token)
-                                        this.token = getCookie('lingxi-token')
-
-                                    }else if (code === 200) {
-                                        console.log(code)
-                                    }else{
-                                        this.$message.error(code)
-                                    }
-                                })
-                                tmp_images = ''
-                            }
-                        }
-                        var params2 = {
-                            'token': this.token,
-                            'image': tmp_images,
-                        }
-                        axios.post(url1, qs.stringify(params2)).then(response => {
-                            let res = response.data
-                            let code = res.code
-                            if (code === 402) {
-                                refresh_token(this.username, this.token)
-                                this.token = getCookie('lingxi-token')
-                                load.close();
-
-                            }else if (code === 200) {
-                                console.log(code)
-                                load.close();
-                                this.$message.success('新建成功')
-                                this.$router.push({path: '/main/home'})
-                                // 解决跳转页面后不刷新数据的问题
-                                this.$router.go(0)
-                            }else{
-                                load.close();
-                                this.$message.error(code)
-                            }
-                        })
-                    }else{
-                        load.close();
-                        this.$message.error('内部错误')
-                    }
-                }).catch(error => {
-                    console.log(error)
-                    console.log('aaaaaaaaa')
-                    load.close();
-                    this.$message.error('添加失败！')
-                })
-                
-                // load.close();
-                // this.$message.success('新建成功')
-                // this.$router.push({path: '/main/home'})
-                // // 解决跳转页面后不刷新数据的问题
-                // this.$router.go(0)
-                
+                const post_id = await this.addManyPhoto()
+                await this.addManyPhoto1(post_id)
+                load.close();
+                this.$message.success('新建成功')
+                this.$router.push({path: '/main/home'})
+                // 解决跳转页面后不刷新数据的问题
+                this.$router.go(0)
             },
         }
     }
