@@ -3,12 +3,13 @@
     <el-container class="con">
       <el-header class="header" height="80px">
         <el-row>
-          <el-col :span="19"><div class="grid-content bg-purple">
+          <el-col :span="5" align="left"><div class="grid-content bg-purple">
               <img src="../../static/img/555.png" class="header-logo" @click="isCollapse=!isCollapse"/> 
-              <!-- <img v-show="this.$store.state.isshow" src="../../static/img/777.png" class="header-logo" @click="goHome"/>  -->
+          </div></el-col>
+          <el-col :span="14" align="center"><div class="grid-content bg-purple">
               <img src="../../static/img/777.png" class="header-logo" @click="goHome"/> 
           </div></el-col>
-          <el-col :span="4"><div class="grid-content bg-purple-light text-right">
+          <el-col :span="5" align="right"><div class="grid-content bg-purple-light text-right">
            <span>
                 <span>
                     <!-- <i class="el-icon-chat-dot-square" style="font-size:20px;color: white" @click="jumpChat">
@@ -45,7 +46,7 @@
                 <el-menu-item index="1-2" @click="isCollapse=!isCollapse"><router-link to="/main/todo"><i class="el-icon-tickets"></i>Todo</router-link></el-menu-item>
                 <!-- <el-menu-item index="1-4" @click="isCollapse=!isCollapse"><router-link to="/main/add"><i class="el-icon-tickets"></i>Add</router-link></el-menu-item> -->
                 <el-menu-item  index="1-5" @click="isCollapse=!isCollapse"><router-link to="/main/chat"><i class="el-icon-tickets"></i>Chat</router-link></el-menu-item>
-                <el-menu-item v-show="this.username == 'shuzhiwei'" index="1-6" @click="isCollapse=!isCollapse"><router-link to="/main/test"><i class="el-icon-tickets"></i>test</router-link></el-menu-item>
+                <!-- <el-menu-item v-show="this.username == 'shuzhiwei'" index="1-6" @click="isCollapse=!isCollapse"><router-link to="/main/test"><i class="el-icon-tickets"></i>test</router-link></el-menu-item> -->
               </el-menu-item-group>
             </el-submenu>
 
@@ -263,10 +264,10 @@
     line-height: 80px;
   }
   .text-right span{
-    margin-right: 10px;
+    margin-right: 1px;
   }
   .text-right span i{
-    margin-right: 5px;
+    margin-right: 1px;
   }
   .i_yellow{
     color: yellow;
