@@ -9,7 +9,7 @@
           <el-col :span="14" align="center"><div class="grid-content bg-purple">
               <img src="../../static/img/777.png" class="header-logo" @click="goHome"/> 
           </div></el-col>
-          <el-col :span="5" align="right"><div class="grid-content bg-purple-light text-right">
+          <el-col :span="4"><div class="grid-content bg-purple-light text-right">
            <span>
                 <span>
                     <!-- <i class="el-icon-chat-dot-square" style="font-size:20px;color: white" @click="jumpChat">
