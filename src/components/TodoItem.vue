@@ -61,6 +61,7 @@
                 }
             },
             delItem () {
+                var tmp_status = this.item.status
                 const {item, index, delTodo} = this
                 this.$confirm(`确认完成${item.todo}吗？`, '提示', {
                     confirmButtonText: '确定',
@@ -73,6 +74,7 @@
                         type: 'info',
                         message: '已取消'
                     })
+                    this.item.status = tmp_status
                 })
                 
             },
@@ -82,6 +84,7 @@
                     this.$message.error('不是您的todo哦！')
                     return
                 }
+                var tmp_status = this.item.status
                 var priority = this.item.priority
                 if (priority) {
                     this.$confirm(`确认将${todo}取消标星吗？`, '提示', {
@@ -95,6 +98,7 @@
                             type: 'info',
                             message: '已取消'
                         })
+                        this.item.status = tmp_status
                     })
                 }else{
                     this.$confirm(`确认将${todo}标星吗？`, '提示', {
@@ -108,6 +112,7 @@
                             type: 'info',
                             message: '已取消'
                         })
+                        this.item.status = tmp_status
                     })
                 }
             },
