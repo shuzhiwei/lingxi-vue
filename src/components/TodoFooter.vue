@@ -6,7 +6,7 @@
         <span>
           <span>已勾选{{completeSize}}</span> / 全部{{todos.length}}
         </span>
-        <button class="btn btn-danger" v-show="completeSize" @click="aaa">完成已勾选任务</button>
+        <button class="btn btn-danger" v-show="completeSize" @click="aaa">完成已勾选</button>
       </div>
 </template>
 
@@ -73,8 +73,9 @@
 }
 
 .todo-footer button {
-  float: right;
-  margin-top: 5px;
+  /* float: right; */
+  margin-left: 50px;
+  margin-top: 1px;
 }
 
 </style>
