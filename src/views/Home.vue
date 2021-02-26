@@ -57,6 +57,7 @@
         icon="el-icon-delete"
         type="danger"
         size="mini"
+        v-if="this.$store.state.isshow"
       ></el-button>
 
         <el-table
@@ -69,6 +70,7 @@
 
     <el-table-column
       type="selection"
+      v-if="this.$store.state.isshow"
       >
     </el-table-column>
 

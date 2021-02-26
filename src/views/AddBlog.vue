@@ -4,7 +4,7 @@
         <tr><th><label for="title">标题：</label></th><td>
             <!-- <input id="title" name="title" size="30" type="text" v-model="title"/> -->
             <el-input
-                placeholder="请输入内容"
+                placeholder="请输入标题"
                 v-model="title"
                 clearable>
             </el-input>
