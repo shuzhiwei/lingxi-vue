@@ -89,7 +89,7 @@
 }
 
 #e {
-  float: right;
+  float: left;
   /* display: none; */
   margin-top: 3px;
 }

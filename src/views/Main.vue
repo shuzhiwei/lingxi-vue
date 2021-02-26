@@ -72,6 +72,7 @@
                 
                 <el-menu-item index="5-5" @click="konga"> <i class="el-icon-tickets"></i>Konga</el-menu-item>
                 <el-menu-item index="5-6" @click="glances"> <i class="el-icon-tickets"></i>Glances</el-menu-item>
+                <el-menu-item index="5-7" @click="aliyun"> <i class="el-icon-tickets"></i>Aliyun</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
 
@@ -166,6 +167,7 @@
             },
 
             goHome() {
+                this.isCollapse = false
                 this.$router.push({path: '/main/todo'})
             },
 
@@ -234,6 +236,11 @@
             map () {
                 this.isCollapse = false
                 window.open('https://map.51240.com/', '_blank')
+            },
+
+            aliyun () {
+                this.isCollapse = false
+                window.open('https://cn.aliyun.com/', '_blank')
             }
            
         }

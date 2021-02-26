@@ -312,7 +312,7 @@
 <style>
 /*app*/
 .todo-container {
-  width: 350px;
+  width: 400px;
   margin: 0 auto;
 }
 .todo-container .todo-wrap {
@@ -323,7 +323,7 @@
 
 /*header*/
 .todo-header input {
-  width: 310px;
+  width: 360px;
   height: 28px;
   font-size: 14px;
   border: 1px solid #ccc;

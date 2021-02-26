@@ -32,7 +32,7 @@
         },
         methods : {
             aaa () {
-                this.$confirm(`确认完成所有已勾选吗？`, '提示', {
+                this.$confirm(`确认完成所有已勾选任务吗？`, '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'success'

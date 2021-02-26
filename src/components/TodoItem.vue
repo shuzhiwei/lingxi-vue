@@ -1,6 +1,7 @@
 <template>
 <div>
-    <li class="a" @mouseenter="aaa(true)" @mouseleave="aaa(false)" :style="{background: backColor}">
+    <!-- <li class="a" @mouseenter="aaa(true)" @mouseleave="aaa(false)" :style="{background: backColor}"> -->
+    <li class="a" :style="{background: backColor}">
         <label class="b">
             <input class="c" type="checkbox" v-model="item.status"/>
 
