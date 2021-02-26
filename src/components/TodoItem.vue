@@ -5,8 +5,8 @@
         <label class="b">
             <input class="c" type="checkbox" v-model="item.status"/>
 
-            <span v-if="item.priority===1"><i class="el-icon-star-on" style="color:#ffd633;font-size:25px;" @click="changePriority(item.author, item.id)"></i></span>
-            <span v-else><i class="el-icon-star-on" style="color:#c2d6d6;font-size:25px;" @click="changePriority(item.author, item.id)"></i></span>
+            <span v-if="item.priority===1"><i class="el-icon-star-on" style="color:#ffd633;font-size:25px;" @click="editStart(item.todo, item.author, item.id)"></i></span>
+            <span v-else><i class="el-icon-star-on" style="color:#c2d6d6;font-size:25px;" @click="editStart(item.todo, item.author, item.id)"></i></span>
 
             <span v-if="item.priority===1" class="d">{{item.todo}}</span>
             <span v-else>{{item.todo}}</span>
@@ -77,12 +77,42 @@
                 
             },
 
-            changePriority (author, id) {
+            editStart(todo, author, id) {
                 if (this.username !== author) {
                     this.$message.error('不是您的todo哦！')
                     return
                 }
+                var priority = this.item.priority
+                if (priority) {
+                    this.$confirm(`确认将${todo}取消标星吗？`, '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'success'
+                    }).then(() =>{
+                        this.changePriority (author, id)
+                    }).catch(() =>{
+                        this.$message({
+                            type: 'info',
+                            message: '已取消'
+                        })
+                    })
+                }else{
+                    this.$confirm(`确认将${todo}标星吗？`, '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'success'
+                    }).then(() =>{
+                        this.changePriority (author, id)
+                    }).catch(() =>{
+                        this.$message({
+                            type: 'info',
+                            message: '已取消'
+                        })
+                    })
+                }
+            },
 
+            changePriority (author, id) {
                 const params = {
                     'token': this.token,
                     'id': id,
