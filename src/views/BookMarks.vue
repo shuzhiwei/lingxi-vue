@@ -127,7 +127,7 @@
                 this.getDatas(id)
             }else{
                 console.log('bbb')
-                this.getDatas('')
+                this.getDatasAll()
             }
         },
 
@@ -135,6 +135,36 @@
             async getDatas (id) {
                 const token = getCookie('lingxi-token')
                 const url =  this.$store.state.base_url + `/entertainment/bookMarksShow/${id}`
+                console.log(url)
+                const params = {
+                    'token': token,
+                    'author': this.username
+                }
+                const con = await api.post(url, params)
+                console.log(con)
+                const code = con.code
+                if (code === 402) {
+                    refresh_token(this.username, token)
+                    this.reload()
+                    return
+                }
+                this.datas = []
+                const res = con.memory_palaces
+                for (let i=0; i<res.length; i++) {
+                    let data = {
+                        'id': res[i].id,
+                        'name': res[i].name,
+                        'url': res[i].url,
+                        'author': res[i].author,
+                        'statusBtn': false
+                    }
+                    this.datas.push(data)
+                }
+                console.log('getDatas执行成功')
+            },
+            async getDatasAll () {
+                const token = getCookie('lingxi-token')
+                const url =  this.$store.state.base_url + `/entertainment/bookMarksShow`
                 console.log(url)
                 const params = {
                     'token': token,
