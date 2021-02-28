@@ -120,13 +120,21 @@
         },
 
         mounted () {
-            this.getDatas()
+            const id = this.$route.params.id
+            console.log('页面传参：id = ' + id)
+            if (id) {
+                console.log('aaa')
+                this.getDatas(id)
+            }else{
+                console.log('bbb')
+                this.getDatas('')
+            }
         },
 
         methods: {
-            async getDatas () {
+            async getDatas (id) {
                 const token = getCookie('lingxi-token')
-                const url =  this.$store.state.base_url + `/entertainment/bookMarksShow`
+                const url =  this.$store.state.base_url + `/entertainment/bookMarksShow/${id}`
                 console.log(url)
                 const params = {
                     'token': token,

@@ -48,6 +48,28 @@ export default new VueRouter({
                       }
                 },
                 {
+                    path: 'home/:id',
+                    component: resolve => require(['../views/Home.vue'], resolve),
+                    meta: {
+                        title: 'Home', // 页签标题
+                        icon: 'el-icon-paperclip', // 页签图标，可选
+                        // tips: '这是一个页面', // 页签提示，可选，如未设置则跟 title 一致
+                        key: 'path', // 路由打开页签规则，可选
+                        closable: true // 页签是否允许关闭，默认 `true`
+                      }
+                },
+                {
+                    path: 'search',
+                    component: resolve => require(['../views/Search.vue'], resolve),
+                    meta: {
+                        title: 'Search', // 页签标题
+                        icon: 'el-icon-paperclip', // 页签图标，可选
+                        // tips: '这是一个页面', // 页签提示，可选，如未设置则跟 title 一致
+                        key: 'path', // 路由打开页签规则，可选
+                        closable: true // 页签是否允许关闭，默认 `true`
+                      }
+                },
+                {
                     path: 'todo',
                     component: resolve => require(['../views/TodoList1.vue'], resolve),
                     meta: {
@@ -63,6 +85,17 @@ export default new VueRouter({
                     component: resolve => require(['../views/MemoryPalace.vue'], resolve),
                     meta: {
                         title: '记忆宫殿', // 页签标题
+                        icon: 'el-icon-paperclip', // 页签图标，可选
+                        // tips: '这是一个页面', // 页签提示，可选，如未设置则跟 title 一致
+                        key: 'path', // 路由打开页签规则，可选
+                        closable: true // 页签是否允许关闭，默认 `true`
+                      }
+                },
+                {
+                    path: 'bookMarks/:id',
+                    component: resolve => require(['../views/BookMarks.vue'], resolve),
+                    meta: {
+                        title: '书签', // 页签标题
                         icon: 'el-icon-paperclip', // 页签图标，可选
                         // tips: '这是一个页面', // 页签提示，可选，如未设置则跟 title 一致
                         key: 'path', // 路由打开页签规则，可选

@@ -191,92 +191,111 @@
         },
 
         mounted () {
-            const token = this.token
-            const url = this.$store.state.base_url + `/lingxis/view/all`
-            const params = {
-                    'token': this.token,
-                    'pageSize': this.pageSize,
-                    'pageNo': this.pageNo
-                }
-            axios.post(url, qs.stringify(params)).then(response => {
-                const con = response.data
-                console.log(con)
-                const code = con.code
-                if (code === 402) {
-                    refresh_token(getCookie('username'), getCookie('lingxi-token'))
-                    this.reload()
-                    return
-                }
-                if (code === 401) {
-                    this.$message.error('无acs权限！')
-                    return
-                }
-                this.totalPage = con.totalPage
-                this.totalCount = con.totalCount
-                const res = con.data
-                for (let i=0; i<res.length; i++) {
-                    let title = res[i].title
-                    let content = res[i].content
-                    let posted_on = res[i].posted_on
-                    let author = res[i].author
-                    let date_d = getDateDiff(posted_on * 1000)
-                    let share_flag = res[i].share_flag
-                    let imageAddr = res[i].imageAddr
+            const id = this.$route.params.id
+            console.log('页面传参：id = ' + id)
+            if (id) {
+                console.log('aaa')
+                this.getOneData(id)
+            }else{
+                console.log('bbb')
+                this.getDatas()
+            }
+        },
+
+        methods: {
+            getOneData (id) {
+                const token = this.token
+                const url = this.$store.state.base_url + `/lingxis/view/${id}?token=${token}`
+                axios.get(url).then(response => {
+                    const con = response.data
+                    console.log(con)
+                    const code = con.code
+                    if (code === 402) {
+                        refresh_token(getCookie('username'), getCookie('lingxi-token'))
+                        this.reload()
+                        return
+                    }
+                    if (code === 401) {
+                        this.$message.error('无acs权限！')
+                        return
+                    }
+                    this.totalPage = 1
+                    this.totalCount = 1
+                    const res = con.data
+                    console.log(res.title)
                     let data = {
-                        'id': res[i].id,
-                        'title': title,
-                        'content': content,
-                        'date_d': date_d,
-                        'author': author,
-                        'share_flag': share_flag,
+                        'id': id,
+                        'title': res.title,
+                        'content': res.content,
+                        'date_d': getDateDiff(res.posted_on * 1000),
+                        'author': res.author,
+                        'share_flag': res.share_flag,
                         'statusBtn': false,
-                        'imageAddr': imageAddr,
+                        'imageAddr': res.imageAddr,
                     }
                     this.datas.push(data)
-                }
                 if (this.totalPage > 1) {
                     this.paginationShow = true
                 }
 
-                // const timer = setInterval(()=>{
-                //     console.log(1)
-                //     axios.get('https://www.nnbkqnp.cn/watchFile/getChange').then(response =>{
-                //         var getChangeData = response.data
-                //         // console.log(getChangeData)
-                //         var name = getChangeData.username
-                //         var flag = getChangeData.flag
-                //         if (this.username === name || name === '') {
-                //             this.$store.state.chatStatus = 'font-size:20px;color: white'
-                //         }else {
-                //             if (flag === 0 ) {
-                //                 this.$store.state.chatStatus = 'font-size:20px;color: white'
-                //             }else{
-                //                 this.$store.state.chatStatus = 'font-size:20px;color: red'
-                //                 const h = this.$createElement;
+                }).catch(error => {
+                    console.log(error)
+                    this.$message.error(error)
+                })
+            },
+            getDatas () {
+                const token = this.token
+                const url = this.$store.state.base_url + `/lingxis/view/all`
+                const params = {
+                        'token': this.token,
+                        'pageSize': this.pageSize,
+                        'pageNo': this.pageNo
+                    }
+                axios.post(url, qs.stringify(params)).then(response => {
+                    const con = response.data
+                    console.log(con)
+                    const code = con.code
+                    if (code === 402) {
+                        refresh_token(getCookie('username'), getCookie('lingxi-token'))
+                        this.reload()
+                        return
+                    }
+                    if (code === 401) {
+                        this.$message.error('无acs权限！')
+                        return
+                    }
+                    this.totalPage = con.totalPage
+                    this.totalCount = con.totalCount
+                    const res = con.data
+                    for (let i=0; i<res.length; i++) {
+                        let title = res[i].title
+                        let content = res[i].content
+                        let posted_on = res[i].posted_on
+                        let author = res[i].author
+                        let date_d = getDateDiff(posted_on * 1000)
+                        let share_flag = res[i].share_flag
+                        let imageAddr = res[i].imageAddr
+                        let data = {
+                            'id': res[i].id,
+                            'title': title,
+                            'content': content,
+                            'date_d': date_d,
+                            'author': author,
+                            'share_flag': share_flag,
+                            'statusBtn': false,
+                            'imageAddr': imageAddr,
+                        }
+                        this.datas.push(data)
+                    }
+                    if (this.totalPage > 1) {
+                        this.paginationShow = true
+                    }
 
-                //                 this.$notify({
-                //                 title: '消息',
-                //                 message: h('i', { style: 'color: teal'}, '您有未读消息哦')
-                //                 });
-                //             }
-                //         }
-                //     })
-                // },10000)
-                // this.$once('hook:beforeDestroy', ()=>{
-                //     clearInterval(timer)
-                // })
-
-            }).catch(error => {
-                console.log(error)
-                this.$message.error(error)
-            })
-
-            
-
-            
-        },
-
-        methods: {
+                }).catch(error => {
+                    console.log(error)
+                    this.$message.error(error)
+                })
+            },
             routeAdd () {
                 this.$router.push({'path': '/main/add'})
             },

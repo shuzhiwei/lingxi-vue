@@ -168,7 +168,7 @@
 
             goHome() {
                 this.isCollapse = false
-                this.$router.push({path: '/main/todo'})
+                this.$router.push({path: '/main/search'})
             },
 
             storage () {
