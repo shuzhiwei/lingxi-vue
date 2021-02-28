@@ -23,14 +23,13 @@
         
 
     </table>
-    <br><br>
+    <br>
 
     <el-table
         height="500"
-        border
     ref="filterTable"
     :data="datas"
-    style="width: 80%;font-size: 16px;margin-left: 30px;">
+    style="width: 90%;font-size: 16px;margin-left: 1px;">
 
      <el-table-column
       prop="查询结果"
@@ -77,7 +76,7 @@
         
         methods: {
             async search () {
-                const url = 'http://47.92.143.32:9200/_search'
+                const url = 'https://www.nnbkqnp.cn:7991/_search'
                 const params = '{"query":{"bool":{"should":[{"match":{"title":"' + this.keyword + '"}},{"match":{"content":"' + this.keyword + '"}},{"match":{"author":"' + this.keyword + '"}},{"match":{"name":"' + this.keyword + '"}},{"match":{"url":"' + this.keyword + '"}}]}},"highlight":{"boundary_scanner_locale":"zh_CN","fields":{"content":{"pre_tags":["<em>"],"post_tags":["</em>"]}}}}'
                 console.log(params)
 
