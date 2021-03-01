@@ -147,70 +147,142 @@
         },
 
         mounted () {
-            this.$store.commit('controlShow')
-
-            const token = this.token
-            const url = this.$store.state.base_url + `/stock/view`
-            const params = {
-                    'token': this.token,
-                    'pageSize': this.pageSize,
-                    'pageNo': this.pageNo
-                }
-            axios.post(url, qs.stringify(params)).then(response => {
-                const con = response.data
-                const code = con.code
-                if (code === 402) {
-                    const username = getCookie('username')
-                    refresh_token(username, this.token)
-                    this.reload()
-                    return
-                }
-                if (code === 401) {
-                    this.$message.error('无acs权限！')
-                    return
-                }
-                if (code === 200) {
-                    const res = con.data
-                    this.totalPage = con.totalPage
-                    this.totalCount = con.totalCount
-                    for (let i=0; i<res.length; i++) {
-                        let code = res[i].code
-                        let update_date = res[i].update_date
-                        let shareholder_falling_count = res[i].shareholder_falling_count
-                        let sdlu_great_retail_count = res[i].sdlu_great_retail_count
-                        // let float_share = Math.round(res[i].float_share)
-                        let float_share = Math.round(res[i].float_share / 100) / 100
-                        let name = res[i].name
-                        if (shareholder_falling_count >= 1 && sdlu_great_retail_count >= 6 && float_share < 100) {
-                            this.stock = '是'
-                        }else{
-                            this.stock = '否'
-                        }
-                        let data = {
-                            'code': code,
-                            'update_date': update_date,
-                            'shareholder_falling_count': shareholder_falling_count,
-                            'sdlu_great_retail_count': sdlu_great_retail_count,
-                            'float_share': float_share,
-                            'name': name,
-                            'stock': this.stock,
-                        }
-                        this.datas.push(data)
-                    }
-                    if (this.totalPage > 1) {
-                        this.paginationShow = true
-                    }
-                }else{
-                    console.log(con)
-                    this.$message.error(code)
-                }
-            }).catch(error => {
-                console.log(error)
-                this.$message.error(error)
-            })
+            const code = this.$route.params.code
+            const update_date = this.$route.params.update_date
+            if (code && update_date) {
+                this.getOneData(code, update_date)
+            }else{
+                this.getAllDatas()
+            }
         },
 
         methods: {
+
+            getAllDatas () {
+                this.$store.commit('controlShow')
+                const token = this.token
+                const url = this.$store.state.base_url + `/stock/view`
+                const params = {
+                        'token': this.token,
+                        'pageSize': this.pageSize,
+                        'pageNo': this.pageNo
+                    }
+                axios.post(url, qs.stringify(params)).then(response => {
+                    const con = response.data
+                    const code = con.code
+                    if (code === 402) {
+                        const username = getCookie('username')
+                        refresh_token(username, this.token)
+                        this.reload()
+                        return
+                    }
+                    if (code === 401) {
+                        this.$message.error('无acs权限！')
+                        return
+                    }
+                    if (code === 200) {
+                        const res = con.data
+                        this.totalPage = con.totalPage
+                        this.totalCount = con.totalCount
+                        for (let i=0; i<res.length; i++) {
+                            let code = res[i].code
+                            let update_date = res[i].update_date
+                            let shareholder_falling_count = res[i].shareholder_falling_count
+                            let sdlu_great_retail_count = res[i].sdlu_great_retail_count
+                            // let float_share = Math.round(res[i].float_share)
+                            let float_share = Math.round(res[i].float_share / 100) / 100
+                            let name = res[i].name
+                            if (shareholder_falling_count >= 1 && sdlu_great_retail_count >= 6 && float_share < 100) {
+                                this.stock = '是'
+                            }else{
+                                this.stock = '否'
+                            }
+                            let data = {
+                                'code': code,
+                                'update_date': update_date,
+                                'shareholder_falling_count': shareholder_falling_count,
+                                'sdlu_great_retail_count': sdlu_great_retail_count,
+                                'float_share': float_share,
+                                'name': name,
+                                'stock': this.stock,
+                            }
+                            this.datas.push(data)
+                        }
+                        if (this.totalPage > 1) {
+                            this.paginationShow = true
+                        }
+                    }else{
+                        console.log(con)
+                        this.$message.error(code)
+                    }
+                }).catch(error => {
+                    console.log(error)
+                    this.$message.error(error)
+                })
+            },
+
+            getOneData (code, update_date) {
+                this.$store.commit('controlShow')
+                const token = this.token
+                const url = this.$store.state.base_url + `/stock/viewOne`
+                const params = {
+                        'token': this.token,
+                        'code': code,
+                        'update_date': update_date
+                    }
+                axios.post(url, qs.stringify(params)).then(response => {
+                    const con = response.data
+                    const code = con.code
+                    if (code === 402) {
+                        const username = getCookie('username')
+                        refresh_token(username, this.token)
+                        this.reload()
+                        return
+                    }
+                    if (code === 401) {
+                        this.$message.error('无acs权限！')
+                        return
+                    }
+                    if (code === 200) {
+                        const res = con.data
+                        this.totalPage = con.totalPage
+                        this.totalCount = con.totalCount
+                        for (let i=0; i<res.length; i++) {
+                            let code = res[i].code
+                            let update_date = res[i].update_date
+                            let shareholder_falling_count = res[i].shareholder_falling_count
+                            let sdlu_great_retail_count = res[i].sdlu_great_retail_count
+                            // let float_share = Math.round(res[i].float_share)
+                            let float_share = Math.round(res[i].float_share / 100) / 100
+                            let name = res[i].name
+                            if (shareholder_falling_count >= 1 && sdlu_great_retail_count >= 6 && float_share < 100) {
+                                this.stock = '是'
+                            }else{
+                                this.stock = '否'
+                            }
+                            let data = {
+                                'code': code,
+                                'update_date': update_date,
+                                'shareholder_falling_count': shareholder_falling_count,
+                                'sdlu_great_retail_count': sdlu_great_retail_count,
+                                'float_share': float_share,
+                                'name': name,
+                                'stock': this.stock,
+                            }
+                            this.datas.push(data)
+                        }
+                        if (this.totalPage > 1) {
+                            this.paginationShow = true
+                        }
+                    }else{
+                        console.log(con)
+                        this.$message.error(code)
+                    }
+                }).catch(error => {
+                    console.log(error)
+                    this.$message.error(error)
+                })
+            },
 
             //改变每页显示数量时调用
             handleSizeChange(val) {

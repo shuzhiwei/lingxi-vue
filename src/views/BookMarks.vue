@@ -138,7 +138,6 @@
                 console.log(url)
                 const params = {
                     'token': token,
-                    'author': this.username
                 }
                 const con = await api.post(url, params)
                 console.log(con)

@@ -180,77 +180,154 @@
         },
 
         mounted () {
-            const url = this.$store.state.base_url + `/stock/viewKdj`
-            const params = {
-                    'token': this.token,
-                    'pageSize': this.pageSize,
-                    'pageNo': this.pageNo
-                }
-            axios.post(url, qs.stringify(params)).then(response => {
-                const con = response.data
-                const code = con.code
-                if (code === 402) {
-                    const username = getCookie('username')
-                    refresh_token(username, this.token)
-                    this.reload()
-                    return
-                }
-                if (code === 401) {
-                    this.$message.error('无acs权限！')
-                    return
-                }
-                if (code === 200) {
-                    const res = con.data
-                    this.totalPage = con.totalPage
-                    this.totalCount = con.totalCount
-                    for (let i=0; i<res.length; i++) {
-                        let code = res[i].code
-                        let update_date = res[i].update_date
-                        let shareholder_falling_count = res[i].shareholder_falling_count
-                        let sdlu_great_retail_count = res[i].sdlu_great_retail_count
-                        // let float_share = Math.round(res[i].float_share)
-                        let float_share = Math.round(res[i].float_share / 100) / 100
-                        let code_name = res[i].code_name
-                        let if_gold_cross = res[i].if_gold_cross
-                        let macd_gold_cross = res[i].macd_gold_cross
-                        let macd_dif = res[i].macd_dif
-                        let macd_dea = res[i].macd_dea
-
-                        if (shareholder_falling_count >= 1 && sdlu_great_retail_count >= 6 && float_share < 100) {
-                            this.stock = '是'
-                        }else{
-                            this.stock = '否'
-                        }
-                        
-                        let data = {
-                            'code': code,
-                            'update_date': update_date,
-                            'shareholder_falling_count': shareholder_falling_count,
-                            'sdlu_great_retail_count': sdlu_great_retail_count,
-                            'float_share': float_share,
-                            'code_name': code_name,
-                            'if_gold_cross': if_gold_cross,
-                            'macd_gold_cross': macd_gold_cross,
-                            'macd_dif': macd_dif,
-                            'macd_dea': macd_dea,
-                            'stock': this.stock,
-                        }
-                        this.datas.push(data)
-                    }
-                    if (this.totalPage > 1) {
-                        this.paginationShow = true
-                    }
-                }else{
-                    console.log(con)
-                    console.log(code)
-                }
-            }).catch(error => {
-                console.log(error)
-                this.$message.error(error)
-            })
+            const id = this.$route.params.id
+            if (id) {
+                this.getOneData(id)
+            }else{
+                this.getAllData()
+            }
         },
 
         methods: {
+            getAllData () {
+                const url = this.$store.state.base_url + `/stock/viewKdj`
+                const params = {
+                        'token': this.token,
+                        'pageSize': this.pageSize,
+                        'pageNo': this.pageNo
+                    }
+                axios.post(url, qs.stringify(params)).then(response => {
+                    const con = response.data
+                    const code = con.code
+                    if (code === 402) {
+                        const username = getCookie('username')
+                        refresh_token(username, this.token)
+                        this.reload()
+                        return
+                    }
+                    if (code === 401) {
+                        this.$message.error('无acs权限！')
+                        return
+                    }
+                    if (code === 200) {
+                        const res = con.data
+                        this.totalPage = con.totalPage
+                        this.totalCount = con.totalCount
+                        for (let i=0; i<res.length; i++) {
+                            let code = res[i].code
+                            let update_date = res[i].update_date
+                            let shareholder_falling_count = res[i].shareholder_falling_count
+                            let sdlu_great_retail_count = res[i].sdlu_great_retail_count
+                            // let float_share = Math.round(res[i].float_share)
+                            let float_share = Math.round(res[i].float_share / 100) / 100
+                            let code_name = res[i].code_name
+                            let if_gold_cross = res[i].if_gold_cross
+                            let macd_gold_cross = res[i].macd_gold_cross
+                            let macd_dif = res[i].macd_dif
+                            let macd_dea = res[i].macd_dea
+
+                            if (shareholder_falling_count >= 1 && sdlu_great_retail_count >= 6 && float_share < 100) {
+                                this.stock = '是'
+                            }else{
+                                this.stock = '否'
+                            }
+                            
+                            let data = {
+                                'code': code,
+                                'update_date': update_date,
+                                'shareholder_falling_count': shareholder_falling_count,
+                                'sdlu_great_retail_count': sdlu_great_retail_count,
+                                'float_share': float_share,
+                                'code_name': code_name,
+                                'if_gold_cross': if_gold_cross,
+                                'macd_gold_cross': macd_gold_cross,
+                                'macd_dif': macd_dif,
+                                'macd_dea': macd_dea,
+                                'stock': this.stock,
+                            }
+                            this.datas.push(data)
+                        }
+                        if (this.totalPage > 1) {
+                            this.paginationShow = true
+                        }
+                    }else{
+                        console.log(con)
+                        console.log(code)
+                    }
+                }).catch(error => {
+                    console.log(error)
+                    this.$message.error(error)
+                })
+            },
+
+            getOneData (id) {
+                const url = this.$store.state.base_url + `/stock/viewKdj/${id}`
+                const params = {
+                        'token': this.token,
+                    }
+                axios.post(url, qs.stringify(params)).then(response => {
+                    const con = response.data
+                    const code = con.code
+                    if (code === 402) {
+                        const username = getCookie('username')
+                        refresh_token(username, this.token)
+                        this.reload()
+                        return
+                    }
+                    if (code === 401) {
+                        this.$message.error('无acs权限！')
+                        return
+                    }
+                    if (code === 200) {
+                        const res = con.data
+                        this.totalPage = con.totalPage
+                        this.totalCount = con.totalCount
+                        for (let i=0; i<res.length; i++) {
+                            let code = res[i].code
+                            let update_date = res[i].update_date
+                            let shareholder_falling_count = res[i].shareholder_falling_count
+                            let sdlu_great_retail_count = res[i].sdlu_great_retail_count
+                            // let float_share = Math.round(res[i].float_share)
+                            let float_share = Math.round(res[i].float_share / 100) / 100
+                            let code_name = res[i].code_name
+                            let if_gold_cross = res[i].if_gold_cross
+                            let macd_gold_cross = res[i].macd_gold_cross
+                            let macd_dif = res[i].macd_dif
+                            let macd_dea = res[i].macd_dea
+
+                            if (shareholder_falling_count >= 1 && sdlu_great_retail_count >= 6 && float_share < 100) {
+                                this.stock = '是'
+                            }else{
+                                this.stock = '否'
+                            }
+                            
+                            let data = {
+                                'code': code,
+                                'update_date': update_date,
+                                'shareholder_falling_count': shareholder_falling_count,
+                                'sdlu_great_retail_count': sdlu_great_retail_count,
+                                'float_share': float_share,
+                                'code_name': code_name,
+                                'if_gold_cross': if_gold_cross,
+                                'macd_gold_cross': macd_gold_cross,
+                                'macd_dif': macd_dif,
+                                'macd_dea': macd_dea,
+                                'stock': this.stock,
+                            }
+                            this.datas.push(data)
+                        }
+                        if (this.totalPage > 1) {
+                            this.paginationShow = true
+                        }
+                    }else{
+                        console.log(con)
+                        console.log(code)
+                    }
+                }).catch(error => {
+                    console.log(error)
+                    this.$message.error(error)
+                })
+            },
 
             //改变每页显示数量时调用
             handleSizeChange(val) {

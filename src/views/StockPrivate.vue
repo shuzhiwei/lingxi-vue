@@ -128,60 +128,124 @@
         },
 
         mounted () {
-            const token = this.token
-            const url = this.$store.state.base_url + `/stock/viewPrivate`
-            const params = {
-                    'token': this.token,
-                    'pageSize': this.pageSize,
-                    'pageNo': this.pageNo
-                }
-            axios.post(url, qs.stringify(params)).then(response => {
-                const con = response.data
-                const code = con.code
-                
-                if (code === 402) {
-                    const username = getCookie('username')
-                    refresh_token(username, token)
-                    this.reload()
-                    return
-                }
-                if (code === 401) {
-                    this.$message.error('无acs权限！')
-                    return
-                }
-                if (code === 200) {
-                    this.totalPage = con.totalPage
-                    this.totalCount = con.totalCount
-                    const res = con.data
-                    for (let i=0; i<res.length; i++) {
-                        let code = res[i].code
-                        let update_date = res[i].update_date
-                        let private_name = res[i].private_name
-                        let add_sub_store = res[i].add_sub_store
-                        let code_name = res[i].code_name
-                        let data = {
-                            'code': code,
-                            'update_date': update_date,
-                            'private_name': private_name,
-                            'add_sub_store': add_sub_store,
-                            'code_name': code_name,
-                        }
-                        this.datas.push(data)
-                    }
-                    if (this.totalPage > 1) {
-                        this.paginationShow = true
-                    }
-                }else{
-                    console.log(con)
-                    this.$message.error(code)
-                }
-            }).catch(error => {
-                console.log(error)
-                this.$message.error(error)
-            })
+            const code = this.$route.params.code
+            const update_date = this.$route.params.update_date
+            if (code && update_date) {
+                this.getOneData(code, update_date)
+            }else{
+                this.getAllDatas()
+            }
         },
 
         methods: {
+
+            getAllDatas () {
+                const token = this.token
+                const url = this.$store.state.base_url + `/stock/viewPrivate`
+                const params = {
+                        'token': this.token,
+                        'pageSize': this.pageSize,
+                        'pageNo': this.pageNo
+                    }
+                axios.post(url, qs.stringify(params)).then(response => {
+                    const con = response.data
+                    const code = con.code
+                    
+                    if (code === 402) {
+                        const username = getCookie('username')
+                        refresh_token(username, token)
+                        this.reload()
+                        return
+                    }
+                    if (code === 401) {
+                        this.$message.error('无acs权限！')
+                        return
+                    }
+                    if (code === 200) {
+                        this.totalPage = con.totalPage
+                        this.totalCount = con.totalCount
+                        const res = con.data
+                        for (let i=0; i<res.length; i++) {
+                            let code = res[i].code
+                            let update_date = res[i].update_date
+                            let private_name = res[i].private_name
+                            let add_sub_store = res[i].add_sub_store
+                            let code_name = res[i].code_name
+                            let data = {
+                                'code': code,
+                                'update_date': update_date,
+                                'private_name': private_name,
+                                'add_sub_store': add_sub_store,
+                                'code_name': code_name,
+                            }
+                            this.datas.push(data)
+                        }
+                        if (this.totalPage > 1) {
+                            this.paginationShow = true
+                        }
+                    }else{
+                        console.log(con)
+                        this.$message.error(code)
+                    }
+                }).catch(error => {
+                    console.log(error)
+                    this.$message.error(error)
+                })
+            },
+
+            getOneData (code, update_date) {
+                const token = this.token
+                const url = this.$store.state.base_url + `/stock/viewPrivateOne`
+                const params = {
+                        'token': this.token,
+                        'code': code,
+                        'update_date': update_date
+                    }
+                axios.post(url, qs.stringify(params)).then(response => {
+                    const con = response.data
+                    const code = con.code
+                    
+                    if (code === 402) {
+                        const username = getCookie('username')
+                        refresh_token(username, token)
+                        this.reload()
+                        return
+                    }
+                    if (code === 401) {
+                        this.$message.error('无acs权限！')
+                        return
+                    }
+                    if (code === 200) {
+                        this.totalPage = con.totalPage
+                        this.totalCount = con.totalCount
+                        const res = con.data
+                        for (let i=0; i<res.length; i++) {
+                            let code = res[i].code
+                            let update_date = res[i].update_date
+                            let private_name = res[i].private_name
+                            let add_sub_store = res[i].add_sub_store
+                            let code_name = res[i].code_name
+                            let data = {
+                                'code': code,
+                                'update_date': update_date,
+                                'private_name': private_name,
+                                'add_sub_store': add_sub_store,
+                                'code_name': code_name,
+                            }
+                            this.datas.push(data)
+                        }
+                        if (this.totalPage > 1) {
+                            this.paginationShow = true
+                        }
+                    }else{
+                        console.log(con)
+                        this.$message.error(code)
+                    }
+                }).catch(error => {
+                    console.log(error)
+                    this.$message.error(error)
+                })
+            },
 
             returnStock () {
                 this.reload()

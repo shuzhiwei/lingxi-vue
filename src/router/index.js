@@ -198,6 +198,17 @@ export default new VueRouter({
                       }
                 },
                 {
+                    path: 'greatRetail/:code/:update_date',
+                    component: resolve => require(['../views/StockGreatRetail.vue'], resolve),
+                    meta: {
+                        title: 'greatRetail',
+                        color: 'black',
+                        icon: 'el-icon-paperclip',
+                        key: 'path',
+                        closable: true
+                      }
+                },
+                {
                     path: 'private',
                     component: resolve => require(['../views/StockPrivate.vue'], resolve),
                     meta: {
@@ -209,7 +220,29 @@ export default new VueRouter({
                       }
                 },
                 {
+                    path: 'private/:code/:update_date',
+                    component: resolve => require(['../views/StockPrivate.vue'], resolve),
+                    meta: {
+                        title: 'private',
+                        color: 'black',
+                        icon: 'el-icon-paperclip',
+                        key: 'path',
+                        closable: true
+                      }
+                },
+                {
                     path: 'private1',
+                    component: resolve => require(['../views/StockPrivate1.vue'], resolve),
+                    meta: {
+                        title: 'private1',
+                        color: 'black',
+                        icon: 'el-icon-paperclip',
+                        key: 'path',
+                        closable: true
+                      }
+                },
+                {
+                    path: 'private1/:private_name',
                     component: resolve => require(['../views/StockPrivate1.vue'], resolve),
                     meta: {
                         title: 'private1',
@@ -232,6 +265,17 @@ export default new VueRouter({
                 },
                 {
                     path: 'kdj',
+                    component: resolve => require(['../views/StockKdj.vue'], resolve),
+                    meta: {
+                        title: 'goldCross',
+                        color: 'black',
+                        icon: 'el-icon-paperclip',
+                        key: 'path',
+                        closable: true
+                      }
+                },
+                {
+                    path: 'kdj/:id',
                     component: resolve => require(['../views/StockKdj.vue'], resolve),
                     meta: {
                         title: 'goldCross',

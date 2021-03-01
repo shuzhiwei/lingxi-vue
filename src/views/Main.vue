@@ -121,7 +121,7 @@
             </el-submenu>
             </el-menu>
         </el-aside>
-        <button @click="isCollapse=!isCollapse" style="color: write"></button>
+        <button @click="isCollapse=!isCollapse" style="color: write; width: 15px; border:none; outline:none">>></button>
 
         <el-main class="main">
             <router-tab></router-tab>
@@ -170,8 +170,9 @@
             },
 
             goHome() {
-                this.isCollapse = false
-                this.$router.push({path: '/main/todo'})
+                // this.isCollapse = false
+                // this.$router.push({path: '/main/todo'})
+                this.isCollapse = ! this.isCollapse
             },
 
             goSearch() {

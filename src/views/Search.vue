@@ -9,18 +9,33 @@
                 <el-input
                     placeholder="请输入关键字"
                     v-model="keyword"
-                    @keyup.enter.native="search"
+                    @keyup.enter.native="search1"
                     clearable>
                 </el-input>
-            
             </td>
             <td>
-                <el-button type="primary" @click="search">
+                <el-button type="primary" @click="search1">
                     搜索
                 </el-button>
             </td>
         </tr>
-        
+        <tr>    
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <el-dropdown @command="handleCommand">
+                    <span class="el-dropdown-link">
+                        类型<i class="el-icon-arrow-down el-icon--right"></i>
+                    </span>
+                    <el-dropdown-menu slot="dropdown">
+                        <el-dropdown-item command="blog">博客</el-dropdown-item>
+                        <el-dropdown-item command="book_marks">书签</el-dropdown-item>
+                        <el-dropdown-item command="stock">股票</el-dropdown-item>
+                    </el-dropdown-menu>
+                </el-dropdown>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <span v-show="(this.dropdownValue !== 'default')">
+                    <font size="2px">{{dropdownValue}}</font><i class="el-icon-delete" @click="removeDropdownValue"></i>
+                </span>
+        </tr>
 
     </table>
     <br>
@@ -36,30 +51,42 @@
       label="查询结果"
       >
         <template slot-scope="scope">
-            <!-- <router-link :to="`/main/${scope.row.path}/${scope.row.id}`"><font color="green">{{scope.row.id}}</font></router-link> -->
-            <!-- <router-link :to="`/main/detail/321`"><font color="green">{{scope.row.id}}</font></router-link> -->
-            <router-link :to="`${scope.row.html_path}/${scope.row.id}`">
+
+            <router-link v-if="scope.row.id.length < 10" :to="`${scope.row.html_path}/${scope.row.id}`">
                 <h5 style="font-size: 15px; color: green" v-if="scope.row.highlight" v-html="scope.row.highlight">
                 </h5>
                 <span v-else>
                     <h5 style="font-size: 15px; color: red">{{scope.row.title}}</h5>
                     <h5 style="font-size: 15px; color: red">{{scope.row.name}}</h5>
+                    <h5 style="font-size: 15px; color: red" v-show="scope.row.update_date">{{scope.row.code_name}}&nbsp;&nbsp;&nbsp;&nbsp;{{scope.row.update_date}}&nbsp;&nbsp;&nbsp;&nbsp;{{scope.row.private_name}}&nbsp;&nbsp;&nbsp;&nbsp;{{scope.row.html_path}}</h5>
                 </span>
-                
-
             </router-link>
-            <!-- <router-link :to="`/main/greatRetail/321`"><font color="green">{{scope.row.id}}</font></router-link> -->
+
+            <router-link v-else-if="scope.row.id.length === 19 || scope.row.id.length === 17" :to="`${scope.row.html_path}/${scope.row.code}/${scope.row.update_date}`">
+                <h5 style="font-size: 15px; color: green" v-if="scope.row.highlight" v-html="scope.row.highlight">
+                </h5>
+                <span v-else>
+                    <h5 style="font-size: 15px; color: red">{{scope.row.title}}</h5>
+                    <h5 style="font-size: 15px; color: red">{{scope.row.name}}</h5>
+                    <h5 style="font-size: 15px; color: red">{{scope.row.code_name}}&nbsp;&nbsp;&nbsp;&nbsp;{{scope.row.update_date}}&nbsp;&nbsp;&nbsp;&nbsp;{{scope.row.private_name}}&nbsp;&nbsp;&nbsp;&nbsp;{{scope.row.html_path}}</h5>
+                </span>
+            </router-link>
+
+            <router-link v-else :to="`${scope.row.html_path}/${scope.row.id}`">
+                <h5 style="font-size: 15px; color: green" v-if="scope.row.highlight" v-html="scope.row.highlight">
+                </h5>
+                <span v-else>
+                    <h5 style="font-size: 15px; color: red">{{scope.row.title}}</h5>
+                    <h5 style="font-size: 15px; color: red">{{scope.row.name}}</h5>
+                    <h5 style="font-size: 15px; color: red">{{scope.row.code_name}}&nbsp;&nbsp;&nbsp;&nbsp;{{scope.row.update_date}}&nbsp;&nbsp;&nbsp;&nbsp;{{scope.row.private_name}}&nbsp;&nbsp;&nbsp;&nbsp;{{scope.row.html_path}}</h5>
+                </span>
+            </router-link>
         </template>
     </el-table-column>
-
-    
-
   </el-table>
-
     <br><br>
     </div>
 </template>
-
 <script>
     import axios from 'axios'
     import qs from 'qs'
@@ -70,19 +97,25 @@
             return {
                 keyword: '',
                 datas: [],
-
+                dropdownValue: 'default',
             }
+        },
+
+        mounted () {
+
         },
         
         methods: {
-            async search () {
-                const url = 'https://www.nnbkqnp.cn:7991/_search'
-                const params = '{"query":{"bool":{"should":[{"match":{"title":"' + this.keyword + '"}},{"match":{"content":"' + this.keyword + '"}},{"match":{"author":"' + this.keyword + '"}},{"match":{"name":"' + this.keyword + '"}},{"match":{"url":"' + this.keyword + '"}}]}},"highlight":{"boundary_scanner_locale":"zh_CN","fields":{"content":{"pre_tags":["<em>"],"post_tags":["</em>"]}}}}'
+            async base_search (url, params) {
+                console.log(url)
                 console.log(params)
-
                 const con = await api.es_post(url, params)
                 var hits = con.data.hits.hits
                 console.log(hits)
+                if (hits.length === 0) {
+                    this.$message.success('搜索无果！')
+                    return
+                }
                 this.datas = []
                 for (let i=0; i<hits.length; i++) {
                     var html_path = hits[i]._source.html_path
@@ -110,16 +143,70 @@
                             'highlight': highlight,
 
                             'name': hits[i]._source.name,
-                            'url': hits[i]._source.url
+                            'url': hits[i]._source.url,
+
+                            'create_date': hits[i]._source.create_date,
+                            'update_date': hits[i]._source.update_date,
+                            'code': hits[i]._source.code,
+                            'code_name': hits[i]._source.code_name,
+                            'private_name': hits[i]._source.private_name,
+
                         }
                         this.datas.push(data)
                     }
                     
                 }
+            },
 
-                
+            async searchDefault () {
+                const url = 'https://www.nnbkqnp.cn:7991/lingxi/_search'
+                const params = '{"query":{"bool":{"should":[{"match":{"title":"' + this.keyword + '"}},{"match":{"content":"' + this.keyword + '"}},{"match":{"author":"' + this.keyword + '"}},{"match":{"name":"' + this.keyword + '"}}]}},"highlight":{"boundary_scanner_locale":"zh_CN","fields":{"title":{"pre_tags":["<em>"],"post_tags":["</em>"]}, "content":{"pre_tags":["<em>"],"post_tags":["</em>"]}}}, "from": 0, "size": 50}'
+                this.base_search(url, params)
+            },
 
+            async search1 () {
+                console.log(this.dropdownValue)
+                if (this.dropdownValue === 'blog') {
+                    this.searchBlog()
+                }else if (this.dropdownValue === 'book_marks') {
+                    this.searchBookMarks()
+                }else if (this.dropdownValue === 'stock') {
+                    this.searchStock()
+                }else if (this.dropdownValue === 'default') {
+                    this.searchDefault()
+                }else{
+                    this.search()
+                }
+            },
+
+            async searchBlog () {
+                const url = 'https://www.nnbkqnp.cn:7991/lingxi/entries/_search'
+                const params = '{"query":{"bool":{"should":[{"match":{"title":"' + this.keyword + '"}},{"match":{"content":"' + this.keyword + '"}},{"match":{"author":"' + this.keyword + '"}}]}},"highlight":{"boundary_scanner_locale":"zh_CN","fields":{"title":{"pre_tags":["<em>"],"post_tags":["</em>"]}, "content":{"pre_tags":["<em>"],"post_tags":["</em>"]}}}}'
+                this.base_search(url, params)
+            },
+
+            async searchBookMarks () {
+                const url = 'https://www.nnbkqnp.cn:7991/lingxi/book_marks/_search'
+                const params = '{"query":{"bool":{"should":[{"match":{"name":"' + this.keyword + '"}}]}},"highlight":{"boundary_scanner_locale":"zh_CN","fields":{"title":{"pre_tags":["<em>"],"post_tags":["</em>"]}, "content":{"pre_tags":["<em>"],"post_tags":["</em>"]}}}}'
+                this.base_search(url, params)
+            },
+
+            async searchStock () {
+                const url = 'https://www.nnbkqnp.cn:7991/lingxi/_search'
+                const params = '{"query":{"bool":{"should":[{"match":{"code":"' + this.keyword + '"}},{"match":{"code_name":"' + this.keyword + '"}},{"match":{"private_name":"' + this.keyword + '"}}]}},"highlight":{"boundary_scanner_locale":"zh_CN","fields":{"title":{"pre_tags":["<em>"],"post_tags":["</em>"]}, "content":{"pre_tags":["<em>"],"post_tags":["</em>"]}}}, "from": 0, "size": 50}'
+                this.base_search(url, params)
+            },
+
+            handleCommand(command) {
+                console.log('command: ' + command)
+                this.dropdownValue = command
+                console.log(this.dropdownValue)
+            },
+
+            removeDropdownValue () {
+                this.dropdownValue = ''
             }
+
         }
 
     }

@@ -16,7 +16,7 @@ const store = new Vuex.Store({
         screenWidth: document.body.clientWidth,
         base_url: 'https://www.nnbkqnp.cn',
         // base_url_test: 'http://localhost:8080',
-        base_url_test: 'https://www.nnbkqnp.cn',
+        base_url_test: 'https://www.nnbkqnp.cn/lingxi-system',
     },
 
     mutations: {
