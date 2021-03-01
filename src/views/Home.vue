@@ -21,7 +21,6 @@
         icon="el-icon-delete"
         type="danger"
         size="mini"
-        v-if="this.$store.state.isshow"
       ></el-button>
 
         <el-table
@@ -34,14 +33,12 @@
 
     <el-table-column
       type="selection"
-      v-if="this.$store.state.isshow"
       >
     </el-table-column>
 
     <el-table-column
       prop="title"
       label="title"
-
       column-key="title"
       :formatter="formatter"
     >
@@ -156,6 +153,8 @@
         },
 
         mounted () {
+            this.$store.commit('controlShow')
+            console.log(this.$store.state.isshow)
             const id = this.$route.params.id
             console.log('页面传参：id = ' + id)
             if (id) {
