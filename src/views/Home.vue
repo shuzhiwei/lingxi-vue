@@ -16,42 +16,6 @@
         size="mini"
       ></el-button>
 
-<!-- <el-dialog title="新建博客" :visible.sync="dialogFormVisible">
-
-  <el-form :model="form">
-    <el-form-item label="标题">
-      <el-input v-model="form.title" autocomplete="off"></el-input>
-    </el-form-item>
-    <el-form-item label="内容">
-      <el-input type="textarea" :rows="5" v-model="form.content" autocomplete="off"></el-input>
-    </el-form-item>
-    <el-form-item label="是否公开">
-      <el-radio v-model="form.radio" label="1">公开</el-radio>
-      <el-radio v-model="form.radio" label="0">不公开</el-radio>
-    </el-form-item>
-    <el-form-item label="照片">
-     
-    <span align="left">
-      <el-button type="primary" v-on:click="openFile()" round>选择文件</el-button>
-      <input type="file" id="filename" style="display:none" multiple="multiple" @change="showRealPath"/>
-    </span>
-
-    <br>
-    <span v-for="(item, index) in form.images1" :key="index">
-            <div class="img-box">
-             <img class="myimage" :src="item.image" alt="">
-            <div class="del-icon" @click="deletePrePhoto(index)"></div>
-        </div>
-    </span>
-
-    </el-form-item>
-  </el-form>
-  <div slot="footer" class="dialog-footer">
-    <el-button type="info" @click="dialogFormVisible = false">取 消</el-button>
-    <el-button type="primary" @click="selectFile" :disabled="form.newCreating">确 定</el-button>
-  </div>
-</el-dialog> -->
-
       <el-button
         @click="delRows()"
         icon="el-icon-delete"
@@ -307,25 +271,41 @@
                     return
                 }
 
+                var shareFlag = 0
                 if (scope.row.share_flag === 1) {
-                    scope.row.share_flag = 0
+                    shareFlag = 0
                 }else{
-                    scope.row.share_flag = 1
+                    shareFlag = 1
                 }
                 const params = {
                     'token': this.token,
                     'title': scope.row.title,
                     'content': scope.row.content,
-                    'share_flag': scope.row.share_flag,
+                    'share_flag': shareFlag,
                     'curImageAddrs': scope.row.imageAddr,
                     'delImageAddrs': '',
                 }
                 const url = this.$store.state.base_url + `/lingxis/blog/edit/${scope.row.id}`
                 axios.post(url, qs.stringify(params)).then(response => {
                     const code = response.data.code
-                    if (code !== 200) {
-                        this.$message.error(code)
+                    if (code !== 200){
+                        return
                     }
+                    scope.row.share_flag = shareFlag
+                    if (scope.row.share_flag === 1){
+                        this.$alert(`${this.$store.state.base_url_test}/#/shareDetail/${scope.row.id}`, '分享链接', {
+                            confirmButtonText: '确定',
+                            callback: action => {
+                                    this.$message({
+                                    type: 'success',
+                                    message: `分享成功`
+                                });
+                            }
+                        });
+                    }else{
+                        this.$message.info('取消分享')
+                    }
+                    
                 }).catch(error =>{
                     this.$message.error('请求失败！')
                 })

@@ -4,10 +4,10 @@
       <el-header class="header" height="80px">
         <el-row>
           <el-col :span="5" align="left"><div class="grid-content bg-purple">
-              <img src="../../static/img/555.png" class="header-logo" @click="isCollapse=!isCollapse"/> 
+              <img src="../../static/img/555.png" class="header-logo" @click="goHome"/> 
           </div></el-col>
           <el-col :span="14" align="center"><div class="grid-content bg-purple">
-              <img src="../../static/img/777.png" class="header-logo" @click="goHome"/> 
+              <img src="../../static/img/777.png" class="header-logo" @click="goSearch"/> 
           </div></el-col>
           <el-col :span="4"><div class="grid-content bg-purple-light text-right">
            <span>
@@ -46,6 +46,8 @@
                 <el-menu-item index="1-2" @click="isCollapse=!isCollapse"><router-link to="/main/todo"><i class="el-icon-tickets"></i>Todo</router-link></el-menu-item>
                 <!-- <el-menu-item index="1-4" @click="isCollapse=!isCollapse"><router-link to="/main/add"><i class="el-icon-tickets"></i>Add</router-link></el-menu-item> -->
                 <el-menu-item  index="1-5" @click="isCollapse=!isCollapse"><router-link to="/main/chat"><i class="el-icon-tickets"></i>Chat</router-link></el-menu-item>
+                <el-menu-item  index="1-6" @click="goShare"><i class="el-icon-tickets"></i>Share</el-menu-item>
+
                 <!-- <el-menu-item v-show="this.username == 'shuzhiwei'" index="1-6" @click="isCollapse=!isCollapse"><router-link to="/main/test"><i class="el-icon-tickets"></i>test</router-link></el-menu-item> -->
               </el-menu-item-group>
             </el-submenu>
@@ -119,6 +121,7 @@
             </el-submenu>
             </el-menu>
         </el-aside>
+        <button @click="isCollapse=!isCollapse" style="color: write"></button>
 
         <el-main class="main">
             <router-tab></router-tab>
@@ -168,6 +171,11 @@
 
             goHome() {
                 this.isCollapse = false
+                this.$router.push({path: '/main/todo'})
+            },
+
+            goSearch() {
+                this.isCollapse = false
                 this.$router.push({path: '/main/search'})
             },
 
@@ -204,6 +212,9 @@
             },
             glances () {
                 window.open('http://www.nnbkqnp.cn:61208/', '_blank')
+            },
+            goShare () {
+                window.open(`${this.$store.state.base_url_test}/#/share`, '_blank')
             },
             jumpChat () {
                 this.$router.push({path: '/main/chat'})
