@@ -176,6 +176,17 @@ export default new VueRouter({
                       }
                 },
                 {
+                    path: 'userManage',
+                    component: resolve => require(['../views/UserManage.vue'], resolve),
+                    meta: {
+                        title: 'UserManage',
+                        color: 'black',
+                        icon: 'el-icon-paperclip',
+                        key: 'path',
+                        closable: true
+                      }
+                },
+                {
                     path: 'test',
                     component: resolve => require(['../views/test.vue'], resolve),
                     meta: {

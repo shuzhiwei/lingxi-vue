@@ -117,11 +117,12 @@
               <template slot="title"><i class="el-icon-location"></i>System</template>
               <el-menu-item-group>
                 <el-menu-item index="9-1" @click="isCollapse=!isCollapse"> <router-link to="/main/authManage"><i class="el-icon-tickets"></i>AuthManage</router-link></el-menu-item>
+                <el-menu-item index="9-2" @click="isCollapse=!isCollapse"> <router-link to="/main/userManage"><i class="el-icon-tickets"></i>UserManage</router-link></el-menu-item>
               </el-menu-item-group>
             </el-submenu>
             </el-menu>
         </el-aside>
-        <button @click="isCollapse=!isCollapse" style="color: write; width: 15px; border:none; outline:none">>></button>
+        <button @click="isCollapse=!isCollapse" style="color: write; width: 20px; border:none; outline:none">》</button>
 
         <el-main class="main">
             <router-tab></router-tab>
