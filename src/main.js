@@ -8,7 +8,9 @@ import echarts from 'echarts'
 import RouterTab from 'vue-router-tab'
 import 'vue-router-tab/dist/lib/vue-router-tab.css'
 import Vuex from 'vuex'
+import VueClipboard from 'vue-clipboard2'
 
+Vue.use(VueClipboard)
 Vue.use(Vuex)
 const store = new Vuex.Store({
     state: {

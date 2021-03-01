@@ -29,7 +29,6 @@
     <el-table-column
       prop="username"
       label="username"
-      width="500px"
       sortable
       column-key="username"
     >

@@ -150,6 +150,7 @@
                 dialogImageUrl: '',
                 dialogVisible: false,
                 fileList: [],
+                clipboardValue: ''
 
             }
         },
@@ -293,13 +294,16 @@
                     }
                     scope.row.share_flag = shareFlag
                     if (scope.row.share_flag === 1){
+                        this.clipboardValue = `${this.$store.state.base_url_test}/#/shareDetail/${scope.row.id}`
+                        console.log(this.clipboardValue)
                         this.$alert(`${this.$store.state.base_url_test}/#/shareDetail/${scope.row.id}`, '分享链接', {
-                            confirmButtonText: '确定',
+                            confirmButtonText: '复制',
                             callback: action => {
-                                    this.$message({
-                                    type: 'success',
-                                    message: `分享成功`
-                                });
+                                    this.$copyText(this.clipboardValue).then((e) => {
+                                        this.$message.success('复制成功')
+                                        }, (e) => {
+                                        this.$message.error('复制失败')
+                                    })
                             }
                         });
                     }else{

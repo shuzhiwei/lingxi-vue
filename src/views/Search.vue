@@ -175,7 +175,8 @@
                 }else if (this.dropdownValue === 'default') {
                     this.searchDefault()
                 }else{
-                    this.search()
+                    // this.search()
+                    this.searchDefault()
                 }
             },
 
