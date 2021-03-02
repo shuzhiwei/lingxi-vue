@@ -331,14 +331,14 @@
                     // 新建
                     if (this.name !== '' && this.url !== '') {
                         await this.insertBookMarks()
-                        await this.getDatas()
+                        await this.getDatasAll()
                     }else{
                         this.$message.error('请补全数据')
                     }
                 }else{
                     // 修改
                     await this.updataBookMarks()
-                    await this.getDatas()
+                    await this.getDatasAll()
                 }
                 this.id = ''
                 this.name = ''
@@ -346,20 +346,6 @@
                 this.hiddenUrl = false
             },
 
-            async deleteBookMarks (ids) {
-                const token = getCookie('lingxi-token')
-                const url = this.$store.state.base_url + '/entertainment/bookMarksDelete'
-                const params = {
-                    'token': token,
-                    "ids": ids + ','
-                }
-                const con = await api.post(url, params)
-                if (con.code === 402){
-                    refresh_token(this.username, token)
-                    this.deleteBookMarks()
-                }
-                console.log('deleteBookMarks执行成功')
-            },
             // 删除一行
             deleteFun (scope) {
                 const ids = scope.row.id
@@ -372,8 +358,8 @@
                         cancelButtonText: '取消',
                         type: 'success'
                     }).then(async () =>{
-                        await this.deleteBookMarks(ids)
-                        await this.getDatas()
+                        await this.delRowsApi(ids)
+                        await this.getDatasAll()
                     }).catch(() =>{
                         this.$message({
                             type: 'info',

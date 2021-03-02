@@ -40,14 +40,13 @@
 
                     active-text-color="#6ec673" id="menu">
             <el-submenu index="1" v-show="this.username !== 'helloworld'">
-              <template slot="title"><i class="el-icon-location"></i>Blog</template>
+              <template slot="title"><i class="el-icon-location"></i>Home</template>
               <el-menu-item-group>
-                <el-menu-item index="1-1" @click="isCollapse=!isCollapse"><router-link to="/main/home"><i class="el-icon-tickets"></i>Home</router-link></el-menu-item>
-                <el-menu-item index="1-2" @click="isCollapse=!isCollapse"><router-link to="/main/todo"><i class="el-icon-tickets"></i>Todo</router-link></el-menu-item>
+                <el-menu-item index="1-1" @click="isCollapse=!isCollapse"><router-link to="/main/home"><i class="el-icon-tickets"></i>Blog</router-link></el-menu-item>
+                <el-menu-item  index="1-6" @click="goShare"><i class="el-icon-tickets"></i>Share</el-menu-item>
                 <!-- <el-menu-item index="1-4" @click="isCollapse=!isCollapse"><router-link to="/main/add"><i class="el-icon-tickets"></i>Add</router-link></el-menu-item> -->
                 <el-menu-item  index="1-5" @click="isCollapse=!isCollapse"><router-link to="/main/chat"><i class="el-icon-tickets"></i>Chat</router-link></el-menu-item>
-                <el-menu-item  index="1-6" @click="goShare"><i class="el-icon-tickets"></i>Share</el-menu-item>
-
+                
                 <!-- <el-menu-item v-show="this.username == 'shuzhiwei'" index="1-6" @click="isCollapse=!isCollapse"><router-link to="/main/test"><i class="el-icon-tickets"></i>test</router-link></el-menu-item> -->
               </el-menu-item-group>
             </el-submenu>
@@ -55,12 +54,13 @@
             <el-submenu index="4" v-show="this.username !== 'helloworld'">
               <template slot="title"><i class="el-icon-location"></i>Learn</template>
               <el-menu-item-group>
+                <el-menu-item index="4-3" @click="isCollapse=!isCollapse"><router-link to="/main/todo"><i class="el-icon-tickets"></i>Todo</router-link></el-menu-item>
                 <el-menu-item index="4-1" @click="isCollapse=!isCollapse"> <router-link to="/main/bookMarks"><i class="el-icon-tickets"></i>BookMarks</router-link></el-menu-item>
                 <el-menu-item index="4-2" @click="isCollapse=!isCollapse"> <router-link to="/main/memoryPalace"><i class="el-icon-tickets"></i>Memory</router-link></el-menu-item>
-                <el-menu-item index="4-3" @click="storage"> <i class="el-icon-tickets"></i>Seafile</el-menu-item>
+                <el-menu-item index="4-6" @click="storage"> <i class="el-icon-tickets"></i>Seafile</el-menu-item>
                 <!-- <el-menu-item index="4-3" @click="board"> <i class="el-icon-tickets"></i>Board</el-menu-item> -->
-                <el-menu-item index="4-4" @click="english"> <i class="el-icon-tickets"></i>English</el-menu-item>
-                <el-menu-item index="4-5" @click="youdao"> <i class="el-icon-tickets"></i>Youdao</el-menu-item>
+                <!-- <el-menu-item index="4-4" @click="english"> <i class="el-icon-tickets"></i>English</el-menu-item> -->
+                <!-- <el-menu-item index="4-5" @click="youdao"> <i class="el-icon-tickets"></i>Youdao</el-menu-item> -->
               </el-menu-item-group>
             </el-submenu>
 
@@ -99,13 +99,13 @@
               </el-menu-item-group>
             </el-submenu>
             
-            <el-submenu index="6" v-show="this.username !== 'helloworld'">
+            <!-- <el-submenu index="6" v-show="this.username !== 'helloworld'">
               <template slot="title"><i class="el-icon-location"></i>Tips</template>
               <el-menu-item-group>
                 <el-menu-item index="6-1" @click="tianqi"> <i class="el-icon-tickets"></i>Tianqi</el-menu-item>
                 <el-menu-item index="6-2" @click="map"> <i class="el-icon-tickets"></i>Map</el-menu-item>
               </el-menu-item-group>
-            </el-submenu>
+            </el-submenu> -->
 
             <el-submenu v-show="false" index="8">
               <template slot="title"><i class="el-icon-location"></i>Rde</template>
