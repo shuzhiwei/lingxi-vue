@@ -21,7 +21,7 @@
         </tr>
         <tr>    
                 &nbsp;&nbsp;&nbsp;&nbsp;
-                <el-dropdown @command="handleCommand">
+                <el-dropdown @command="handleCommand" trigger="click">
                     <span class="el-dropdown-link">
                         类型<i class="el-icon-arrow-down el-icon--right"></i>
                     </span>
@@ -102,7 +102,6 @@
         },
 
         mounted () {
-
         },
         
         methods: {
@@ -199,7 +198,6 @@
             },
 
             handleCommand(command) {
-                console.log('command: ' + command)
                 this.dropdownValue = command
                 console.log(this.dropdownValue)
             },
@@ -217,4 +215,11 @@
 em {
   color: red;
 }
+.el-dropdown-link {
+    cursor: pointer;
+    color: #409EFF;
+  }
+  .el-icon-arrow-down {
+    font-size: 12px;
+  }
 </style>

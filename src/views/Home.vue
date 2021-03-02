@@ -299,7 +299,7 @@
                             confirmButtonText: '复制',
                             callback: action => {
                                     this.$copyText(this.clipboardValue).then((e) => {
-                                        this.$message.success('复制成功')
+                                        this.$message.success('分享成功')
                                         }, (e) => {
                                         this.$message.error('复制失败')
                                     })
