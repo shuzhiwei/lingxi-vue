@@ -39,7 +39,7 @@
                     background-color="#dbe9f1"
 
                     active-text-color="#6ec673" id="menu">
-            <el-submenu index="1" v-show="this.username !== 'helloworld'">
+            <el-submenu index="1">
               <template slot="title"><i class="el-icon-location"></i>Home</template>
               <el-menu-item-group>
                 <el-menu-item index="1-1" @click="isCollapse=!isCollapse"><router-link to="/main/home"><i class="el-icon-tickets"></i>Blog</router-link></el-menu-item>
@@ -51,7 +51,7 @@
               </el-menu-item-group>
             </el-submenu>
 
-            <el-submenu index="4" v-show="this.username !== 'helloworld'">
+            <el-submenu index="4">
               <template slot="title"><i class="el-icon-location"></i>Learn</template>
               <el-menu-item-group>
                 <el-menu-item index="4-3" @click="isCollapse=!isCollapse"><router-link to="/main/todo"><i class="el-icon-tickets"></i>Todo</router-link></el-menu-item>
@@ -99,14 +99,6 @@
               </el-menu-item-group>
             </el-submenu>
             
-            <!-- <el-submenu index="6" v-show="this.username !== 'helloworld'">
-              <template slot="title"><i class="el-icon-location"></i>Tips</template>
-              <el-menu-item-group>
-                <el-menu-item index="6-1" @click="tianqi"> <i class="el-icon-tickets"></i>Tianqi</el-menu-item>
-                <el-menu-item index="6-2" @click="map"> <i class="el-icon-tickets"></i>Map</el-menu-item>
-              </el-menu-item-group>
-            </el-submenu> -->
-
             <el-submenu v-show="false" index="8">
               <template slot="title"><i class="el-icon-location"></i>Rde</template>
               <el-menu-item-group>

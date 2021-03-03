@@ -113,7 +113,7 @@
 
     <el-table-column label="操作" >
           <template slot-scope="scope">
-            <el-button
+            <!-- <el-button
               type="success"
               size="mini"
               @click="editCheck(scope.row)"
@@ -128,7 +128,23 @@
               v-else-if="scope.row.statusBtn===true"
               icon="el-icon-check"
             >保存</el-button>
-            <el-button type="danger" size="mini" icon="el-icon-delete" @click="deleteFun(scope)">删除</el-button>
+            <el-button type="danger" size="mini" icon="el-icon-delete" @click="deleteFun(scope)">删除</el-button> -->
+
+            <i
+              @click="editCheck(scope.row)"
+              v-if="scope.row.statusBtn===false"
+              class="el-icon-edit"
+            ></i>
+            <i
+              @click="sureCheck()"
+              v-else-if="scope.row.statusBtn===true"
+              class="el-icon-check"
+            ></i>
+            <i
+             class="el-icon-delete" 
+             @click="deleteFun(scope)"
+             ></i>
+
           </template>
         </el-table-column>
 
@@ -310,10 +326,11 @@
                             "ids": ids
                         }
                         axios.post(url, qs.stringify(params)).then(res => {
-                            if (res.data.code === 200) {
+                            const code = res.data.code
+                            if (code === 200) {
                                 this.$message.success('删除成功')
-                            }else{
-                                this.$message,error(res.data.code)
+                            }else if (code === 401) {
+                                this.$message.error('您无权限操作！')
                             }
                         }).catch(error => {
                             console.log(error)
@@ -396,13 +413,14 @@
                             'v3': this.v3
                         }
                         axios.post(url, qs.stringify(params)).then(res => {
+                            console.log(res.data)
                             if (res.data.code === 200) {
                                 this.$message.success('保存成功')
                                 this.id = ''
                                 this.reload()
                                 // this.checkTable()
-                            } else {
-                                this.$message.error(res.data.code)
+                            } else if (res.data.code === 401) {
+                                this.$message.error('您无权限操作！')
                             }
                         }).catch(error =>{
                             console.log(error)
@@ -424,13 +442,14 @@
                             'v3': this.v3
                         }
                         axios.post(url, qs.stringify(params)).then(res => {
+                            console.log(res.data)
                             if (res.data.code === 200) {
                                 this.$message.success('保存成功')
                                 this.id = ''
                                 this.reload()
                                 // this.checkTable()
-                            } else {
-                                this.$message,error(res.data.code)
+                            } else if (res.data.code === 401) {
+                                this.$message,error('您无权限操作！')
                             }
                         }).catch(error =>{
                             console.log(error)
@@ -453,11 +472,12 @@
                             "ids": scope.row.id + ','
                         }
                         axios.post(url, qs.stringify(params)).then(res => {
+                            console.log(res.data)
                             if (res.data.code === 200) {
                                 this.$message.success('删除成功')
                                 this.reload()
-                            }else{
-                                this.$message,error(res.data.code)
+                            }else if (res.data.code === 401) {
+                                this.$message.error('您无权限操作！')
                             }
                         }).catch(error => {
                             console.log(error)
@@ -465,45 +485,8 @@
                     }else{
                         this.$message.success('已取消删除')
                     }
-                        
-                    
                 }
             },
-
-            addAuth () {
-                this.$router.push({path: '/main/addAuth'})
-            },
-
-            deleteAuth () {
-                if (confirm('确定删除吗？') === true) {
-                    var aa = this.$refs.inputTitle
-                    var checkboxValues = ''
-                    for (let i=0; i<aa.length; i++) {
-                        if (aa[i].checked) {
-                            checkboxValues = checkboxValues + aa[i].value + ','
-                            // checkboxValues.push(aa[i].value)
-                        }
-                    }
-                    if (!checkboxValues) {
-                        this.$message.error('不能删除0条！')
-                    }else{
-                        const url = this.$store.state.base_url + `/acs-manage/policy/delete`
-                        const params = {
-                            "token": this.token,
-                            "ids": checkboxValues
-                        }
-                        axios.post(url, qs.stringify(params)).then(response => {
-                            let res = response.data
-                            if (res.code === 200) {
-                                this.reload()
-                            }else{
-                                this.$message.error(res.code)
-                            }
-                        })
-                        
-                    }
-                }
-            }
         }
     }
 </script>
