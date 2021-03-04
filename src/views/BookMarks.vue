@@ -25,6 +25,14 @@
         size="mini"
       ></el-button>
 
+      <el-button
+        @click="shareBookMarks()"
+        icon="el-icon-share"
+        type="success"
+        style="margin-bottom:10px;"
+        size="mini"
+      ></el-button>
+
         <el-table
         height="500"
         border 
@@ -72,6 +80,19 @@
           </template>
     </el-table-column>
 
+    <el-table-column
+      prop="share"
+      label="share"
+      sortable
+      column-key="share"
+      v-if="hiddenUrl === true"
+    >
+    <template slot-scope="scope">
+            <span v-if="scope.row.statusBtn===false">{{scope.row.share}}</span>
+            <el-input size="mini" v-else-if="scope.row.statusBtn===true" v-model="share"></el-input>
+          </template>
+    </el-table-column>
+
     <el-table-column label="操作" >
           <template slot-scope="scope">
             <i
@@ -114,6 +135,7 @@
                 name: '',
                 url: '',
                 author: '',
+                share: 0,
                 tableDataAmount: [],
                 hiddenUrl: false
             }
@@ -132,6 +154,36 @@
         },
 
         methods: {
+            async shareBookMarks () {
+                const token = getCookie('lingxi-token')
+                const url =  this.$store.state.base_url + `/entertainment/bookMarksShowShare`
+                console.log(url)
+                const params = {
+                    'token': token,
+                }
+                const con = await api.post(url, params)
+                console.log(con)
+                const code = con.code
+                if (code === 402) {
+                    refresh_token(this.username, token)
+                    this.reload()
+                    return
+                }
+                this.datas = []
+                const res = con.data
+                for (let i=0; i<res.length; i++) {
+                    let data = {
+                        'id': res[i].id,
+                        'name': res[i].name,
+                        'url': res[i].url,
+                        'author': res[i].author,
+                        'share': res[i].share,
+                        'statusBtn': false
+                    }
+                    this.datas.push(data)
+                }
+                console.log('getDatas执行成功')
+            },
             async getDatas (id) {
                 const token = getCookie('lingxi-token')
                 const url =  this.$store.state.base_url + `/entertainment/bookMarksShow/${id}`
@@ -155,6 +207,7 @@
                         'name': res[i].name,
                         'url': res[i].url,
                         'author': res[i].author,
+                        'share': res[i].share,
                         'statusBtn': false
                     }
                     this.datas.push(data)
@@ -185,6 +238,7 @@
                         'name': res[i].name,
                         'url': res[i].url,
                         'author': res[i].author,
+                        'share': res[i].share,
                         'statusBtn': false
                     }
                     this.datas.push(data)
@@ -227,7 +281,7 @@
                         }
                         console.log('ids: ' + ids)  
                         await this.delRowsApi(ids)        
-                        await this.getDatas()
+                        await this.getDatasAll()
                     }
                 }).catch(() =>{
                     this.$message({
@@ -257,13 +311,13 @@
             addRow () {
                 this.hiddenUrl = true
                 if (this.datas.length === 0) {
-                    this.datas.unshift({ name: '', url: '', statusBtn: true })
+                    this.datas.unshift({ name: '', url: '', share: '', statusBtn: true })
                 } else {
                     for (let i of this.datas) {
                         if (i.statusBtn) return this.$message.warning("请先保存当前编辑项");
                     }
                     if (this.flagFun()) {
-                        this.datas.unshift({ name: '', url: '', statusBtn: true })
+                        this.datas.unshift({ name: '', url: '', share: '', statusBtn: true })
                     } else {
                         this.$message({
                             message: 'name不能为空',
@@ -286,6 +340,7 @@
                 this.id = row.id
                 this.name = row.name
                 this.url = row.url
+                this.share = row.share
             },
 
             async insertBookMarks () {
@@ -298,6 +353,7 @@
                     'url': this.url,
                     'create_date': create_date,
                     'author': this.username,
+                    'share': this.share,
                 }
                 const con = await api.post(url, params)
                 if (con.code === 402) {
@@ -317,6 +373,7 @@
                     'id': this.id,
                     'name': this.name,
                     'url': this.url,
+                    'share': this.share
                 }
                 const con = await api.post(url, params)
                 if (con.code === 402) {
@@ -343,6 +400,7 @@
                 this.id = ''
                 this.name = ''
                 this.url = ''
+                this.share = 0
                 this.hiddenUrl = false
             },
 

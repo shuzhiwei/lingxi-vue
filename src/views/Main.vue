@@ -93,9 +93,7 @@
               <el-menu-item-group>
                 <el-menu-item index="3-1" @click="isCollapse=!isCollapse"> <router-link to="/main/dytt"><i class="el-icon-tickets"></i>Dytt</router-link></el-menu-item>
                 <el-menu-item index="3-2" @click="isCollapse=!isCollapse"> <router-link to="/main/vipParser"><i class="el-icon-tickets"></i>VipParser</router-link></el-menu-item>
-                <el-menu-item index="3-3" @click="music"> <i class="el-icon-tickets"></i>Music</el-menu-item>
-                <el-menu-item index="3-4" @click="aiqiyi"> <i class="el-icon-tickets"></i>Aiqiyi</el-menu-item>
-                <el-menu-item index="3-5" @click="tengxun"> <i class="el-icon-tickets"></i>Tengxun</el-menu-item>
+                <el-menu-item index="3-6" @click="isCollapse=!isCollapse"> <router-link to="/main/piggyBank"><i class="el-icon-tickets"></i>PiggyBank</router-link></el-menu-item>
               </el-menu-item-group>
             </el-submenu>
             
