@@ -57,7 +57,7 @@
                 <el-menu-item index="4-3" @click="isCollapse=!isCollapse"><router-link to="/main/todo"><i class="el-icon-tickets"></i>Todo</router-link></el-menu-item>
                 <el-menu-item index="4-1" @click="isCollapse=!isCollapse"> <router-link to="/main/bookMarks"><i class="el-icon-tickets"></i>BookMarks</router-link></el-menu-item>
                 <el-menu-item index="4-2" @click="isCollapse=!isCollapse"> <router-link to="/main/memoryPalace"><i class="el-icon-tickets"></i>Memory</router-link></el-menu-item>
-                <el-menu-item index="4-6" @click="storage"> <i class="el-icon-tickets"></i>Seafile</el-menu-item>
+                <!-- <el-menu-item index="4-6" @click="storage"> <i class="el-icon-tickets"></i>Seafile</el-menu-item> -->
                 <!-- <el-menu-item index="4-3" @click="board"> <i class="el-icon-tickets"></i>Board</el-menu-item> -->
                 <!-- <el-menu-item index="4-4" @click="english"> <i class="el-icon-tickets"></i>English</el-menu-item> -->
                 <!-- <el-menu-item index="4-5" @click="youdao"> <i class="el-icon-tickets"></i>Youdao</el-menu-item> -->

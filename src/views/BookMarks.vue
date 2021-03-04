@@ -44,6 +44,7 @@
 
     <el-table-column
       type="selection"
+      v-if="shareShowControl"
       >
     </el-table-column>
 
@@ -137,7 +138,8 @@
                 author: '',
                 share: 0,
                 tableDataAmount: [],
-                hiddenUrl: false
+                hiddenUrl: false,
+                shareShowControl: true
             }
         },
 
@@ -155,6 +157,7 @@
 
         methods: {
             async shareBookMarks () {
+                this.shareShowControl = false
                 const token = getCookie('lingxi-token')
                 const url =  this.$store.state.base_url + `/entertainment/bookMarksShowShare`
                 console.log(url)
@@ -406,6 +409,10 @@
 
             // 删除一行
             deleteFun (scope) {
+                if (scope.row.author !== getCookie('username')) {
+                    this.$message.error('不是您的书签哦！')
+                    return
+                }
                 const ids = scope.row.id
                 if (!ids) {
                     this.$message.error('id为空')
