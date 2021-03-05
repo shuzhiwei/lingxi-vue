@@ -139,8 +139,7 @@
                 if (code === 402) {
                     // load.close();
                     refresh_token(this.username, token)
-                    this.addManyPhoto()
-                    return
+                    return await this.addManyPhoto()
                 }
                 return res0.id
             },
@@ -162,7 +161,7 @@
                         let code = res.code
                         if (code === 402) {
                             refresh_token(this.username, token)
-                            this.addManyPhoto1(post_id)
+                            await this.addManyPhoto1(post_id)
                             return
                         }
                         tmp_images = ''
@@ -170,7 +169,7 @@
                 }
                 if (tmp_images) {
                     var params2 = {
-                        'token': this.token,
+                        'token': token,
                         'image': tmp_images,
                     }
                     var res = await api.post(url1, params2)
@@ -194,6 +193,8 @@
                     background: 'rgba(0, 0, 0, 0.7)'
                 });
                 const post_id = await this.addManyPhoto()
+                console.log('post_id: ' + post_id)
+                alert('hello')
                 await this.addManyPhoto1(post_id)
                 load.close();
                 this.$message.success('新建成功')
