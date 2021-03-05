@@ -481,9 +481,6 @@
         left: 600px;
         width: 200px;
         height: 200px;
-        /* background-color: rgb(0, 160, 220);
-        color: rgb(255, 255, 255); */
-        /* background:#eeeeee; */
         opacity:0.9; 
     }
 </style>
