@@ -22,6 +22,7 @@
                     <!-- <el-button @click="subInputFunc" type="danger">减20分</el-button> -->
                 </li>
 			</ul>
+            <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
             <img class="cart" src="../../static/img/存钱罐.png" @click="piggyBankShow"/> 
 
             <el-dialog
@@ -482,7 +483,7 @@
         height: 200px;
         /* background-color: rgb(0, 160, 220);
         color: rgb(255, 255, 255); */
-        background:#eeeeee;
+        /* background:#eeeeee; */
         opacity:0.9; 
     }
 </style>
