@@ -23,7 +23,7 @@
                 </li>
 			</ul>
             <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-            <img class="cart" src="../../static/img/pig.png" @click="piggyBankShow"/> 
+            <img class="cart" src="../../static/img/存钱罐.png" @click="piggyBankShow"/> 
 
             <el-dialog
                 title="提示"
@@ -482,5 +482,6 @@
         width: 200px;
         height: 200px;
         opacity:0.9; 
+        background-color: white;
     }
 </style>
