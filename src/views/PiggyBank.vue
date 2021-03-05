@@ -482,6 +482,6 @@
         width: 200px;
         height: 200px;
         opacity:0.9; 
-        background-color: white;
+        background-color: red;
     }
 </style>
