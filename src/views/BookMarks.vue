@@ -10,12 +10,12 @@
         size="mini"
       ></el-button>
 
-      <el-button
+      <!-- <el-button
         @click="cancelRow()"
         icon="el-icon-minus"
         style="margin-bottom:10px;"
         size="mini"
-      ></el-button>
+      ></el-button> -->
 
       <el-button
         @click="delRows()"
@@ -157,6 +157,10 @@
 
         methods: {
             async shareBookMarks () {
+                if (! this.shareShowControl) {
+                    this.cancelRow()
+                    return
+                }
                 this.shareShowControl = false
                 const token = getCookie('lingxi-token')
                 const url =  this.$store.state.base_url + `/entertainment/bookMarksShowShare`

@@ -11,17 +11,23 @@
                     <el-input v-model="addInput"></el-input>
                     <el-button @click="addFiveInputFunc" size="mini" type="success">加5分</el-button>
                     <el-button @click="addTenInputFunc" size="mini" type="success">加10分</el-button>
+                    <br><br>
+                    
                     <!-- <el-button @click="addInputFunc" size="mini" type="success">加20分</el-button> -->
                 </li>
+                <li v-show="subFlag">
+                    <el-input v-model="subInput"></el-input>
+                    <el-button @click="subFiveInputFunc" size="mini" type="danger">减5分</el-button>
+                    <el-button @click="subTenInputFunc" size="mini" type="danger">减10分</el-button>
+                </li>
 			</ul>
-            <ul class="shop1" v-show="subFlag">
+            <!-- <ul class="shop1" v-show="subFlag">
                 <li>
                     <el-input v-model="subInput"></el-input>
                     <el-button @click="subFiveInputFunc" size="mini" type="danger">减5分</el-button>
                     <el-button @click="subTenInputFunc" size="mini" type="danger">减10分</el-button>
-                    <!-- <el-button @click="subInputFunc" type="danger">减20分</el-button> -->
                 </li>
-			</ul>
+			</ul> -->
             <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
             <img class="cart" src="../../static/img/存钱罐.png" @click="piggyBankShow"/> 
 
@@ -138,10 +144,18 @@
                 await this.showPiggyBankCountScore()
             },
             addFiveInputFunc (event) {
+                if (this.addInput === '') {
+                    this.$message.error('输入框不能为空哦！')
+                    return
+                }
                 this.drop(event.target);
                 this.addFiveInput()
             },
             addTenInputFunc (event) {
+                if (this.addInput === '') {
+                    this.$message.error('输入框不能为空哦！')
+                    return
+                }
                 this.drop(event.target);
                 this.addTenInput()
             },
@@ -232,6 +246,10 @@
                 this.showHistory(timestamp)
             },
             async subFiveInputFunc () {
+                if (this.subInput === '') {
+                    this.$message.error('输入框不能为空哦！')
+                    return
+                }
                 const todo = this.subInput
                 var a = (new Date()).toLocaleDateString()
                 // a =a.replace(/\//g,'-')
@@ -243,6 +261,10 @@
                 await this.showPiggyBankCountScore()
             },
             async subTenInputFunc () {
+                if (this.subInput === '') {
+                    this.$message.error('输入框不能为空哦！')
+                    return
+                }
                 const todo = this.subInput
                 var a = (new Date()).toLocaleDateString()
                 // a =a.replace(/\//g,'-')
@@ -483,4 +505,8 @@
         height: 200px;
         opacity:0.9; 
     }
+    ul li{
+list-style-type:none;
+
+}
 </style>
