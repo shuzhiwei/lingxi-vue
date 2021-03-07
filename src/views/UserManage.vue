@@ -49,7 +49,7 @@
     >
     <template slot-scope="scope">
             <span v-if="scope.row.statusBtn===false">{{scope.row.old_password}}</span>
-            <el-input size="mini" v-else-if="scope.row.statusBtn===true" v-model="old_password"></el-input>
+            <el-input placeholder="请输入旧密码" size="mini" v-else-if="scope.row.statusBtn===true" v-model="old_password" show-password></el-input>
           </template>
     </el-table-column>
     <el-table-column
@@ -61,7 +61,7 @@
     >
     <template slot-scope="scope">
             <span v-if="scope.row.statusBtn===false">{{scope.row.new_password}}</span>
-            <el-input size="mini" v-else-if="scope.row.statusBtn===true" v-model="new_password"></el-input>
+            <el-input placeholder="请输入新密码" size="mini" v-else-if="scope.row.statusBtn===true" v-model="new_password" show-password></el-input>
           </template>
     </el-table-column>
 
@@ -82,16 +82,28 @@
 
         <el-table-column label="删除">
             <template slot-scope="scope">
-                <el-button type="text" @click="open(scope)">
+                <el-button type="text" @click="clickForm(scope)">
                     <i
                         class="el-icon-delete" 
                     ></i>
                 </el-button>
             </template>
         </el-table-column>
-
   </el-table>
     </div>
+
+<el-dialog title="请输入旧密码" :visible.sync="dialogFormVisible" width="30%">
+  <el-form>
+    <el-form-item label="旧密码" :label-width="formLabelWidth">
+      <el-input v-model="form_old_password" autocomplete="off" show-password></el-input>
+    </el-form-item>
+  </el-form>
+  <div slot="footer" class="dialog-footer">
+    <el-button @click="dialogFormVisible = false">取 消</el-button>
+    <el-button type="primary" @click="open()">确 定</el-button>
+  </div>
+</el-dialog>
+
 
 </div>
 </template>
@@ -114,7 +126,12 @@
                 old_password: '',
                 new_password: '',
                 tableDataAmount: [],
-                hiddenUrl: false
+                hiddenUrl: false,
+                dialogFormVisible: false,
+                form_old_password: '',
+                formLabelWidth: '120px',
+                form_username: '',
+                form_id: ''
             }
         },
 
@@ -152,11 +169,10 @@
                 this.tableDataAmount = data
             },
 
-            async delRowsApi (ids, username, old_password) {
+            async delRowsApi (ids) {
                 const url = this.$store.state.base_url + '/acs/api/v1/user/delete'
                 const params = {
                     "id": ids,
-                    "username": old_password,
                 }
                 const con = await api.post(url, params)
                 console.log(con)
@@ -263,20 +279,39 @@
                 this.new_password = ''
                 this.hiddenUrl = false
             },
+            async verifyUser (username, password) {
+                const url = this.$store.state.base_url + '/acs/api/v1/user/verify'
+                const params = {
+                    "username": username,
+                    "password": b64_md5(password)
+                }
+                const con = await api.post(url, params)
+                console.log(con)
+                console.log('verifyUser执行成功')
+                return con.data
+            },
 
-            open (scope) {
-                this.$prompt('请输入旧密码', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                }).then(async ({ value }) => {
-                    await this.delRowsApi(scope.row.id, scope.row.username, value)
-                    await this.getDatasAll()
-                }).catch(() => {
-                    this.$message({
-                        type: 'info',
-                        message: '取消输入'
-                    });       
-                });
+            async open () {
+                const res = await this.verifyUser(this.form_username, this.form_old_password)
+                if (res === 1) {
+                    await this.delRowsApi(this.form_id)
+                    this.$message.success('执行成功！')
+                    this.dialogFormVisible = false
+                }else{
+                    this.$message.error('密码不正确！')
+                    this.form_old_password = ''
+                    return
+                }
+                await this.getDatasAll()
+                this.form_username = ''
+                this.form_id = ''
+                this.form_old_password = ''
+            },
+            
+            clickForm (scope) {
+                this.dialogFormVisible = true
+                this.form_username = scope.row.username
+                this.form_id = scope.row.id
             }
         }
     }
