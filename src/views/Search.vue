@@ -93,6 +93,7 @@
     import {api} from '../../static/js/api.js'
     import {getDateDiff} from '../../static/js/parse_time.js'
     export default {
+        inject: ['reload'],
         data () {
             return {
                 keyword: '',
@@ -102,6 +103,14 @@
         },
 
         mounted () {
+        },
+
+        watch: {
+            keyword (val) {
+                if (val === '') {
+                    this.datas = []
+                }
+            }
         },
         
         methods: {
