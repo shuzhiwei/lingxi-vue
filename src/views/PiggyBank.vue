@@ -1,34 +1,26 @@
 <template>
-    <div>
-            <div class="title" @click="showSub">{{count}}</div>
+    <div class="piggy">
+            <div class="title" @click="showSub">灵犀币：{{count}}枚</div>
 			<ul class="shop">
                 
 				<li v-for="(item, key) in addDatas">
 					<span class="ziti">{{item.todo}}</span>
-					<el-button @click="additem(key, item, $event)">加5分</el-button>
+					<el-button @click="additem(key, item, $event)">加5枚</el-button>
 				</li>
                 <li v-show="addDatas.length === 0">
                     <el-input v-model="addInput"></el-input>
-                    <el-button @click="addFiveInputFunc" size="mini" type="success">加5分</el-button>
-                    <el-button @click="addTenInputFunc" size="mini" type="success">加10分</el-button>
+                    <el-button @click="addFiveInputFunc" size="mini" type="success">加5枚</el-button>
+                    <el-button @click="addTenInputFunc" size="mini" type="success">加10枚</el-button>
                     <br><br>
                     
                     <!-- <el-button @click="addInputFunc" size="mini" type="success">加20分</el-button> -->
                 </li>
                 <li v-show="subFlag">
                     <el-input v-model="subInput"></el-input>
-                    <el-button @click="subFiveInputFunc" size="mini" type="danger">减5分</el-button>
-                    <el-button @click="subTenInputFunc" size="mini" type="danger">减10分</el-button>
+                    <el-button @click="subFiveInputFunc" size="mini" type="danger">减5枚</el-button>
+                    <el-button @click="subTenInputFunc" size="mini" type="danger">减10枚</el-button>
                 </li>
 			</ul>
-            <!-- <ul class="shop1" v-show="subFlag">
-                <li>
-                    <el-input v-model="subInput"></el-input>
-                    <el-button @click="subFiveInputFunc" size="mini" type="danger">减5分</el-button>
-                    <el-button @click="subTenInputFunc" size="mini" type="danger">减10分</el-button>
-                </li>
-			</ul> -->
-            <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
             <img class="cart" src="../../static/img/存钱罐.png" @click="piggyBankShow"/> 
 
             <el-dialog
@@ -455,10 +447,12 @@
 </script>
 
 <style>
+    .piggy {
+        height: 600px;
+    }
     .ziti {
         color: gold;
         font-weight: bolder;
-
     }
 
     .title {
@@ -473,11 +467,6 @@
         position: fixed;
         top: 250px;
         left: 400px;
-    }
-    .shop1 {
-        position: fixed;
-        top: 250px;
-        left: 1000px;
     }
     
     .ball {
@@ -506,7 +495,6 @@
         opacity:0.9; 
     }
     ul li{
-list-style-type:none;
-
-}
+        list-style-type:none;
+    }
 </style>
