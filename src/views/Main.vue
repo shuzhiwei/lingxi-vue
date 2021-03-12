@@ -46,7 +46,8 @@
                 <el-menu-item index="1-2" @click="isCollapse=!isCollapse"><router-link to="/main/todo"><i class="el-icon-tickets"></i>Todo</router-link></el-menu-item>
                 <el-menu-item index="1-3" @click="isCollapse=!isCollapse"> <router-link to="/main/bookMarks"><i class="el-icon-tickets"></i>BookMarks</router-link></el-menu-item>
                 <el-menu-item index="1-4" @click="isCollapse=!isCollapse"> <router-link to="/main/memoryPalace"><i class="el-icon-tickets"></i>Memory</router-link></el-menu-item>
-                <el-menu-item index="1-5" @click="isCollapse=!isCollapse"> <router-link to="/main/piggyBank"><i class="el-icon-tickets"></i>PiggyBank</router-link></el-menu-item>
+                <el-menu-item index="1-5" @click="isCollapse=!isCollapse" v-if="this.$store.state.isshow"> <router-link to="/main/piggyBank"><i class="el-icon-tickets"></i>PiggyBank</router-link></el-menu-item>
+                <el-menu-item index="1-5" @click="isCollapse=!isCollapse" v-else> <router-link to="/main/piggyBankMobile"><i class="el-icon-tickets"></i>PiggyBank</router-link></el-menu-item>
                 <el-menu-item  index="1-6" @click="goShare"><i class="el-icon-tickets"></i>Share</el-menu-item>
                 <!-- <el-menu-item index="1-4" @click="isCollapse=!isCollapse"><router-link to="/main/add"><i class="el-icon-tickets"></i>Add</router-link></el-menu-item> -->
                 <el-menu-item  index="1-7" @click="isCollapse=!isCollapse"><router-link to="/main/chat"><i class="el-icon-tickets"></i>Chat</router-link></el-menu-item>
