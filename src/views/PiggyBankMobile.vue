@@ -55,13 +55,13 @@
 			<!-- <div class="cart" style="">{{count}}</div> -->
 
 				<!--小球-->
-				<div v-for="ball in balls">
+				<!-- <div v-for="ball in balls">
 					<transition name="drop" @before-enter="beforeDrop" @enter="dropping" @after-enter="afterDrop">
 						<div class="ball" v-show="ball.show">
 							<div class="inner inner-hook"></div>
 						</div>
 					</transition>
-				</div>
+				</div> -->
 		</div>
         
 </template>
@@ -456,23 +456,22 @@
     }
 
     .title {
-        position: fixed;
-        top: 120px;
-        left: 100px;
+        /* position: fixed; */
+        text-align: center;
         font-size: 25px;
         color: red;
     }
 
     .shop {
-        position: fixed;
-        top: 180px;
-        left: 90px;
+        position: relative;
+        top: 30px;
+        left: 30px;
         width: 200px;
         height: 200px;
     }
     
     .ball {
-        position: fixed;
+        /* position: fixed; */
         left: 400px;
         bottom: 120px;
         z-index: 18000;
@@ -489,8 +488,7 @@
     }
     
     .cart {
-        position: fixed;
-        bottom: 0px;
+        position: relative;
         left: 100px;
         width: 150px;
         height: 150px;
